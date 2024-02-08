@@ -1,0 +1,14 @@
+version: "3"
+services:
+  capstone-client-app:
+    container_name: capstone-client-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/usr/src/app/client
+      - /usr/src/app/client/node_modules

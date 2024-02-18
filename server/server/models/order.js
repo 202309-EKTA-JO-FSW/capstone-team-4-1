@@ -29,17 +29,9 @@ const orderSchema = new mongoose.Schema({
     enum: ['in progress', 'completed'],
     default: 'in progress'
   },
-  created_date: {
-    type: Date,
-    default: Date.now
-  },
-  updated_date: {
-    type: Date,
-    default: Date.now
-  },
   note: String,
   estimatedTime: Number //It will be like 50 Minutes
-});
+}, { timestamps: true });
 
 const Order = mongoose.model('Order', orderSchema);
 

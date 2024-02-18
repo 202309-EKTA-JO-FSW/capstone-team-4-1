@@ -11,9 +11,9 @@ const customerSchema = new mongoose.Schema({
         required: true,
     },
     orders: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order',
-      required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+        required: true
     }]
   },{ timestamps: true });
 

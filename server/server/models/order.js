@@ -1,4 +1,4 @@
-const mongoose = requires('mongoose');
+const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
   customer_id: {
@@ -18,19 +18,26 @@ const orderSchema = new mongoose.Schema({
   },
   items: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item'
+    ref: 'Item',
+    required: true
   }],
   total_price: {
     type: Number,
+    default: 0,
     required: true
   },
   status: {
     type: String,
-    enum: ['in progress', 'completed'],
-    default: 'in progress'
+    enum: ['Pending', 'Accepted', 'Preparing', 'On The Way', 'Delivered', 'Canceled'],
+    default: 'Pending',
+    required: true
   },
-  note: String,
-  estimatedTime: Number //It will be like 50 Minutes
+  
+  estimatedTime:{
+        type: Number,
+        required: true
+  },
+  note: String
 }, { timestamps: true });
 
 const Order = mongoose.model('Order', orderSchema);

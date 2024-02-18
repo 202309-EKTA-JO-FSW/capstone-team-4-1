@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-  customer_id: {
+  customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',
     required: true
   },
-  restaurant_id: {
+  restaurant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Restaurant',
     required: true
   },
-  rider_id: {
+  rider: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Rider',
     required: true

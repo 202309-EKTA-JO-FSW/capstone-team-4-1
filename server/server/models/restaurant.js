@@ -1,4 +1,4 @@
-const mongoose = requires('mongoose');
+const mongoose = require('mongoose');
 
 const restaurantSchema = new mongoose.Schema({
     user: {
@@ -23,11 +23,11 @@ const restaurantSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    menu: {
+    menu: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Dishes',
         required: true
-    },
+    }],
     rate: {
         type: Number,
         min: 0,
@@ -39,12 +39,13 @@ const restaurantSchema = new mongoose.Schema({
     },
     deliveryFee: {
         type: Number,
-        requried: true
+        required: true
     },
-    order: {
-        type: [Array],
-        default: []
-    }
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+        required: true
+    }]
 }, { timestamps: true }); 
 
 module.exports = mongoose.model('Restaurant', restaurantSchema);

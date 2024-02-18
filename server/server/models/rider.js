@@ -13,7 +13,8 @@ const RiderSchema = new mongoose.Schema({
     },
     nationalityId: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     location: {
         type: [Number],

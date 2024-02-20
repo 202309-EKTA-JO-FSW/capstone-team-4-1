@@ -4,7 +4,6 @@ const Rider = require('../../models/rider');
 const Order = require('../../models/order');
 const Customer = require('../../models/customer');
 
-
 jest.mock('../../models/restaurant');
 jest.mock('../../models/rider');
 jest.mock('../../models/order');

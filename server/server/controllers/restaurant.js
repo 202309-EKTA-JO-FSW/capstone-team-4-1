@@ -1,4 +1,3 @@
-const RestaurantModel = require('../models/restaurant');
 const Dish = require('../models/item_dish');
 const OrderModel = require('../models/order')
 

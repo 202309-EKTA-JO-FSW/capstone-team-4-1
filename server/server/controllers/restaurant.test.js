@@ -1,5 +1,4 @@
 const restaurantController = require('./restaurant');
-const Restaurant = require('../models/restaurant');
 const Order = require('../models/order');
 const Dish = require('../models/item_dish');
 

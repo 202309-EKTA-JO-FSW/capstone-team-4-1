@@ -8,10 +8,10 @@ const DB_URI = `mongodb://${DB_USER}:${DB_PASSWORD}@${
 }:${DB_PORT}/${DB_NAME}?authSource=admin`;
 
 const url = DB_URI;
+console.log(  "mongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoose",url)
 
 const connectToMongo = () => {
   mongoose.connect(url, { useNewUrlParser: true });
-
   db = mongoose.connection;
 
   db.once("open", () => {

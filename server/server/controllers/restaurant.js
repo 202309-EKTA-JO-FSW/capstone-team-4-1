@@ -1,4 +1,4 @@
-const Dish = require('../models/item_dish');
+const Dish = require('../models/dish');
 const OrderModel = require('../models/order')
 
 // get all dishes for specific restaurant

@@ -11,7 +11,7 @@
     "prune": "docker-compose down -v",
     "stop": "docker-compose down",
     "test:app": "NODE_ENV=test mocha --exit --require mocha-steps ./server/tests",
-    "test": "IS_JEST=1 jest"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",

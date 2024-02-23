@@ -1,11 +1,11 @@
 const restaurantController = require('../restaurant');
 const Order = require('../../models/order');
-const Dish = require('../../models/item_dish');
+const Dish = require('../../models/dish');
 
 
 jest.mock('../../models/restaurant');
 jest.mock('../../models/order');
-jest.mock('../../models/item_dish');
+jest.mock('../../models/dish');
 
 
 describe('Restaurant Controller', () => {

@@ -35,7 +35,7 @@ const riderController = {
             if (!order) {
                 return res.status(404).json({ message: "Order not found" });
             }
-            res.status(200).json(order);
+            res.status(200).json(order); 
         } catch (err) {
             console.error(err);
             res.status(500).json({ message: "Server error" });

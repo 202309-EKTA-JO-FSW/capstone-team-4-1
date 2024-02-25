@@ -59,7 +59,7 @@ describe('Rider Controller', () => {
 	describe('getOrder', () => {
 		it('should return a specific order by id for a rider', async () => {
 			req.params.riderId = 'riderTestId';
-			req.params.orderId = 'orderTestId';
+			req.params.orderId = 'orderTestId'; 
 
 			Order.findOne.mockImplementation(() => ({
 				populate: jest.fn().mockReturnThis(),

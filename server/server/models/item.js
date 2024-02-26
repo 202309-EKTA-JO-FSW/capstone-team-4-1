@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
+    order: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order',
+      required: true
+    },
     dish: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Dish',
@@ -19,4 +24,4 @@ const itemSchema = new mongoose.Schema({
     note: String
 }, { timestamps: true });
 
-module.exports = mongoose.model("Item", itemSchema);
+module.exports = mongoose.model('Item', itemSchema);

@@ -42,7 +42,7 @@ const restaurantSchema = new mongoose.Schema({
         validate: {
             validator: function(phone) {
                 const regex = /^(78|77|79)\d{7}$/;
-                return regex.test(phoneNumber);
+                return regex.test(phone);
             },
             message: 'Invalid phone number.'
         }
@@ -50,7 +50,7 @@ const restaurantSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['Customer', 'Rider', 'Restaurant', 'Admin'],
-        default: 'Customer',
+        default: 'Restaurant',
         required: true
     },
     license: {

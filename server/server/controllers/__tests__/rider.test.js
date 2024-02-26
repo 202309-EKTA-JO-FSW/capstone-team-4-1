@@ -1,9 +1,15 @@
 const riderController = require('../rider');
 const Order = require('../../models/order');
+const Rider = require('../../models/rider');
 
 jest.mock('../../models/order', () => ({
 	find: jest.fn(),
 	findOne: jest.fn(),
+}));
+
+jest.mock('../../models/rider', () => ({
+	find: jest.fn(),
+	findByIdAndUpdate: jest.fn(),
 }));
 
 describe('Rider Controller', () => {
@@ -69,6 +75,19 @@ describe('Rider Controller', () => {
 			await riderController.getOrder(req, res); 
 			expect(Order.findOne).toHaveBeenCalledWith({ _id: 'orderTestId', rider: 'riderTestId' });
 			expect(res.json).toHaveBeenCalledWith('specificOrder');
+		});
+	});
+
+	describe('updateStatus', () => {
+		it('should update the status of a specific rider', async () => {
+			req.params.id = 'riderTestId';
+			req.body = { status: 'Offline' }; 
+
+			Rider.findByIdAndUpdate.mockResolvedValue('updatedRiderStatus');
+
+			await riderController.updateStatus(req, res); 
+			expect(Rider.findByIdAndUpdate).toHaveBeenCalledWith('riderTestId', { status: 'Offline' });
+			expect(res.json).toHaveBeenCalledWith('updatedRiderStatus');
 		});
 	});
 });

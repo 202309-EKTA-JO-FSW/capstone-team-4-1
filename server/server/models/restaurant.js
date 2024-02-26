@@ -50,7 +50,7 @@ const restaurantSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['Customer', 'Rider', 'Restaurant', 'Admin'],
-        default: 'Customer',
+        default: 'Restaurant',
         required: true
     },
     license: {

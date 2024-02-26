@@ -40,6 +40,22 @@ const riderController = {
             console.error(err);
             res.status(500).json({ message: "Server error" });
         }
+    },
+    updateStatus: async (req, res) => {
+        const riderId = req.params.id;
+        try {
+          const { status } = req.body;
+
+          if (!['Available', 'Delivering', 'Offline'].includes(status)) {
+            return res.status(400).send({ message: 'Invalid status value.' });
+          }
+      
+          const rider = await Rider.findByIdAndUpdate(riderId, { status: status });
+      
+          res.json(rider);
+        } catch (error) {
+          res.status(500).json({ message: 'Error updating rider status.' });
+        }
     }
 };
 

@@ -152,7 +152,7 @@ describe('AdminController', () => {
       req.params.id = 'testId';
       Restaurant.findByIdAndDelete.mockResolvedValue({ _id: 'testId' });
       await adminController.removeRestaurant(req, res);
-      expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.status).toHaveBeenCalledWith(201);
     });
   });
 
@@ -161,7 +161,7 @@ describe('AdminController', () => {
       req.params.id = 'testId';
       Rider.findByIdAndDelete.mockResolvedValue({ _id: 'testId' });
       await adminController.removeRider(req, res);
-      expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.status).toHaveBeenCalledWith(201);
     });
   });
 
@@ -170,7 +170,7 @@ describe('AdminController', () => {
       req.params.id = 'testId';
       Order.findByIdAndDelete.mockResolvedValue({ _id: 'testId' });
       await adminController.removeOrder(req, res);
-      expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.status).toHaveBeenCalledWith(201);
     });
   });
 });

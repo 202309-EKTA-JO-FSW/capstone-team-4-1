@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const riderSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true
@@ -54,41 +54,14 @@ const riderSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['Customer', 'Rider', 'Restaurant', 'Admin'],
-        default: 'Rider',
+        default: 'Admin',
         required: true
     },
-    status: {
-        type: String,
-        required: true,
-        enum: ['Available', 'Delivering', 'Offline'],
-        default: 'Offline'
-    },
-    license: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    nationalityId: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    location: {
-        type: [Number],
-        required: true
-    },
-    vehicleNo: {
-        type: String,
-        required: true
-    },
-    orders: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order' 
-    }],
     registered_at: {
         type: Date,
         default: Date.now,
     },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Rider', riderSchema);
+
+module.exports = mongoose.model('Admin', adminSchema);

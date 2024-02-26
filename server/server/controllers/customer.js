@@ -1,7 +1,7 @@
-const RestaurantModel = require('../models/restaurant')
-const Order = require('../models/order')
-const Item = require('../models/item')
-const Dish = require('../models/dish')
+const RestaurantModel = require('../models/restaurant');
+const Order = require('../models/order');
+const Item = require('../models/item');
+const Dish = require('../models/dish');
 
 // Get All Restaurants:
 

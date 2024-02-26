@@ -1,8 +1,7 @@
-const customerController = require('../customer')
-const Restaurant = require('../../models/restaurant')
-const Order = require('../../models/order')
-const Dish = require('../../models/dish')
-const Item = require('../../models/item')
+const customerController = require('../customer');
+const Restaurant = require('../../models/restaurant');
+const Order = require('../../models/order');
+const Dish = require('../../models/dish');
 
 jest.mock('../../models/dish')
 jest.mock('../../models/item')

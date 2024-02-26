@@ -21,6 +21,7 @@ router.put("/orders/:id", adminController.updateOrder);
 router.put("/customers/:id", adminController.updateCustomer);
 
 router.delete("/restaurants/:id", adminController.removeRestaurant);
+router.delete("/customers/:id", adminController.removeCustomer);
 router.delete("/riders/:id", adminController.removeRider);
 router.delete("/orders/:id", adminController.removeOrder);
 

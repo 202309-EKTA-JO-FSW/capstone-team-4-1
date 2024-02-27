@@ -32,7 +32,6 @@ const orderSchema = new mongoose.Schema({
     default: 'Pending',
     required: true
   },
-  
   estimatedTime:{
         type: Number,
         required: true
@@ -40,6 +39,5 @@ const orderSchema = new mongoose.Schema({
   note: String
 }, { timestamps: true });
 
-const Order = mongoose.model('Order', orderSchema);
 
-module.exports = Order;
+module.exports = mongoose.model('Order', orderSchema);

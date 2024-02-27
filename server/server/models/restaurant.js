@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const restaurantSchema = new mongoose.Schema({
     title: {
@@ -47,6 +48,11 @@ const restaurantSchema = new mongoose.Schema({
             message: 'Invalid phone number.'
         }
     },
+    image: {
+        type: String,
+        required: [true, 'Image is required'],
+        unique: true
+    },
     role: {
         type: String,
         enum: ['Customer', 'Rider', 'Restaurant', 'Admin'],
@@ -58,6 +64,14 @@ const restaurantSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    street: {
+        type: String,
+        required: true
+    },
+    buildingNo: {
+        type: Number,
+        required: true
+    },
     area: {
         type: String,
         required: true
@@ -66,11 +80,6 @@ const restaurantSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    menu: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Dishes',
-        required: true
-    }],
     rate: {
         type: Number,
         min: 0,
@@ -89,10 +98,11 @@ const restaurantSchema = new mongoose.Schema({
         ref: 'Order',
         required: true
     }],
-    registered_at: {
-        type: Date,
-        default: Date.now,
-    },
 }, { timestamps: true }); 
+  
+// Compare the given password with the hashed password in the database
+restaurantSchema.methods.comparePassword = async function (password) {
+    return bcrypt.compare(password, this.password);
+};
 
 module.exports = mongoose.model('Restaurant', restaurantSchema);

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const adminSchema = new mongoose.Schema({
     firstName: {
@@ -57,11 +58,13 @@ const adminSchema = new mongoose.Schema({
         default: 'Admin',
         required: true
     },
-    registered_at: {
-        type: Date,
-        default: Date.now,
-    },
 }, { timestamps: true });
+
+  
+// Compare the given password with the hashed password in the database
+adminSchema.methods.comparePassword = async function (password) {
+    return bcrypt.compare(password, this.password);
+};
 
 
 module.exports = mongoose.model('Admin', adminSchema);

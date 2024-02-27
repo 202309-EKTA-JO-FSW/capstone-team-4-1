@@ -2,8 +2,18 @@ const Restaurant = require('../models/restaurant');
 const Rider = require('../models/rider');
 const Order = require('../models/order');
 const Customer = require('../models/customer');
+const Admin = require('../models/admin');
 
 const adminController = {
+    getAdmins: async (req, res) => {
+        try {
+            const admins = await Admin.find({});
+            return res.json(admins);
+        } catch (err) {
+          res.status(500).json({ error: err.message });
+        }
+    },
+
     getRestaurants: async (req, res) => {
         try {
           if (req.params.id) {
@@ -157,6 +167,20 @@ const adminController = {
           res.status(422).json({ message: "The customer you are trying to update wasn't found" });
         } else {
           res.status(200).json(updatedCustomer);
+        }
+      } catch (err) {
+        res.status(422).json({ message: err.message });
+      }
+    },
+
+    removeAdmin: async (req, res) => {
+      const { id } = req.params;
+      try {
+        const deletedAdmin = await Admin.findByIdAndDelete(id);
+        if (!deletedAdmin) {
+          res.status(422).json({ message: "The admin you are trying to delete wasn't found" });
+        } else {
+          res.status(201).json({ message: "The admin was deleted successfully" });
         }
       } catch (err) {
         res.status(422).json({ message: err.message });

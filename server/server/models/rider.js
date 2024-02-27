@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const riderSchema = new mongoose.Schema({
     firstName: {
@@ -75,7 +76,8 @@ const riderSchema = new mongoose.Schema({
     },
     location: {
         type: [Number],
-        required: true
+        required: true,
+        default: 0
     },
     vehicleNo: {
         type: String,
@@ -85,10 +87,12 @@ const riderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order' 
     }],
-    registered_at: {
-        type: Date,
-        default: Date.now,
-    },
 }, { timestamps: true });
+
+  
+// Compare the given password with the hashed password in the database
+riderSchema.methods.comparePassword = async function (password) {
+    return bcrypt.compare(password, this.password);
+};
 
 module.exports = mongoose.model('Rider', riderSchema);

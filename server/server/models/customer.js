@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const customerSchema = new mongoose.Schema({
     firstName: {
@@ -51,6 +52,17 @@ const customerSchema = new mongoose.Schema({
             message: 'Invalid phone number.'
         }
     },
+    location: {
+        type: [Number],
+        required: true,
+        default: 0
+    },
+    street: {
+        type: String,
+    },
+    buildingNo: {
+        type: Number,
+    },
     role: {
         type: String,
         enum: ['Customer', 'Rider', 'Restaurant', 'Admin'],
@@ -67,10 +79,13 @@ const customerSchema = new mongoose.Schema({
         ref: 'Order',
         required: true
     }],
-    registered_at: {
-        type: Date,
-        default: Date.now,
-    },
   },{ timestamps: true });
+  
+  
+// Compare the given password with the hashed password in the database
+customerSchema.methods.comparePassword = async function (password) {
+    return bcrypt.compare(password, this.password);
+};
+
 
 module.exports = mongoose.model("Customer", customerSchema);

@@ -1,28 +1,32 @@
 const express = require('express');
 const router = express.Router();
+const { authenticate } = require('../middleware/auth');
+const { verifyAdmin } = require('../middleware/verify');
 
 const adminController = require('../controllers/admin');
 
-router.get("/restaurants", adminController.getRestaurants);
-router.get("/restaurants/:id", adminController.getRestaurants);
-router.get("/riders", adminController.getRiders);
-router.get("/riders/:id", adminController.getRiders);
-router.get("/orders", adminController.getOrders);
-router.get("/orders/:id", adminController.getOrders);
-router.get("/customers", adminController.getCustomers);
-router.get("/customers/:id", adminController.getCustomers);
+router.get("/admins", authenticate, verifyAdmin, adminController.getAdmins);
+router.get("/restaurants", authenticate, verifyAdmin, adminController.getRestaurants);
+router.get("/restaurants/:id", authenticate, verifyAdmin, adminController.getRestaurants);
+router.get("/riders", authenticate, verifyAdmin, adminController.getRiders);
+router.get("/riders/:id", authenticate, verifyAdmin, adminController.getRiders);
+router.get("/orders", authenticate, verifyAdmin, adminController.getOrders);
+router.get("/orders/:id", authenticate, verifyAdmin, adminController.getOrders);
+router.get("/customers", authenticate, verifyAdmin, adminController.getCustomers);
+router.get("/customers/:id", authenticate, verifyAdmin, adminController.getCustomers);
 
-router.post("/restaurants", adminController.addRestaurant);
-router.post("/riders", adminController.addRider);
+router.post("/restaurants", authenticate, verifyAdmin, adminController.addRestaurant);
+router.post("/riders", authenticate, verifyAdmin, adminController.addRider);
 
-router.put("/restaurants/:id", adminController.updateRestaurant);
-router.put("/riders/:id", adminController.updateRider);
-router.put("/orders/:id", adminController.updateOrder);
-router.put("/customers/:id", adminController.updateCustomer);
+router.put("/restaurants/:id", authenticate, verifyAdmin, adminController.updateRestaurant);
+router.put("/riders/:id", authenticate, verifyAdmin, adminController.updateRider);
+router.put("/orders/:id", authenticate, verifyAdmin, adminController.updateOrder);
+router.put("/customers/:id", authenticate, verifyAdmin, adminController.updateCustomer);
 
-router.delete("/restaurants/:id", adminController.removeRestaurant);
-router.delete("/customers/:id", adminController.removeCustomer);
-router.delete("/riders/:id", adminController.removeRider);
-router.delete("/orders/:id", adminController.removeOrder);
+router.delete("/admins/:id", authenticate, verifyAdmin, adminController.removeAdmin);
+router.delete("/restaurants/:id", authenticate, verifyAdmin, adminController.removeRestaurant);
+router.delete("/customers/:id", authenticate, verifyAdmin, adminController.removeCustomer);
+router.delete("/riders/:id", authenticate, verifyAdmin, adminController.removeRider);
+router.delete("/orders/:id", authenticate, verifyAdmin, adminController.removeOrder);
 
 module.exports = router;

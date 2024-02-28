@@ -10,7 +10,7 @@ router.get('/restaurant/:id', authenticate, verifyCustomer, customerController.g
 router.get('/dishes', authenticate, verifyCustomer, customerController.getAllDishes);
 router.get('/dishes/:dishId', authenticate, verifyCustomer, customerController.getDishById);
 router.get('/dishes/:restaurantId', authenticate, verifyCustomer, customerController.getAllDishesOfRestaurant);
-router.get('/orders/:userId', authenticate, verifyCustomer, customerController.getAllOrdersByUserId);
+router.get('/orders/:customerId', authenticate, verifyCustomer, customerController.getAllOrdersByCustomerId);
 router.get('/orders/pending/:customerId/:restaurantId', authenticate, verifyCustomer, customerController.getPendingOrders);
 router.post('/cart', authenticate, verifyCustomer, customerController.addItem);
 router.delete('/cart', authenticate, verifyCustomer, customerController.removeItemFromCart);

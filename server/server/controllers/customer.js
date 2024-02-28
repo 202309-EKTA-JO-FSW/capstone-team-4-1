@@ -75,12 +75,12 @@ const getAllDishesOfRestaurant = async (req, res) => {
   }
 }
 
-// Get All Orders By UserId
+// Get All Orders By CustomerId
 
-const getAllOrdersByUserId = async (req, res) => {
-  const userId = req.params.userId
+const getAllOrdersByCustomerId = async (req, res) => {
+  const customerId = req.params.customerId
   try {
-    const orders = await Order.find({ customer: userId })
+    const orders = await Order.find({ customer: customerId })
     res.status(200).json({ orders })
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -143,4 +143,4 @@ const getPendingOrders = async (req, res) => {
   }
 }
 
-module.exports = { getAllRestaurants, getRestaurantById, getAllDishes, getDishById, getAllDishesOfRestaurant, getAllOrdersByUserId, getPendingOrders, addItem, removeItemFromCart };
+module.exports = { getAllRestaurants, getRestaurantById, getAllDishes, getDishById, getAllDishesOfRestaurant, getAllOrdersByCustomerId, getPendingOrders, addItem, removeItemFromCart };

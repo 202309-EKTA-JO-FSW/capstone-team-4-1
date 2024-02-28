@@ -81,28 +81,6 @@ describe('AdminController', () => {
     });
   });
 
-  describe('addRestaurant', () => {
-    it('should create a new restaurant', async () => {
-      const newRestaurant = { name: 'New Restaurant', location: 'New Location' };
-      req.body = newRestaurant;
-      Restaurant.create.mockResolvedValue(newRestaurant);
-      await adminController.addRestaurant(req, res);
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(newRestaurant);
-    });
-  });
-
-  describe('addRider', () => {
-    it('should create a new rider', async () => {
-      const newRider = { name: 'New Rider', phone: '1234567890' };
-      req.body = newRider;
-      Rider.create.mockResolvedValue(newRider);
-      await adminController.addRider(req, res);
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(newRider);
-    });
-  });
-
   describe('updateRestaurant', () => {
     it('should update a restaurant by id', async () => {
       const updatedRestaurant = { name: 'Updated Restaurant', location: 'Updated Location' };

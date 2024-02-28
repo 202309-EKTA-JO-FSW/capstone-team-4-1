@@ -66,11 +66,11 @@ const registerCustomer = async (req, res, next) => {
 
 // Register a new restaurant
 const registerRestaurant = async (req, res, next) => {
-    const { title, email, password, phone, role, license, street, buildingNo, area, cuisine, menu, deliveryTime, deliveryFee } = req.body;
+    const { title, email, password, phone, image, role, license, street, buildingNo, area, cuisine, menu, deliveryTime, deliveryFee } = req.body;
   
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = new Restaurant({ title, email, password: hashedPassword, phone, role, license, street, buildingNo, area, cuisine, menu, deliveryTime, deliveryFee });
+      const user = new Restaurant({ title, email, password: hashedPassword, phone, image, role, license, street, buildingNo, area, cuisine, menu, deliveryTime, deliveryFee });
       await user.save();
       res.json({ message: 'Registration successful' });
     } catch (error) {

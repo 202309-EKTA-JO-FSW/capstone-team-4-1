@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 
-const riderSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true
@@ -55,44 +55,16 @@ const riderSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['Customer', 'Rider', 'Restaurant', 'Admin'],
-        default: 'Rider',
+        default: 'Admin',
         required: true
     },
-    status: {
-        type: String,
-        required: true,
-        enum: ['Available', 'Delivering', 'Offline'],
-        default: 'Offline'
-    },
-    license: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    nationalityId: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    location: {
-        type: [Number],
-        required: true,
-        default: 0
-    },
-    vehicleNo: {
-        type: String,
-        required: true
-    },
-    orders: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order' 
-    }],
 }, { timestamps: true });
 
   
 // Compare the given password with the hashed password in the database
-riderSchema.methods.comparePassword = async function (password) {
+adminSchema.methods.comparePassword = async function (password) {
     return bcrypt.compare(password, this.password);
 };
 
-module.exports = mongoose.model('Rider', riderSchema);
+
+module.exports = mongoose.model('Admin', adminSchema);

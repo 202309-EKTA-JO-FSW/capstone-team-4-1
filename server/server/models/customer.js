@@ -74,11 +74,6 @@ const customerSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
-    orders: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order',
-        required: true
-    }],
   },{ timestamps: true });
   
   

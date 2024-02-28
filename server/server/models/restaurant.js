@@ -84,6 +84,7 @@ const restaurantSchema = new mongoose.Schema({
         type: Number,
         min: 0,
         max: 5,
+        default: 0
     },
     deliveryTime: {
         type: Number,
@@ -93,11 +94,6 @@ const restaurantSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    orders: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order',
-        required: true
-    }],
 }, { timestamps: true }); 
   
 // Compare the given password with the hashed password in the database

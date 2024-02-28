@@ -100,12 +100,12 @@ describe('CustomerController', () => {
     })
   })
 
-  describe('getAllOrdersByUserId', () => {
-    it('should return all orders for a user', async () => {
-      req.params.userId = 'testUserId'
+  describe('getAllOrdersByCustomerId', () => {
+    it('should return all orders for a customer', async () => {
+      req.params.customerId = 'testCustomerId'
       Order.find.mockResolvedValue(['order1', 'order2'])
       Order.find = jest.fn().mockResolvedValue(['order1', 'order2'])
-      await customerController.getAllOrdersByUserId(req, res)
+      await customerController.getAllOrdersByCustomerId(req, res)
       expect(res.json).toHaveBeenCalledWith({ orders: ['order1', 'order2'] })
     })
   })

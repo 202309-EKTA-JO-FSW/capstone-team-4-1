@@ -15,9 +15,6 @@ router.get("/orders/:id", authenticate, verifyAdmin, adminController.getOrders);
 router.get("/customers", authenticate, verifyAdmin, adminController.getCustomers);
 router.get("/customers/:id", authenticate, verifyAdmin, adminController.getCustomers);
 
-router.post("/restaurants", authenticate, verifyAdmin, adminController.addRestaurant);
-router.post("/riders", authenticate, verifyAdmin, adminController.addRider);
-
 router.put("/restaurants/:id", authenticate, verifyAdmin, adminController.updateRestaurant);
 router.put("/riders/:id", authenticate, verifyAdmin, adminController.updateRider);
 router.put("/orders/:id", authenticate, verifyAdmin, adminController.updateOrder);

@@ -81,25 +81,6 @@ const adminController = {
           res.status(500).json({ error: err.message });
         }
       },
-    addRestaurant: async (req, res) => {
-      const restaurantData = req.body;
-      try {
-        const newRestaurant = await Restaurant.create(restaurantData);
-        res.status(201).json(newRestaurant);
-      } catch (err) {
-        res.status(422).json({ message: err.message });
-      }
-    },
-
-    addRider: async (req, res) => {
-      const riderData = req.body;
-      try {
-        const newRider = await Rider.create(riderData);
-        res.status(201).json(newRider);
-      } catch (err) {
-        res.status(422).json({ message: err.message });
-      }
-    },
 
     updateRestaurant: async (req, res) => {
       const { id } = req.params;

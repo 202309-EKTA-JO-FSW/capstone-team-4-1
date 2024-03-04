@@ -5,13 +5,13 @@ const Footer = () => {
   const teamMembers = [
     {
       name: "Dana Omar",
-      github: "https://github.com/LunarSalameh",
-      linkedin: "https://www.linkedin.com/in/LunarSalameh",
+      github: "https://github.com/Dana-MO",
+      linkedin: "https://www.linkedin.com/in/dana-omar-ko",
     },
     {
       name: "Hadeel Obaid",
-      github: "https://github.com/DanaMaraqa",
-      linkedin: "https://www.linkedin.com/in/DanaMaraqa",
+      github: "https://github.com/Hadeel-Ali-Obaid",
+      linkedin: "https://www.linkedin.com/in/hadeel-obaid-254011279/",
     },
     {
       name: "Mahmoud Rumaneh",
@@ -20,13 +20,13 @@ const Footer = () => {
     },
     {
       name: "Omar Masoud",
-      github: "https://github.com/GhassanAjouri",
-      linkedin: "https://www.linkedin.com/in/GhassanAjouri",
+      github: "https://github.com/OmarMasoud3",
+      linkedin: "https://www.linkedin.com/in/omar-masoud-444384204/",
     },
     {
       name: "Mohammad Elamaireh",
-      github: "https://github.com/GhassanAjouri",
-      linkedin: "https://www.linkedin.com/in/GhassanAjouri",
+      github: "https://github.com/samxsam21",
+      linkedin: "https://www.linkedin.com/in/mohammad-elamaireh-63b3a5257/",
     }
   ]
 
@@ -180,7 +180,7 @@ const Footer = () => {
         <div className="mt-8 border-t border-gray-100 pt-8">
           <div className="sm:flex sm:justify-between">
             <p className="text-xs text-gray-500">
-              &copy; 2022. Company Name. All rights reserved.
+              &copy; 2024. FoodDrop. All rights reserved.
             </p>
 
             <ul className="mt-8 flex flex-wrap justify-start gap-4 text-xs sm:mt-0 lg:justify-end">

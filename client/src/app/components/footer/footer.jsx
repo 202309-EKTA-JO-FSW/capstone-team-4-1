@@ -44,7 +44,7 @@ const Footer = () => {
         <div className="lg:flex lg:items-start lg:gap-8 ">
           <div className="mt-8 grid grid-cols-2 gap-8 lg:mt-0 lg:grid-cols-5 lg:gap-y-16">
             <div className="col-span-2">
-              <p className="text-white mt-4 text-gray-500">
+              <p className="text-white mt-4">
               🛵 Embark on a journey of culinary delights with FoodDrop,
                your premier choice for savoring the flavors of the world! 🍽️ 
                Taste the adventure from the comfort of your home as we bring gourmet experiences
@@ -54,7 +54,7 @@ const Footer = () => {
             </div>
 
             <div className="col-span-2 sm:col-span-1">
-              <p className=" text-white font-medium text-gray-900">Company</p>
+              <p className=" text-white font-medium">Company</p>
               <ul className="mt-6 space-y-4 text-sm">
                 <li>
                   <a

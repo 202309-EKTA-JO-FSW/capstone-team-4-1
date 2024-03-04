@@ -10,6 +10,9 @@ function Navbar() {
           <div className="flex justify-end space-x-8 text-[#FFC245] w-full pr-20 my-5">
             <div className="py-2 px-4 font-bold"><Login /></div>
             <div className="bg-[#FFC245] text-black flex justify-center py-2 px-4 rounded-xl font-bold"><Customer /></div>
+            <Link href="/pages/customer/restaurantList">
+                Customer
+            </Link>
           </div>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80">

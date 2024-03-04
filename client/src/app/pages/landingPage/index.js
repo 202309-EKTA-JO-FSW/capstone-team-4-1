@@ -1,5 +1,5 @@
 import Navbar from "../../components/navbar/navbar";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer/footer";
 import Restaurant from "@/app/components/navbar/restaurant";
 import Rider from "@/app/components/navbar/rider";
 export default function LandingPage() {

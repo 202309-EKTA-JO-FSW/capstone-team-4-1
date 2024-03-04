@@ -3,8 +3,6 @@ const Customer = require('../../models/customer');
 const Restaurant = require('../../models/restaurant')
 const Rider = require('../../models/rider');
 const Order = require('../../models/order');
-const Customer = require('../../models/customer');
-
 
 jest.mock('../../models/restaurant');
 jest.mock('../../models/rider');

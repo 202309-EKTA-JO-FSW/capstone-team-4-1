@@ -88,3 +88,6 @@ fastlane/Preview.html
 fastlane/screenshots
 
 .next
+package-lock.json
+
+yarn.lock

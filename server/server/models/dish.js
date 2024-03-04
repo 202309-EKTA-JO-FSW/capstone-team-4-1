@@ -8,19 +8,19 @@ const dishSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true
+    required: [true, 'Title required']
   },
   description: {
     type: String,
-    required: true
+    required: [true, 'Description required']
   },
   image: {
     type: String,
-    required: true
+    required: [true, 'Image required']
   },
   price: {
     type: Number,
-    required: true
+    required: [true, 'Price required']
   },
   category: String
 }, { timestamps: true });

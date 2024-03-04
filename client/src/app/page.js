@@ -1,13 +1,11 @@
-import Link from "next/link";
-const Home = () =>{
-    return(
-        <div>
-            <h1>Home Page</h1>
-            <Link href="/pages/customer/restaurantList">
-                Customer
-            </Link>
-        </div>
-    )
+import Test from "./components/Test";
+import HomePage from "./pages/landingPage/index";
+export function Home() {
+  return (
+    <main className="">
+        <HomePage />
+    </main>
+  );
 }
 
 export default Home; 

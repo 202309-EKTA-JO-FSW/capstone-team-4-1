@@ -5,11 +5,11 @@ const bcrypt = require('bcrypt');
 const riderSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
+        required: [true, 'First name is required']
     },
     lastName: {
         type: String,
-        required: true
+        required: [true, 'Last name is required']
     },
     email: {
         type: String,
@@ -66,12 +66,12 @@ const riderSchema = new mongoose.Schema({
     },
     license: {
         type: String,
-        required: true,
+        required: [true, 'License is required'],
         unique: true
     },
     nationalityId: {
         type: String,
-        required: true,
+        required: [true, 'Nationality ID required'],
         unique: true
     },
     location: {
@@ -81,7 +81,7 @@ const riderSchema = new mongoose.Schema({
     },
     vehicleNo: {
         type: String,
-        required: true
+        required: [true, 'Vehicle Number required']
     },
 }, { timestamps: true });
 

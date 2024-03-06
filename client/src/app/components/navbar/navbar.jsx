@@ -1,9 +1,9 @@
+import Link from 'next/link';
 import Customer from "./customer";
 import Login from "./login";
 
 function Navbar() {
   return (
-
       <div className="fixed top-0 left-0 w-full z-10">
         <div className="flex items-center space-x-2 bg-[#101B0B] sticky">
           <img src="/logo.png" className="w-62 h-20 pl-20 pt-10 mb-5" alt="logo" />

@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
-import Login from "./login";
-import LoginModal from "../../pages/loginPage/index";
+import Login from "../../../../components/navbar/login";
+import LoginModal from "../../../loginPage/index";
 import Link from "next/link";
 function Navbar() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -22,16 +22,8 @@ function Navbar() {
           xl:space-x-8 xl:pr-10 xl:mt-10 xl:text-[16px] 
           md:space-x-4 md:pr-10 md:mt-10
           2xs:space-x-2 2xs:pr-4 2xs:mt-5  2xs:text-xs">
-            <div className="py-2 px-2 font-bold cursor-pointer hover:text-[#B92719]">
-                  <Login onLoginClick={() => setShowLoginModal(true)} />
-            </div>
-
             <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
-              <Link href="/customerSignup" legacyBehavior>
-                <a className="flex justify-center items-center h-full w-full">
-                  <button>Get Started</button>
-                </a>
-              </Link>
+                  <Login onLoginClick={() => setShowLoginModal(true)} />
             </div>
           </div>
 

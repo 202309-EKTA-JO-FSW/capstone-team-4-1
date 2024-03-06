@@ -1,10 +1,9 @@
 import React from "react";
-import Link from 'next/link';
 
-function Login() {
+function Login({ onLoginClick }) {
   return (
-     <Link href={`/loginPage/`}>Login</Link> 
-  ) 
+    <button onClick={onLoginClick}>Login</button>
+  );
 }
 
 export default Login;

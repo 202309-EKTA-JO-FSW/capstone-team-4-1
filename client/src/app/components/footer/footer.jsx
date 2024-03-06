@@ -7,9 +7,13 @@ const Footer = () => {
       name: "Dana Omar",
       github: "https://github.com/Dana-MO",
       linkedin: "https://www.linkedin.com/in/dana-omar-ko",
+      github: "https://github.com/Dana-MO",
+      linkedin: "https://www.linkedin.com/in/dana-omar-ko",
     },
     {
       name: "Hadeel Obaid",
+      github: "https://github.com/Hadeel-Ali-Obaid",
+      linkedin: "https://www.linkedin.com/in/hadeel-obaid-254011279/",
       github: "https://github.com/Hadeel-Ali-Obaid",
       linkedin: "https://www.linkedin.com/in/hadeel-obaid-254011279/",
     },
@@ -22,9 +26,13 @@ const Footer = () => {
       name: "Omar Masoud",
       github: "https://github.com/OmarMasoud3",
       linkedin: "https://www.linkedin.com/in/omar-masoud-444384204/",
+      github: "https://github.com/OmarMasoud3",
+      linkedin: "https://www.linkedin.com/in/omar-masoud-444384204/",
     },
     {
       name: "Mohammad Elamaireh",
+      github: "https://github.com/samxsam21",
+      linkedin: "https://www.linkedin.com/in/mohammad-elamaireh-63b3a5257/",
       github: "https://github.com/samxsam21",
       linkedin: "https://www.linkedin.com/in/mohammad-elamaireh-63b3a5257/",
     }

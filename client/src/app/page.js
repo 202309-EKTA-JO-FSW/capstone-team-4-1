@@ -1,9 +1,10 @@
-import Test from "./components/Test";
-import HomePage from "./pages/landingPage/index";
+import React from 'react';
+import HomePage from './pages/landingPage';
+
 export default function Home() {
   return (
     <main className="">
-        <HomePage />
+      <HomePage />
     </main>
   );
 }

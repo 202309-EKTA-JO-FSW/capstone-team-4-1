@@ -78,7 +78,7 @@ const RestaurantProfile = () => {
                 </li>
               </Link>
             ))
-          ) : <li>No dishes availabe</li>}
+          ) : <p>No dishes availabe</p>}
         </div>
       </div>
       <Footer />

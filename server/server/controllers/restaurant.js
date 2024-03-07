@@ -1,5 +1,23 @@
 const Dish = require('../models/dish');
 const OrderModel = require('../models/order')
+const Restaurant = require('../models/restaurant');
+
+// get all restaurant profile
+
+const getProfile = async (req, res) => {
+    const { restaurantId } = req.params;
+    try {
+      const profile = await Restaurant.findById(restaurantId);
+
+      if (!profile) {
+        res.status(422).json({ message: "No profile found" });
+      }
+
+      res.status(200).json(profile);
+    } catch (err) {
+      res.status(422).json({ message: err.message });
+    }
+};
 
 // get all dishes for specific restaurant
 
@@ -148,6 +166,7 @@ const removeDish = async (req, res) => {
 }
 
 module.exports = {
+    getProfile,
     getAllDishes,
     getDish,
     getOrders,

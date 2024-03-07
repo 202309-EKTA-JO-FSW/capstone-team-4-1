@@ -5,6 +5,7 @@ const { verifyRestauarant } = require('../middleware/verify');
 
 const restaurantController = require('../controllers/restaurant');
 
+router.get("/profile/:restaurantId", authenticate, verifyRestauarant, restaurantController.getProfile);
 router.get("/menu/:restaurantId", authenticate, verifyRestauarant, restaurantController.getAllDishes);
 router.get("/dish/:dishId", authenticate, verifyRestauarant, restaurantController.getDish);
 router.get("/orders/:restaurantId", authenticate, verifyRestauarant, restaurantController.getOrders);

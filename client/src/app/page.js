@@ -1,9 +1,12 @@
-import Test from "./components/Test";
 import HomePage from "./pages/landingPage/index";
-export default function Home() {
+export function Home() {
   return (
     <main className="">
+      <div className="relative bg-[#fff] overflow-hidden text-black">
         <HomePage />
+      </div>
     </main>
   );
 }
+
+export default Home;

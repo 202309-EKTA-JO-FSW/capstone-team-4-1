@@ -1,5 +1,5 @@
 import Navbar from "./components/navbar";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer/footer";
 import Location from "./components/location";
 
 export default function CustomerSignup() {

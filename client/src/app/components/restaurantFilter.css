@@ -1,6 +1,7 @@
-.filter{
+.filter {
   flex: 0 0 194px;
 }
+
 .restaurantFilter {
   color: var(--helio-color-primaryText);
   font-size: 12px;
@@ -8,6 +9,34 @@
   line-height: 1.33;
   margin-bottom: var(--helio-space-S);
   margin-top: 0;
+}
+
+.searchInputAndButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.searchButton {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.searchInput {
+  margin-top: 8px;
+}
+
+.searchInput label {
+  font-size: 12px;
+  top: -6px;
+}
+
+.searchInput input {
+  height: 35px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .filterList {
@@ -22,7 +51,7 @@
   margin: 0;
 }
 
-.filterItem{
+.filterItem {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #E4E4E4FF;
@@ -30,7 +59,8 @@
   padding-top: 8px;
   width: 100%;
 }
-.filterBTN{
-   margin-right: 10px;
-   margin-left: 10px;
-  }
+
+.filterBTN {
+  margin-right: 10px;
+  margin-left: 10px;
+}

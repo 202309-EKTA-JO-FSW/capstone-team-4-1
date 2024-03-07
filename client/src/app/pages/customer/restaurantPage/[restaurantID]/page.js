@@ -11,7 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import  helpers  from "../../../../services/helpers";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import helpers from "../../../../services/helpers";
 
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
@@ -123,8 +124,18 @@ const SingleRestaurantPage = ({ params }) => {
                             <h6 className="dishDescription">{dish.title}</h6>
                           </div>
                         </div>
-                        <div>
+                        <div className="priceAndBTNContainer">
                           <p className="dishPrice">{dish.price}JOD</p>
+                          <Button
+                            className={"addToCartBTN"}
+                            color={"primary"}
+                            onClick={() => {}}
+                          >
+                            <FontAwesomeIcon
+                              className="faPlus"
+                              icon={faPlus}
+                            />
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -140,7 +151,7 @@ const SingleRestaurantPage = ({ params }) => {
       setCategorisWithDishesState([]);
     }
   };
-  
+
   return (
     <div className="mainPageContainer">
       {/* <h2>{restaurantState.title}</h2>
@@ -173,9 +184,14 @@ const SingleRestaurantPage = ({ params }) => {
           <div className="restaurantCardHeaderContent">
             <h1 className="restaurantName">{restaurantState.title}</h1>
             <p className="restaurantLocation">
-            {restaurantState.buildingNo}, {restaurantState.street}, {restaurantState.area}
+              {restaurantState.buildingNo}, {restaurantState.street},{" "}
+              {restaurantState.area}
             </p>
-            <p className="restaurantInfo">{restaurantState?.cuisine ? restaurantState?.cuisine?.join(', ') : ''}</p>
+            <p className="restaurantInfo">
+              {restaurantState?.cuisine
+                ? restaurantState?.cuisine?.join(", ")
+                : ""}
+            </p>
             <p className="restaurantMinimumOrder">Min. order: JOD 2.00</p>
           </div>
         </div>
@@ -207,7 +223,9 @@ const SingleRestaurantPage = ({ params }) => {
         {selectedBtnState === 1 && <div>{categorisWithDishesState}</div>}
         {selectedBtnState === 2 && (
           <div className="infoContainer">
-            <h3 className="infoContainerRestaurantName">{restaurantState.title}</h3>
+            <h3 className="infoContainerRestaurantName">
+              {restaurantState.title}
+            </h3>
             <div className="infoContainerDetail">
               <p className="infoContainerDetailKey">Minimum Order Amount</p>
               <p className="infoContainerDetailValue">JOD 2.00</p>
@@ -218,19 +236,29 @@ const SingleRestaurantPage = ({ params }) => {
             </div>
             <div className="infoContainerDetail">
               <p className="infoContainerDetailKey">Delivery Time</p>
-              <p className="infoContainerDetailValue">{restaurantState.deliveryTime} min</p>
+              <p className="infoContainerDetailValue">
+                {restaurantState.deliveryTime} min
+              </p>
             </div>
             <div className="infoContainerDetail">
               <p className="infoContainerDetailKey">Delivery fee</p>
-              <p className="infoContainerDetailValue">{restaurantState.deliveryFee} JOD</p>
+              <p className="infoContainerDetailValue">
+                {restaurantState.deliveryFee} JOD
+              </p>
             </div>
             <div className="infoContainerDetail">
               <p className="infoContainerDetailKey">Rating</p>
-              <p className="infoContainerDetailValue">{helpers.converteRates(restaurantState.rate)}</p>
+              <p className="infoContainerDetailValue">
+                {helpers.converteRates(restaurantState.rate)}
+              </p>
             </div>
             <div className="infoContainerDetail">
               <p className="infoContainerDetailKey">Cuisines</p>
-              <p className="infoContainerDetailValue">{restaurantState?.cuisine ? restaurantState?.cuisine?.join(', ') : ''}</p>
+              <p className="infoContainerDetailValue">
+                {restaurantState?.cuisine
+                  ? restaurantState?.cuisine?.join(", ")
+                  : ""}
+              </p>
             </div>
           </div>
         )}

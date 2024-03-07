@@ -1,10 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
 import "./restaurantFilter.css";
 
-const RestaurantFilter = ({ cuisines, selectedCuisine, onFilterChange }) => {
+const RestaurantFilter = ({
+  cuisines,
+  selectedCuisine,
+  onFilterChange,
+  fetchRestaurants,
+}) => {
+  const [seacrhTitleInputState, setSeacrhTitleInputState] = useState("");
+  const [seacrhRateInputState, setSeacrhRateInputState] = useState("");
+
   return (
     <div className="filter">
       <h3 className="restaurantFilter">Popular filters</h3>
+      <div className="searchInputAndButton">
+        <TextField
+          className="searchInput"
+          id="outlined-search"
+          label="Search by name "
+          type="search"
+          onChange={() => {
+            setSeacrhTitleInputState(event.target.value);
+          }}
+        />
+        <TextField
+          className="searchInput"
+          id="outlined-search"
+          label="Search by rate"
+          type="search"
+          onChange={() => {
+            setSeacrhRateInputState(event.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            fetchRestaurants(seacrhTitleInputState, seacrhRateInputState);
+          }}
+          className={"searchButton"}
+        >
+          Search
+        </button>
+      </div>
       <div className="filterList">
         <div className="filterItem">
           <img

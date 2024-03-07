@@ -75,12 +75,13 @@
     font-size: 14px;
 }
 
-.buttonGroup{
+.buttonGroup {
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
-.activeBTN, .notActiveBTN {
+.activeBTN,
+.notActiveBTN {
     border-right: unset !important;
     width: 50%;
 }
@@ -90,12 +91,10 @@
     font-weight: 500 !important;
 }
 
-.categoryCard{
+.categoryCard {}
 
-}
-
-.categoryToggleHeader{
-    display: flex;;
+.categoryToggleHeader {
+    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
@@ -109,9 +108,9 @@
     cursor: pointer;
 }
 
-.categoryCardContent{
-}
-.dish{
+.categoryCardContent {}
+
+.dish {
     display: flex;
     justify-content: space-between;
     padding-top: 10px;
@@ -119,11 +118,13 @@
     padding-bottom: 10px;
     border-bottom: 1px solid rgb(224, 224, 224);
 }
-.dishContentLeftSection{
+
+.dishContentLeftSection {
     display: flex;
     justify-content: start;
 }
-.dishImage{
+
+.dishImage {
     text-align: center;
     border-radius: 3px;
     padding: 5px;
@@ -133,29 +134,52 @@
     /* object-fit: contain; */
     border: 1px solid rgb(224, 224, 224);
 }
-.dishTitleAndDescription{
+
+.dishTitleAndDescription {
     margin-inline: 10px;
 }
-.dishTitle{
+
+.dishTitle {
     color: var(--textColor);
     font-size: 15px;
 }
-.dishDescription{
+
+.dishDescription {
     color: rgb(114, 114, 114);
     font-size: 12px;
 }
-.dishPrice{
+
+.priceAndBTNContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.dishPrice {
     font-size: 14px;
     color: var(--textColor);
 }
-.infoContainer{}
-.infoContainerRestaurantName{
+
+.addToCartBTN {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    background-color: rgb(0, 163, 70);
+    border-radius: 50%;
+    color: white;
+}
+
+.infoContainer {}
+
+.infoContainerRestaurantName {
     font-weight: 500;
     margin-bottom: 20px;
     font-size: 18px;
     color: var(--textColor);
 }
-.infoContainerDetail{
+
+.infoContainerDetail {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -163,14 +187,16 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.infoContainerDetailKey{
+
+.infoContainerDetailKey {
     width: 43.75%;
     font-weight: 500;
     font-size: 14px;
     color: var(--textColor);
 }
-.infoContainerDetailValue{
+
+.infoContainerDetailValue {
     font-weight: 500;
     font-size: 14px;
-    color: var(--textColor)
-};
+    color: var(--textColor);
+}

@@ -10,21 +10,22 @@ const RestaurantList = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
   useEffect(() => {
-    const fetchRestaurants = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3001/customer/restaurants"
-        );
-        setRestaurants(response.data);
-        setFilteredRestaurants(response.data); // Initially set filtered restaurants to all restaurants
-        console.log(response);
-      } catch (error) {
-        console.error("Error fetching restaurants:", error);
-      }
-    };
-
-    fetchRestaurants();
+    fetchRestaurants("","","","","");
   }, []);
+
+  const fetchRestaurants = async (title,rate,deliveryTime,area,cuisine) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/customer/restaurants?${title?"title="+title:""}${rate?"&rate="+rate:""}${deliveryTime?"&deliveryTime="+time:""}${area?"&area="+area:""}${cuisine?"&cuisine="+cuisine:""}`
+      );
+      setRestaurants(response.data);
+      setFilteredRestaurants(response.data); // Initially set filtered restaurants to all restaurants
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching restaurants:", error);
+    }
+  };
+
 
   const handleFilterChange = (cuisine) => {
     if (cuisine === "") {
@@ -36,6 +37,7 @@ const RestaurantList = () => {
       setFilteredRestaurants(filtered);
     }
   };
+  
 
   const getCuisines = () => {
     // Get unique cuisines from all restaurants
@@ -62,6 +64,7 @@ const RestaurantList = () => {
           <RestaurantFilter
             cuisines={getCuisines()}
             onFilterChange={handleFilterChange}
+            fetchRestaurants={fetchRestaurants}
           />
           <div className="restaurantList">
             <h2 className="title">Restaurants</h2>

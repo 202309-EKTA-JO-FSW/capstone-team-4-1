@@ -2,7 +2,10 @@
 import React, { useState } from 'react';
 import Captcha from './components/captcha';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useRouter } from 'next/navigation';
+
 export default function LoginPage({ onClose }) {
+  const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,14 +15,44 @@ export default function LoginPage({ onClose }) {
     setCaptchaValue(value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     
     if (!captchaValue) {
       alert('Please verify that you are not a robot.');
       return;
     }
-    console.log(email, password, captchaValue);
+
+    try {
+      const response = await fetch(`http://localhost:3001/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const user = data.user;
+        const userId = user._id;
+        const userRole = user.role;
+
+        if (user) {
+          router.push(`/pages/${userRole}/${userId}`)
+        }
+
+      } else {
+        const errorData = await response.json();
+        if (errorData.message) {
+          alert(errorData.message);
+        } else {
+          alert('Invalid email or password. Please try again.');
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleGoogleLoginSuccess = (response) => {

@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link"; // Import Link from 'next/link'
 import RestaurantFilter from "../../../components/restaurantFilter"; // Import RestaurantFilter component
-import Navbar from "../../../components/navbar/navbar";
-import Footer from "../../../components/footer/footer";
+
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
@@ -49,38 +48,45 @@ const RestaurantList = () => {
   };
 
   return (
-    <div>
-      <Navbar />
+    <div className="mainPageContainer">
       <div className="restaurantsList">
+        <div className="breadcrumbContainer">
+          <Link className="breadcrumpTextActive" href="/">
+            Home
+          </Link>
+          <p className="angularbrackets">{">"}</p>
+          <span className="breadcrumpTextInactive">Restaurants</span>
+        </div>
         {/* Render the RestaurantFilter component */}
-        <RestaurantFilter
-          cuisines={getCuisines()}
-          onFilterChange={handleFilterChange}
-        />
-        <div className="restaurantList">
-          <h2 className="title">Restaurants</h2>
-          <div className="row restaurantListSub">
-            {filteredRestaurants.map((restaurant) => (
-              <div key={restaurant._id} className="grid-cols-4 restaurant">
-                {/* Wrap the contents of the Link component with the anchor tag */}
-                <Link href={`../customer/restaurantPage/${restaurant._id}`}>
-                  <>
-                    {restaurant.image && (
-                      <img
-                        className="restaurantImage"
-                        src={restaurant.image}
-                        alt={restaurant.title}
-                      />
-                    )}
-                    <h3 className="restaurantName">{restaurant.title}</h3>
-                  </>
-                </Link>
-              </div>
-            ))}
+        <div className="flex">
+          <RestaurantFilter
+            cuisines={getCuisines()}
+            onFilterChange={handleFilterChange}
+          />
+          <div className="restaurantList">
+            <h2 className="title">Restaurants</h2>
+            <div className="row restaurantListSub flex-wrap">
+              {filteredRestaurants.map((restaurant) => (
+                <div key={restaurant._id} className="restaurant">
+                  {/* Wrap the contents of the Link component with the anchor tag */}
+                  <Link href={`../customer/restaurantPage/${restaurant._id}`}>
+                    <>
+                      {restaurant.image && (
+                        <img
+                          className="restaurantImage"
+                          src={restaurant.image}
+                          alt={restaurant.title}
+                        />
+                      )}
+                      <h3 className="restaurantName">{restaurant.title}</h3>
+                    </>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 .restaurantsList{
-    margin-top: 171px;
     display: flex;
+    flex-direction: column;
     padding-left: 7.5%;
     padding-right: 7.5%;
 }
@@ -10,7 +10,11 @@
 }
 .restaurantListSub{
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
+}
+.restaurant{
+    width: 25%;
+    margin-bottom: 20px;
 }
 .title {
     font-size: 28px;

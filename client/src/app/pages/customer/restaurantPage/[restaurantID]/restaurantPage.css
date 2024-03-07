@@ -2,3 +2,175 @@
     display: flex;
     justify-content: space-around;
 }
+
+.restaurantCard {
+    padding: 20px;
+    margin: 0px auto 20px;
+    max-width: 1000px;
+    background: rgb(255, 255, 255);
+    height: 100%;
+    box-shadow: rgb(171, 169, 171) 0px 0px 5px 0px;
+    overflow: auto;
+    min-height: calc(-250px + 100vh);
+}
+
+.restaurantCardHeader {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.restaurantCardHeaderImage {
+    width: 120px;
+    max-height: 120px;
+}
+
+.restaurantCardHeaderContent {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.restaurantName {
+    font-size: 24px;
+    margin: 0px;
+    padding: 0px;
+    font-weight: 400;
+}
+
+.restaurantLocation {
+    font-size: 14px;
+    color: var(--textGreyColor);
+    margin-top: 10px;
+}
+
+.restaurantInfo {
+    font-size: 14px;
+    color: var(--textGreyColor);
+    margin-top: 10px;
+}
+
+.restaurantMinimumOrder {
+    font-size: 14px;
+    color: var(--textGreyColor);
+    margin-top: 10px;
+}
+
+.flagStyle {
+    display: flex;
+    padding: 10px;
+    margin-top: 10px;
+    align-items: center;
+    background-color: rgb(254, 249, 245);
+    color: var(--textColor);
+}
+
+.flagStyleIcon {
+    font-size: 16px;
+    padding-inline: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+.flagStyleText {
+    font-size: 14px;
+}
+
+.buttonGroup{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.activeBTN, .notActiveBTN {
+    border-right: unset !important;
+    width: 50%;
+}
+
+.activeBTN {
+    border-bottom: 1px solid var(--mainColor) !important;
+    font-weight: 500 !important;
+}
+
+.categoryCard{
+
+}
+
+.categoryToggleHeader{
+    display: flex;;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    padding-inline: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgb(245, 245, 245);
+    font-size: 20px;
+    font-weight: 500 !important;
+    color: var(--textColor);
+    cursor: pointer;
+}
+
+.categoryCardContent{
+}
+.dish{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(224, 224, 224);
+}
+.dishContentLeftSection{
+    display: flex;
+    justify-content: start;
+}
+.dishImage{
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px;
+    width: 68px;
+    height: 60px;
+    position: relative;
+    /* object-fit: contain; */
+    border: 1px solid rgb(224, 224, 224);
+}
+.dishTitleAndDescription{
+    margin-inline: 10px;
+}
+.dishTitle{
+    color: var(--textColor);
+    font-size: 15px;
+}
+.dishDescription{
+    color: rgb(114, 114, 114);
+    font-size: 12px;
+}
+.dishPrice{
+    font-size: 14px;
+    color: var(--textColor);
+}
+.infoContainer{}
+.infoContainerRestaurantName{
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: var(--textColor);
+}
+.infoContainerDetail{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-top: 1px solid rgb(224, 224, 224);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.infoContainerDetailKey{
+    width: 43.75%;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--textColor);
+}
+.infoContainerDetailValue{
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--textColor)
+};

@@ -1,5 +1,6 @@
-import Navbar from "./components/navbar/navbar";
+import Navbar from "./components/navbar";
 import Footer from "../../components/footer/Footer";
+import Location from "./components/location";
 
 export default function CustomerSignup() {
   return (
@@ -34,122 +35,111 @@ export default function CustomerSignup() {
         ></path>
         </svg>
 
-        <div className="mt-10 pt-10"></div>
-        <div className="flex justify-center items-center mt-10 pt-10 mr-10 pr-10 -ml-10 -pl-10">
-        <div className="flex absolute z-20 items-center justify-center p-4 mr-10 pr-10 -ml-10 -pl-10">
-                <form className="relative mx-auto border w-full max-w-lg shadow-lg rounded-3xl bg-white p-6
-                xl:w-[650px] xl:h-auto xl:rounded-3xl xl:shadow-lg
-                md:w-[400px] md:h-auto md:rounded-2xl md:shadow-sm
-                2xs:w-[250px] 2xs:h-auto 2xs:rounded-xl 2xs:shadow-xs
-                ">
-                <div className="text-center">
-                    <h2 className="text-3xl font-medium text-black mb-10">Create Account</h2>
-                    <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    placeholder="First Name"
-                    required
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Last Name"
-                    required
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    <input
-                    type="password"
-                    id="password2"
-                    name="repeatPassword"
-                    placeholder="Repeat Password"
-                    required
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    +962 <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    placeholder="770000000"
-                    required
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-[412px] focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    <input
-                    type="text"
-                    id="vehicleNumber"
-                    name="vehicleNumber"
-                    placeholder="Vehicle Number"
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    <input
-                    type="text"
-                    id="nationalID"
-                    name="nationalID"
-                    placeholder="National ID"
-                    required
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    <input
-                    type="text"
-                    id="license"
-                    name="license"
-                    placeholder="License"
-                    required
-                    className="mt-2 mb-3 px-3 py-2 bg-gray-50 border-b border-gray-300 w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                    />
-                    <button
-                    type="submit"
-                    className="mt-4 bg-[#FFC245] hover:bg-[#101B0B] hover:text-[#FFC245] text-black font-medium w-full rounded-md px-4 py-2"
-                    >
-                    Open Account
-                    </button>
-                </div>
-                </form>
+        <div className="xl:mt-[6.5rem] xl:pt-[6.5rem]
+        lg:mt-[4.5rem] lg:pt-[4.5rem]
+        md:mt-[8.5rem] md:pt-[8.5rem]
+        2xs:mt-[8.5rem] 2xs:pt-[8.5rem]
+        "></div>
+
+        <div className="flex justify-center items-center xl:mt-[3.5rem] xl:pt-[3.5rem] xl:mr-[4.5rem] xl:pr-[4.5rem]
+        lg:mt-[6.5rem] lg:pt-[6.5rem] lg:mr-[2.5rem] lg:pr-[2.5rem]
+        md:mt-[4.5rem] md:pt-[4.5rem] md:mr-[2.5rem] md:pr-[2.5rem]
+        2xs:mt-[4.5rem] 2xs:pt-[4.5rem] 2xs:mr-[2.5rem] 2xs:pr-[2.5rem]
+        ">
+        <div className="flex absolute z-20 items-center justify-center p-4 xl:mr-[6.5rem] xl:pr-[6.5rem]
+        lg:mr-[4.5rem] lg:pr-[4.5rem]
+        md:mr-[2rem] md:pr-[2rem]
+        2xs:mr-[1.5rem] 2xs:pr-[1.5rem]
+        ">
+          <form className="relative mx-auto border shadow-lg rounded-3xl bg-white p-8
+            xl:w-[550px] xl:h-auto xl:rounded-3xl xl:shadow-lg
+            lg:w-[400px] lg:h-auto lg:rounded-3xl lg:shadow-lg
+            md:w-[300px] md:h-auto md:rounded-2xl md:shadow-sm
+            2xs:w-[200px] 2xs:h-auto 2xs:rounded-xl 2xs:shadow-xs
+          ">
+            <div className="text-center mb-4">
+              <h2 className=" font-medium text-black 
+              xl:text-3xl xl:mb-10
+              lg:text-2xl lg:mb-10
+              md:text-xl md:mb-8
+              2xs:text-md 2xs:mb-5
+              ">Create Account</h2>
+              <label htmlFor="firstName" className="block text-left">First Name<span className="text-red-900"> *</span>:</label>
+              <input type="text" id="firstName" name="firstName" placeholder="John" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              
+              <label htmlFor="lastName" className="block text-left mt-4">Last Name<span className="text-red-900"> *</span>:</label>
+              <input type="text" id="lastName" name="lastName" placeholder="Doe" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              
+              <label htmlFor="email" className="block text-left mt-4">Email<span className="text-red-900"> *</span>:</label>
+              <input type="email" id="email" name="email" placeholder="example@example.com" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              
+              <label htmlFor="password" className="block text-left mt-4">Password<span className="text-red-900"> *</span>:</label>
+              <input type="password" id="password" name="password" placeholder="Password123" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              
+              <label htmlFor="password2" className="block text-left mt-4">Repeat Password<span className="text-red-900"> *</span>:</label>
+              <input type="password" id="password2" name="repeatPassword" placeholder="Password123" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              
+              <label htmlFor="phone" className="block text-left mt-4">Phone<span className="text-red-900"> *</span>:</label>
+              <div className="flex w-full">
+                <span className="bg-gray-50 border-b border-gray-300 px-3 py-2">+962</span>
+                <input type="tel" id="phone" name="phone" placeholder="770000000" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              </div>
+              
+              <Location />
+              
+              <label htmlFor="streetName" className="block text-left mt-4">Street Name:</label>
+              <input type="text" id="streetName" name="streetName" placeholder="123 Main St" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              
+              <label htmlFor="buildingNumber" className="block text-left mt-4">Building Number:</label>
+              <input type="text" id="buildingNumber" name="buildingNumber" placeholder="123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              
+              <label htmlFor="profilePicture" className="block text-left mt-4">Profile Picture:</label>
+              <input 
+                type="file" 
+                id="profilePicture" 
+                name="profilePicture" 
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" 
+                accept="image/ *" 
+              />
+              <button type="submit" className="mt-4 bg-[#FFC245] hover:bg-[#101B0B] hover:text-[#FFC245] text-black font-medium w-full rounded-md px-4 py-2">
+                Open Account
+              </button>
             </div>
-            </div>
-            <div className="grid grid-cols-3 bg-[#101B0B] w-full -mt-10 -mb-10">
-                {/* Two empty divs for the first two columns */}
+          </form>
+        </div>
+      </div>
+
+
+
+
+
+
+            <div className="grid grid-cols-3 bg-[#101B0B] w-full -mt-10 -pt-10">  
                 <div></div>
                 <div></div>
                 
-                <div className="flex justify-center items-center relative ">
-                    <p className="text-white text-right p-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                    irure dolor in reprehenderit in voluptate velit esse cillum dolore 
-                    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                <div className="flex flex-col justify-left items-left relative text-white -mt-10 -pt-10 pr-10 -ml-10">
+                  <div className="text-2xl -mt-10 -pt-10 mb-2 font-bold"><p>Welcome to FoodDrop!</p></div>
+                    <div className="py-4 pr-10"><p>
+                    where your cravings meet convenience!
+                     Join our community today and embark on a journey of culinary discovery,
+                      right from the comfort of your home.<br /><br /> With FoodDrop, you gain access to'
+                       a wide array of restaurants and cuisines, ensuring that no matter
+                        what your taste buds are yearning for, we've got you covered. 
+                        Signing up is the first step towards enjoying fast, reliable,
+                         and hassle-free food delivery. Be it a cozy family dinner,
+                          a quick lunch at the office, or those late-night snacks, 
+                          FoodDrop is here to cater to every appetite. 
                     </p>
+                    </div>
+                    <div className="pt-4 pr-5 font-bold mb-10 pb-10"><p>Let’s make every meal memorable.<br />
+                           Sign up now and start exploring the flavors that await you!</p></div>
                 </div>
             </div>
 
-
-      <Footer />
+      <div className="mt-10 pt-10">
+        <Footer />
+      </div>
     </div>
   );
 }

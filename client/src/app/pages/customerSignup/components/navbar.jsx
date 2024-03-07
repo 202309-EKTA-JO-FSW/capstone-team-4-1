@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
-import Login from "../../../../components/navbar/login";
-import LoginModal from "../../../loginPage/index";
+import Login from "../../../components/navbar/login";
+import LoginModal from "../../loginPage/index";
 import Link from "next/link";
 function Navbar() {
   const [showLoginModal, setShowLoginModal] = useState(false);

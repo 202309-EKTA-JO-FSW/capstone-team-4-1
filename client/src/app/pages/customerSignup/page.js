@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-// import { useParams } from "next/navigation";
 import Location from "./components/location";
 
 export default function CustomerSignup() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -15,6 +15,7 @@ export default function CustomerSignup() {
     location: '',
     street: '',
     buildingNo: '',
+    avatar: ''
   });
 
   const handleChange = (e) => {
@@ -33,42 +34,74 @@ export default function CustomerSignup() {
     });
   }, []);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  console.log(formData);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
 
-  try {
-    const response = await fetch(`http://localhost:3001/user/customer/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-  });
+    const newErrors = {};
 
-      
-  if (response.ok) {
-    setFormSubmitted(true);
-    console.log('Form submitted successfully!');
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      repeatPassword: '',
-      phone: '',
-      location: '',
-      street: '',
-      buildingNo: '',
-    });
-  } else {
-    console.error('Failed to submit form');
-  }
+    if (!formData.firstName) {
+      newErrors.firstName = 'First Name is required';
+    }
+    if (!formData.lastName) {
+      newErrors.lastName = 'Last Name is required';
+    }
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    }
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    }
+    if (!formData.repeatPassword) {
+      newErrors.repeatPassword = 'Enter the password again';
+    }
+    if (!formData.phone) {
+      newErrors.phone = 'Phone Number is required';
+    }
+    if (!formData.street) {
+      newErrors.street = 'Street Address is required';
+    }
+    if (!formData.buildingNo) {
+      newErrors.buildingNo = 'Building Number is required';
+    }
+    
+    setErrors(newErrors);
 
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const response = await fetch(`http://localhost:3001/user/customer/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+      });
+    
+          
+      if (response.ok) {
+        setFormSubmitted(true);
+        console.log('Form submitted successfully!');
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          repeatPassword: '',
+          phone: '',
+          location: '',
+          street: '',
+          buildingNo: '',
+          avatar: ''
+        });
+      } else {
+        console.error('Failed to submit form');
+      }
+    
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  };
 
   return (
     <div className="relative bg-[#101B0B] overflow-hidden text-black">
@@ -130,42 +163,53 @@ const handleSubmit = async (e) => {
               md:text-xl md:mb-8
               2xs:text-md 2xs:mb-5
               ">Create Account</h2>
+              <div className="flex justify-center">{formSubmitted && <p className="text-[#FFC245] text-lg">Account created successfully!</p>}</div>
               <label htmlFor="firstName" className="block text-left">First Name<span className="text-red-900"> *</span>:</label>
               <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} required placeholder="John" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.firstName && <span className="text-red-500">{errors.firstName}</span>}
               
               <label htmlFor="lastName" className="block text-left mt-4">Last Name<span className="text-red-900"> *</span>:</label>
               <input type="text" id="lastName" name="lastName" placeholder="Doe" value={formData.lastName} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.lastName && <span className="text-red-500">{errors.lastName}</span>}
               
               <label htmlFor="email" className="block text-left mt-4">Email<span className="text-red-900"> *</span>:</label>
               <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required placeholder="example@example.com" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.email && <span className="text-red-500">{errors.email}</span>}
               
               <label htmlFor="password" className="block text-left mt-4">Password<span className="text-red-900"> *</span>:</label>
               <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required placeholder="Password123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.password && <span className="text-red-500">{errors.password}</span>}
               
               <label htmlFor="repeatPassword" className="block text-left mt-4">Repeat Password<span className="text-red-900"> *</span>:</label>
               <input type="password" id="repeatPassword" name="repeatPassword" value={formData.repeatPassword} onChange={handleChange} required placeholder="Password123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.repeatPassword && <span className="text-red-500">{errors.repeatPassword}</span>}
               
               <label htmlFor="phone" className="block text-left mt-4">Phone<span className="text-red-900"> *</span>:</label>
               <div className="flex w-full">
                 <span className="bg-gray-50 border-b border-gray-300 px-3 py-2">+962</span>
                 <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required placeholder="770000000" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+                {errors.phone && <span className="text-red-500">{errors.phone}</span>}
               </div>
               
               <Location />
               
               <label htmlFor="street" className="block text-left mt-4">Street Name:</label>
               <input type="text" id="street" name="street" value={formData.street} onChange={handleChange} required placeholder="123 Main St" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.street && <span className="text-red-500">{errors.street}</span>}
               
               <label htmlFor="buildingNo" className="block text-left mt-4">Building Number:</label>
               <input type="text" id="buildingNo" name="buildingNo" value={formData.buildingNo} onChange={handleChange} required placeholder="123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.buildingNo && <span className="text-red-500">{errors.buildingNo}</span>}
               
-              <label htmlFor="profilePicture" className="block text-left mt-4">Profile Picture:</label>
+              <label htmlFor="avatar" className="block text-left mt-4">Profile Picture:</label>
               <input 
                 type="file" 
-                id="profilePicture" 
-                name="profilePicture" 
+                id="avatar" 
+                name="avatar"
+                value={formData.avatar}
+                onChange={handleChange}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" 
-                accept="image/ *" 
+                accept="image/*" 
               />
               <button type="submit" className="mt-4 bg-[#FFC245] hover:bg-[#101B0B] hover:text-[#FFC245] text-black font-medium w-full rounded-md px-4 py-2">
                 Open Account

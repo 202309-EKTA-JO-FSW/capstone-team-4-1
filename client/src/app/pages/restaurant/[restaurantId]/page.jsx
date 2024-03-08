@@ -98,7 +98,7 @@ const RestaurantProfile = () => {
           </div>
         </div>
       </div>
-      {showForm && <Form restaurantId={window.location.pathname.split('/')[2]} closeForm={() => setShowForm(false)} />}
+      {showForm && <Form restaurantId={restaurantId} closeForm={() => setShowForm(false)} />}
       <Footer />
     </div>
   );

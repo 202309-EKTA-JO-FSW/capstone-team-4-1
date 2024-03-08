@@ -135,7 +135,7 @@ export default function CustomerSignup() {
                 </div>
             </div>
 
-      <div className="mt-10 pt-10">
+      <div className="mt-10 pt-10 bg-[#101B0B]">
 
       </div>
     </div>

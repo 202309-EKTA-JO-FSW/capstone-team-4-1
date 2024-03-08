@@ -28,9 +28,9 @@ function Navbar() {
           <div className="py-2 px-2 font-bold cursor-pointer hover:text-[#B92719]">
             <Login onLoginClick={() => setShowLoginModal(true)} />
           </div>
-          {/* <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
-            <Customer />
-          </div> */}
+           <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
+           <Link href="/pages/customerSignup">Get Started</Link>
+          </div>
           <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
             <Link href="/pages/customer/restaurantList">All restaurants</Link>
           </div>

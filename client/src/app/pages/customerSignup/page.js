@@ -38,68 +38,38 @@ export default function CustomerSignup() {
     e.preventDefault();
     console.log(formData);
 
-    const newErrors = {};
-
-    if (!formData.firstName) {
-      newErrors.firstName = 'First Name is required';
-    }
-    if (!formData.lastName) {
-      newErrors.lastName = 'Last Name is required';
-    }
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    }
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    }
-    if (!formData.repeatPassword) {
-      newErrors.repeatPassword = 'Enter the password again';
-    }
-    if (!formData.phone) {
-      newErrors.phone = 'Phone Number is required';
-    }
-    if (!formData.street) {
-      newErrors.street = 'Street Address is required';
-    }
-    if (!formData.buildingNo) {
-      newErrors.buildingNo = 'Building Number is required';
-    }
-    
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      try {
-        const response = await fetch(`http://localhost:3001/user/customer/register`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
+    try {
+      const response = await fetch(`http://localhost:3001/user/customer/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    });
+  
+        
+    if (response.ok) {
+      setFormSubmitted(true);
+      console.log('Form submitted successfully!');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        repeatPassword: '',
+        phone: '',
+        location: '',
+        street: '',
+        buildingNo: '',
+        avatar: ''
       });
-    
-          
-      if (response.ok) {
-        setFormSubmitted(true);
-        console.log('Form submitted successfully!');
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
-          repeatPassword: '',
-          phone: '',
-          location: '',
-          street: '',
-          buildingNo: '',
-          avatar: ''
-        });
-      } else {
-        console.error('Failed to submit form');
-      }
-    
-      } catch (error) {
-        console.error('Error:', error);
-      }
+    } else {
+      setErrors(response.errors.reduce((acc, error) => ({ ...acc, [error.param]: error.msg }), {}));
+      console.error('Failed to submit form');
+    }
+  
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 

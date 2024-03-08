@@ -53,7 +53,7 @@ export default function LoginPage({ onClose }) {
           router.push(`pages/customer/restaurantList`)
         }
         if (user.role !== 'customer') {
-          router.push(`/pages/${userRole}/profile/${userId}`)
+          router.push(`/pages/${userRole}/${userId}`)
         }
       }
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
 import Lottie from 'react-lottie';
-import Stars from "./components/starts";
+import Stars from "./components/stars";
 import animationData from '../../../lotties/loadingAnimation';
 import Form from "./dishform/page"; // Ensure this path matches where your Form component is located
 

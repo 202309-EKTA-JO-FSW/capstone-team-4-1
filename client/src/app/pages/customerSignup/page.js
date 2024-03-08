@@ -1,7 +1,42 @@
-import Footer from "@/app/components/footer/footer";
+"use client";
+import React, { useState, useEffect } from "react";
+// import { useParams } from "next/navigation";
 import Location from "./components/location";
 
 export default function CustomerSignup() {
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    repeatPassword: '',
+    phone: '',
+    location: '',
+    street: '',
+    buildingNo: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  useEffect(() => {
+    const inputFields = document.querySelectorAll("input");
+    inputFields.forEach((input) => {
+      input.addEventListener("input", () => {
+        setFormSubmitted(false);
+      });
+    });
+  }, []);
+
+
+
+
+
   return (
     <div className="relative bg-[#101B0B] overflow-hidden text-black">
 
@@ -49,7 +84,7 @@ export default function CustomerSignup() {
         md:mr-[2rem] md:pr-[2rem]
         2xs:mr-[1.5rem] 2xs:pr-[1.5rem]
         ">
-          <form className="relative mx-auto border shadow-lg rounded-3xl bg-white p-8
+          <form onSubmit={handleSubmit} className="relative mx-auto border shadow-lg rounded-3xl bg-white p-8
             xl:w-[550px] xl:h-auto xl:rounded-3xl xl:shadow-lg
             lg:w-[400px] lg:h-auto lg:rounded-3xl lg:shadow-lg
             md:w-[300px] md:h-auto md:rounded-2xl md:shadow-sm
@@ -63,33 +98,33 @@ export default function CustomerSignup() {
               2xs:text-md 2xs:mb-5
               ">Create Account</h2>
               <label htmlFor="firstName" className="block text-left">First Name<span className="text-red-900"> *</span>:</label>
-              <input type="text" id="firstName" name="firstName" placeholder="John" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="text" id="firstName" name="firstName" value={formData.firstName} required placeholder="John"  className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               
               <label htmlFor="lastName" className="block text-left mt-4">Last Name<span className="text-red-900"> *</span>:</label>
-              <input type="text" id="lastName" name="lastName" placeholder="Doe" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="text" id="lastName" name="lastName" placeholder="Doe" value={formData.lastName}  required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               
               <label htmlFor="email" className="block text-left mt-4">Email<span className="text-red-900"> *</span>:</label>
-              <input type="email" id="email" name="email" placeholder="example@example.com" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="email" id="email" name="email" value={formData.email} required placeholder="example@example.com" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               
               <label htmlFor="password" className="block text-left mt-4">Password<span className="text-red-900"> *</span>:</label>
-              <input type="password" id="password" name="password" placeholder="Password123" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="password" id="password" name="password" value={formData.password} required placeholder="Password123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               
               <label htmlFor="password2" className="block text-left mt-4">Repeat Password<span className="text-red-900"> *</span>:</label>
-              <input type="password" id="password2" name="repeatPassword" placeholder="Password123" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="password" id="password2" name="repeatPassword" value={formData.repeatPassword} required placeholder="Password123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               
               <label htmlFor="phone" className="block text-left mt-4">Phone<span className="text-red-900"> *</span>:</label>
               <div className="flex w-full">
                 <span className="bg-gray-50 border-b border-gray-300 px-3 py-2">+962</span>
-                <input type="tel" id="phone" name="phone" placeholder="770000000" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+                <input type="tel" id="phone" name="phone" value={formData.phone} required placeholder="770000000" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               </div>
               
               <Location />
               
               <label htmlFor="streetName" className="block text-left mt-4">Street Name:</label>
-              <input type="text" id="streetName" name="streetName" placeholder="123 Main St" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="text" id="streetName" name="streetName" value={formData.street} required placeholder="123 Main St" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               
               <label htmlFor="buildingNumber" className="block text-left mt-4">Building Number:</label>
-              <input type="text" id="buildingNumber" name="buildingNumber" placeholder="123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="text" id="buildingNo" name="buildingNo" value={formData.buildingNo} required placeholder="123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               
               <label htmlFor="profilePicture" className="block text-left mt-4">Profile Picture:</label>
               <input 

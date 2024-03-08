@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
-import Customer from "./customer";
 import Login from "./login";
 import LoginModal from "../../pages/loginPage/index";
+import Link from "next/link";
 function Navbar() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   return (

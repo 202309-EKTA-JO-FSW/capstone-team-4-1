@@ -1,3 +1,7 @@
+
+import Navbar from "../../components/navbar/navbar";
+import Footer from "../../components/footer/footer";
+
 export default function LandingPage() {
   return (
     <div className="relative bg-[#fff] overflow-hidden text-black">

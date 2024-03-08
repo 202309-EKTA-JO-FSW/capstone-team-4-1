@@ -50,7 +50,7 @@ export default function LoginPage({ onClose }) {
       >
         <span className="sr-only">Close</span>
         <svg 
-          className="transform transition-transform duration-200 ease-in-out hover:rotate-45 hover:text-[#FFC245]
+          className="transform transition-transform duration-200 ease-in-out hover:rotate-45 hover:text-[#101B0B]
           xl:h-6 xl:w-6
           md:h-5 md:w-5
           2xs:h-4 2xs:w-4" 

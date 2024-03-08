@@ -5,6 +5,7 @@ export function Home() {
       <div className="relative bg-[#fff] overflow-hidden text-black">
         <HomePage />
       </div>
+
     </main>
   );
 }

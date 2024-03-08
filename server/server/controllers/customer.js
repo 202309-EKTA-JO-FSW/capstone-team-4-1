@@ -6,11 +6,19 @@ const Dish = require('../models/dish');
 // Get All Restaurants:
 
 const getAllRestaurants = async (req, res) => {
+  const { title, cuisine, area, rate, deliveryTime } = req.query;
+  const query = {};
+  if (title) query.title = { $regex: new RegExp(title, 'i') };//$regex: Provides regular expression capabilities for pattern matching strings in queries. i: Case-insensitive
+  if (area) query.area = { $regex: new RegExp(area, 'i') };
+  if (cuisine) query.cuisine = { $regex: new RegExp(cuisine, 'i') };
+  if (rate) query.rate = rate;
+  if (deliveryTime) query.deliveryTime = { $lte: deliveryTime };
+
   try {
-    const restaurants = await RestaurantModel.find({})
-    res.status(200).json(restaurants)
+    const restaurants = await RestaurantModel.find(query);
+    res.status(200).json(restaurants);
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
 }
 

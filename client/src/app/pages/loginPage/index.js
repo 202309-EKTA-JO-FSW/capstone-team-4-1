@@ -75,7 +75,7 @@ export default function LoginPage({ onClose }) {
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 overflow-y-auto h-full w-full">
       <div className="relative mx-auto border w-[650px] shadow-lg rounded-3xl bg-white
       xl:top-20 xl:p-5 xl:w-[650px] xl:h-auto xl:rounded-3xl xl:shadow-lg
       md:top-20 md:p-3 md:w-[400px] md:h-auto md:rounded-2xl md:shadow-sm
@@ -91,7 +91,7 @@ export default function LoginPage({ onClose }) {
       >
         <span className="sr-only">Close</span>
         <svg 
-          className="transform transition-transform duration-200 ease-in-out hover:rotate-45 hover:text-[#FFC245]
+          className="transform transition-transform duration-200 ease-in-out hover:rotate-45 hover:text-[#101B0B]
           xl:h-6 xl:w-6
           md:h-5 md:w-5
           2xs:h-4 2xs:w-4" 

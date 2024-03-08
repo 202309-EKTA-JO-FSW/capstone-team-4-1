@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const DB_URI = `mongodb+srv://dbAdmin:user123user@cluster0.y9vcitx.mongodb.net/`;
 
 const url = DB_URI;
+console.log(  "mongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoosemongoose",url)
 
 const connectToMongo = () => {
   mongoose.connect(url, { useNewUrlParser: true });
-
   db = mongoose.connection;
 
   db.once("open", () => {

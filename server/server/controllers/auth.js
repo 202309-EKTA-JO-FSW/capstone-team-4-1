@@ -31,8 +31,8 @@ const login = async (req, res, next) => {
         return res.status(200).json({ user, token });
       }
     }
-
-    // res.json({ token });
+    res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 }); // maxAge is in milliseconds (24 hours)
+    res.json({ token });
   } catch (error) {
     next(error);
   }

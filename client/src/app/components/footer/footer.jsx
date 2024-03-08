@@ -39,7 +39,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="relative top-0 left-0 w-full">
+    <footer className="relative top-0 left-0 w-full z-10">
       <svg className="pt-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 160">
         <path fill="#101b0b" fillOpacity="1" d="M0,80L80,74.7C160,69,320,59,480,64C640,69,800,90.5,960,90.7C1120,91,1280,69,1360,58.7L1440,48L1440,160L1360,160C1280,160,1120,160,960,160C800,160,640,160,480,160C320,160,160,160,80,160L0,160Z"></path>
       </svg>
@@ -68,7 +68,7 @@ const Footer = () => {
                your premier choice for savoring the flavors of the world! 🍽️ 
                Taste the adventure from the comfort of your home as we bring gourmet experiences
                 right to your doorstep. Explore, indulge, and enhance your dining moments with us –
-                 where every dish has a tale to tell. 🥡✨
+                 where every dish has a tale to tell.
               </p>
             </div>
             {/* <div className="md:flex md:gap-8 md:items-start"> */}

@@ -6,6 +6,14 @@ const verifyAdmin = (req, res, next) => {
     res.status(401).json({ message: 'Unauthorized' }); 
   }
 };
+const verifyUser = (userRole)=>{
+  return (req, res, next) => {
+  if (req.user && userRole.includes(req.user.role)) {
+    next();
+  } else {
+    res.status(401).json({ message: 'Unauthorized' }); 
+  }}
+};
 
 const verifyCustomer = (req, res, next) => {
   if (req.user && req.user.role === 'customer') {
@@ -33,4 +41,4 @@ const verifyRider = (req, res, next) => {
 };
 
 
-module.exports = { verifyAdmin, verifyCustomer, verifyRestauarant, verifyRider };
+module.exports = { verifyAdmin, verifyCustomer, verifyRestauarant, verifyRider,verifyUser };

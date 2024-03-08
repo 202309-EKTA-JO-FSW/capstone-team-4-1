@@ -59,9 +59,11 @@ const customerSchema = new mongoose.Schema({
     },
     street: {
         type: String,
+        required: true,
     },
     buildingNo: {
         type: Number,
+        required: true,
     },
     role: {
         type: String,

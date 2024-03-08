@@ -67,8 +67,8 @@ const customerSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['Customer', 'Rider', 'Restaurant', 'Admin'],
-        default: 'Customer',
+        enum: ['customer', 'rider', 'restaurant', 'admin'],
+        default: 'customer',
         required: true
     },
     balance: {

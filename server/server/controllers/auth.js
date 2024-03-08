@@ -38,11 +38,11 @@ const login = async (req, res, next) => {
 
 // Register a new admin
 const registerAdmin = async (req, res, next) => {
-  const { firstName, lastName, email, password, phone, role } = req.body;
+  const { firstName, lastName, email, password, phone, location, street, buildingNo, role } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new Admin({ firstName, lastName, email, password: hashedPassword, phone, role });
+    const user = new Admin({ firstName, lastName, email, password: hashedPassword, phone, location, street, buildingNo, role });
     await user.save();
     res.json({ message: 'Registration successful' });
   } catch (error) {

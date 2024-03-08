@@ -27,8 +27,11 @@ const login = async (req, res, next) => {
         token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
           expiresIn: '1 hour'
         });
+
+        return res.status(200).json({ user, token });
       }
     }
+    
     res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 }); // maxAge is in milliseconds (24 hours)
     res.json({ token });
   } catch (error) {

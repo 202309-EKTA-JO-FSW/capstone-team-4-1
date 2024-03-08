@@ -1,11 +1,13 @@
-import Test from "./components/Test";
 import HomePage from "./pages/landingPage/index";
-import CustomerSignup from "./pages/customerSignup";
-export default function Home() {
+export function Home() {
   return (
     <main className="">
-        {/* <HomePage /> */}
-        <CustomerSignup />
+      <div className="relative bg-[#fff] overflow-hidden text-black">
+        <HomePage />
+      </div>
+
     </main>
   );
 }
+
+export default Home;

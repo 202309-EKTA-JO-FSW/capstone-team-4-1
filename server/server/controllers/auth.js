@@ -29,7 +29,7 @@ const login = async (req, res, next) => {
         });
       }
     }
-
+    res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 }); // maxAge is in milliseconds (24 hours)
     res.json({ token });
   } catch (error) {
     next(error);

@@ -1,0 +1,44 @@
+.restaurantsList{
+    display: flex;
+    flex-direction: column;
+    padding-left: 7.5%;
+    padding-right: 7.5%;
+}
+.restaurantList{
+    margin-left: 15px;
+    width: 100%;
+}
+.restaurantListSub{
+    display: flex;
+    justify-content: start;
+}
+.restaurant{
+    width: 25%;
+    margin-bottom: 20px;
+}
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.14;
+    margin: 0px 0px 32px;
+    color: #000000;
+    word-wrap: anywhere;
+}
+
+.restaurantImage{
+    height: 160px;
+    border-radius: 10px;
+}
+.restaurantName{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 8px 4px;
+    font-display: fallback;
+    font-family: "Glovo", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

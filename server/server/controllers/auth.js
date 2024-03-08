@@ -57,6 +57,7 @@ const registerCustomer = async (req, res, next) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new Customer({ firstName, lastName, email, password: hashedPassword, phone, location, street, buildingNo, avatar, role });
+    await user.validate();
     await user.save();
     res.json({ message: 'Registration successful' });
   } catch (error) {

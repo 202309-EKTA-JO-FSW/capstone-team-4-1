@@ -4,14 +4,25 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
+import Lottie from 'react-lottie';
+import animationData from '../../../lotties/loadingAnimation';
 
 const RestaurantProfile = () => {
+  
   const router = useRouter();
   const params = useParams();
   const restaurantId = params.restaurantId;
   const [restaurant, setRestaurant] = useState(null);
   const [menu, setMenu] = useState(null);
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
   useEffect(() => {
     fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`)
         .then(res => res.json())
@@ -25,7 +36,15 @@ const RestaurantProfile = () => {
   }, [restaurantId]);
 
   if (!restaurant || !menu) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex justify-center items-center h-screen w-screen">
+        <Lottie 
+          options={defaultOptions}
+          height={200}
+          width={200}
+        />
+      </div>
+    );    
   }
 
   const handleClick = () => {

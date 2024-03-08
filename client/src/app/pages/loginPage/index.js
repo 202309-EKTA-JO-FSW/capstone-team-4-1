@@ -49,8 +49,11 @@ export default function LoginPage({ onClose }) {
         const userId = user._id;
         const userRole = user.role;
 
-        if (user) {
-          router.push(`/pages/${userRole}/${userId}`)
+        if (user.role === 'customer') {
+          router.push(`pages/customer/restaurantList`)
+        }
+        if (user.role !== 'customer') {
+          router.push(`/pages/${userRole}/profile/${userId}`)
         }
       }
 

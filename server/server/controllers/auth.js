@@ -52,11 +52,11 @@ const registerAdmin = async (req, res, next) => {
 
 // Register a new customer
 const registerCustomer = async (req, res, next) => {
-  const { firstName, lastName, email, password, phone, location, street, buildingNo, role } = req.body;
+  const { firstName, lastName, email, password, phone, location, street, buildingNo, avatar, role } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new Customer({ firstName, lastName, email, password: hashedPassword, phone, location, street, buildingNo, role });
+    const user = new Customer({ firstName, lastName, email, password: hashedPassword, phone, location, street, buildingNo, avatar, role });
     await user.save();
     res.json({ message: 'Registration successful' });
   } catch (error) {

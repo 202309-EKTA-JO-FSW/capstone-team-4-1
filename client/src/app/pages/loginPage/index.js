@@ -34,7 +34,7 @@ export default function LoginPage({ onClose }) {
   const clientId = "63738745837-k81ls7845ijo98r0k1bk2ktoema1akf0.apps.googleusercontent.com";
   return (
     <GoogleOAuthProvider clientId={clientId}>
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 overflow-y-auto h-full w-full">
       <div className="relative mx-auto border w-[650px] shadow-lg rounded-3xl bg-white
       xl:top-20 xl:p-5 xl:w-[650px] xl:h-auto xl:rounded-3xl xl:shadow-lg
       md:top-20 md:p-3 md:w-[400px] md:h-auto md:rounded-2xl md:shadow-sm

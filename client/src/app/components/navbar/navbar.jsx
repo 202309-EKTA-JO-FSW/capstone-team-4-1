@@ -9,7 +9,7 @@ function Navbar() {
   return (
     <div className="fixed top-0 left-0 w-full z-50">
       <div className="flex firstPiece items-center space-x-2 bg-[#101B0B] sticky">
-        <img
+      <Link href={`/`}><img
           src="/logo.png"
           className="
       2xs:w-25 2xs:h-8 2xs:pl-4 2xs:pt-2
@@ -19,7 +19,7 @@ function Navbar() {
       xl:w-[250px] xl:h-auto xl:pl-10 xl:pt-10
       "
           alt="logo"
-        />
+        /></Link>
         <div
           className="flex justify-end text-[#FFC245] w-full 
           xl:space-x-8 xl:pr-10  xl:text-[16px] 
@@ -28,9 +28,9 @@ function Navbar() {
           <div className="py-2 px-2 font-bold cursor-pointer hover:text-[#B92719]">
             <Login onLoginClick={() => setShowLoginModal(true)} />
           </div>
-          <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
+          {/* <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
             <Customer />
-          </div>
+          </div> */}
           <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
             <Link href="/pages/customer/restaurantList">All restaurants</Link>
           </div>

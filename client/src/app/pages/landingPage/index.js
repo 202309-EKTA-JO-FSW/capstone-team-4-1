@@ -1,7 +1,4 @@
-
-import Navbar from "../../components/navbar/navbar";
-import Footer from "../../components/footer/footer";
-
+import Link from "next/link";
 export default function LandingPage() {
   return (
     <div className="relative bg-[#fff] overflow-hidden text-black">
@@ -117,7 +114,7 @@ export default function LandingPage() {
             and highly competitive earnings <br />
             by delivering through FoodDrop today.
           </p>
-          <button
+          <Link href="/pages/customerSignup"><button
             className="bg-[#FFC245] hover:bg-[#B92719] text-black text-center mx-auto rounded-xl font-bold border-transparent hover:border-black
               xl:mt-5 xl:py-2 xl:px-8 xl:border-2 xl:text-md
               md:mt-5 md:py-2 md:px-4 md:border-1 md:text-sm
@@ -125,7 +122,7 @@ export default function LandingPage() {
               "
           >
             Register here
-          </button>
+          </button></Link>
         </div>
 
         <div

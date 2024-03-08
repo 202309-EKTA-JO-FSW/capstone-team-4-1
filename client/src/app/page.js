@@ -2,7 +2,7 @@ import HomePage from "./pages/landingPage/index";
 export function Home() {
   return (
     <main className="">
-      <div className="relative bg-[#fff] overflow-hidden text-black">
+      <div className="relative overflow-hidden text-black">
         <HomePage />
       </div>
 

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
-const path = require('path');
 
 const customerSchema = new mongoose.Schema({
     firstName: {
@@ -83,8 +82,6 @@ const customerSchema = new mongoose.Schema({
     },
 },{ timestamps: true });
 
-// Path to default image
-// const DEFAULT_AVATAR_PATH = path.join(__dirname, 'public', 'images', 'default-avatar.png');
   
 // Compare the given password with the hashed password in the database
 customerSchema.methods.comparePassword = async function (password) {

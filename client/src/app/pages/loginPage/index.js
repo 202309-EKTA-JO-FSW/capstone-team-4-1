@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Captcha from './components/captcha';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
@@ -10,10 +10,20 @@ export default function LoginPage({ onClose }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [captchaValue, setCaptchaValue] = useState(null);
+  const [submitFail, setSubmitFail] = useState(null);
 
   const handleCaptchaChange = (value) => {
     setCaptchaValue(value);
   };
+
+  useEffect(() => {
+    const inputFields = document.querySelectorAll("input");
+    inputFields.forEach((input) => {
+      input.addEventListener("input", () => {
+        setSubmitFail(false);
+      });
+    });
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,6 +43,7 @@ export default function LoginPage({ onClose }) {
       });
 
       if (response.ok) {
+        setSubmitFail(false);
         const data = await response.json();
         const user = data.user;
         const userId = user._id;
@@ -41,15 +52,9 @@ export default function LoginPage({ onClose }) {
         if (user) {
           router.push(`/pages/${userRole}/${userId}`)
         }
-
-      } else {
-        const errorData = await response.json();
-        if (errorData.message) {
-          alert(errorData.message);
-        } else {
-          alert('Invalid email or password. Please try again.');
-        }
       }
+
+      setSubmitFail(true);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -63,8 +68,8 @@ export default function LoginPage({ onClose }) {
     console.error('Google login failed:', error);
   };
 
-
   const clientId = "63738745837-k81ls7845ijo98r0k1bk2ktoema1akf0.apps.googleusercontent.com";
+
   return (
     <GoogleOAuthProvider clientId={clientId}>
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
@@ -104,6 +109,7 @@ export default function LoginPage({ onClose }) {
           ">Login</h2>
           <form onSubmit={handleSubmit} className="px-7 pb-3
           xl:mt-8 md:mt-5 2xs:mt-3">
+          <div className="flex justify-center">{submitFail && <p className="text-[#FFC245] text-lg">Invalid email or password. Please try again.</p>}</div>
             <input
               type="email"
               name="email"

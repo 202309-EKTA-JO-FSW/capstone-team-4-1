@@ -203,7 +203,7 @@ export default function LoginPage({ onClose }) {
               <p className="xl:text-sm md:text-[12px] 2xs:text-[8px]">
                 Don't have an account?{" "}
                 <a
-                  href="#"
+                  href="/pages/customerSignup"
                   className="text-[#FFC245] hover:text-[#101B0B] font-bold"
                 >
                   Create an account

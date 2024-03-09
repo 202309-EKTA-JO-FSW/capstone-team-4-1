@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
 import Lottie from 'react-lottie';
 import Stars from "./components/stars";
-import SearchBar from "./components/search";
 import animationData from '../../../lotties/loadingAnimation';
-import Form from "./dishform/page"; // Ensure this path matches where your Form component is located
+import Form from "./dishform/page";
+import { FaSearch } from 'react-icons/fa'
 
 const RestaurantProfile = () => {
   const params = useParams();
@@ -16,6 +16,7 @@ const RestaurantProfile = () => {
   const [restaurant, setRestaurant] = useState();
   const [menu, setMenu] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -29,17 +30,26 @@ const RestaurantProfile = () => {
     fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`)
         .then(res => res.json())
         .then(data => setRestaurant(data))
-    fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`)
-      .then(res => res.json())
-      .then(data => setMenu(data))
   }, [restaurantId]);
 
+  function handleInputChange(e) {
+    setSearchInput(e.target.value);
+    // setSearchInput([]);
+    // setDishes([]);
+  }
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`)
-  //       .then(res => res.json())
-  //       .then(data => setMenu(data))
-  // }, [restaurantId]);
+  useEffect(() => {
+    if (searchInput === '') {
+      fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`)
+        .then(res => res.json())
+        .then(data => setMenu(data))
+    }
+    if (searchInput !== '') {
+      fetch(`http://localhost:3001/restaurant/${restaurantId}/title?query=${searchInput}`)
+        .then(res => res.json())
+        .then(data => setMenu(data))
+    }
+  }, [searchInput]);
 
 
   if (!restaurant || !menu) {
@@ -85,7 +95,20 @@ const RestaurantProfile = () => {
         <div className="flex justify-center items-center">
           <button className=" bg-[#FFC245] text-black text-center w-3/4 my-5 py-2 px-8 rounded-xl font-bold hover:bg-[#e69b05]" onClick={() => setShowForm(true)}>Add Dish</button>
         </div>
-        <SearchBar />
+
+
+        <div className="flex items-center bg-gray-200 p-2 rounded-md">
+        <FaSearch className="text-gray-600" />
+        <input
+          type="text"
+          placeholder="Search for dishes..."
+          className="w-full pl-2 py-1 rounded-md focus:outline-none"
+          value={searchInput}
+          onChange={handleInputChange}
+        />
+        </div>
+
+
         <div className="my-10 p-4 overflow-y-auto" style={{ maxHeight: '400px' }}>
           <div className="flex flex-col">
             {menu && menu.length > 0 ? (

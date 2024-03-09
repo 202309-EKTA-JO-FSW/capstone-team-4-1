@@ -20,11 +20,6 @@
     align-items: start;
 }
 
-.restaurantCardHeaderImage {
-    width: 120px;
-    max-height: 120px;
-}
-
 .restaurantCardHeaderContent {
     margin-left: 20px;
     margin-right: 20px;
@@ -91,7 +86,6 @@
     font-weight: 500 !important;
 }
 
-.categoryCard {}
 
 .categoryToggleHeader {
     display: flex;
@@ -108,7 +102,6 @@
     cursor: pointer;
 }
 
-.categoryCardContent {}
 
 .dish {
     display: flex;

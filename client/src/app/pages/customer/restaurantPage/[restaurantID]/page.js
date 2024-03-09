@@ -34,7 +34,11 @@ const SingleRestaurantPage = ({ params }) => {
   const fetchRestaurant = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/customer/restaurant/${params.restaurantID}`
+        `http://localhost:3001/customer/restaurant/${params.restaurantID}`,{
+          headers: {
+            "authorization": "Bearer "+ helpers.getCookie("token"),
+          },
+        }
       );
       setRestaurantState(response.data);
     } catch (error) {
@@ -45,7 +49,11 @@ const SingleRestaurantPage = ({ params }) => {
   const fetchDishes = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/customer/dishes/restaurant/${params.restaurantID}`
+        `http://localhost:3001/customer/dishes/restaurant/${params.restaurantID}`,{
+          headers: {
+            "authorization": "Bearer "+ helpers.getCookie("token"),
+          },
+        }
       );
       if (response?.data) {
         setDishesResponseState(response);

@@ -16,7 +16,11 @@ const RestaurantList = () => {
   const fetchRestaurants = async (title,rate,deliveryTime,area,cuisine) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/customer/restaurants?${title?"title="+title:""}${rate?"&rate="+rate:""}${deliveryTime?"&deliveryTime="+time:""}${area?"&area="+area:""}${cuisine?"&cuisine="+cuisine:""}`
+        `http://localhost:3001/customer/restaurants?${title?"title="+title:""}${rate?"&rate="+rate:""}${deliveryTime?"&deliveryTime="+time:""}${area?"&area="+area:""}${cuisine?"&cuisine="+cuisine:""}`,{
+          headers: {
+            "authorization": "Bearer "+ decodeURIComponent(document.cookie).split("=")[1].split(";")[0],
+          },
+        }
       );
       setRestaurants(response.data);
       setFilteredRestaurants(response.data); // Initially set filtered restaurants to all restaurants

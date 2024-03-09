@@ -165,7 +165,7 @@ export default function LandingPage() {
             and explore new opportunities now!
           </p>
 
-          <button
+          <Link href="/pages/restaurantSignup"><button
             className="bg-[#FFC245] hover:bg-[#B92719] text-black text-center mx-auto rounded-xl font-bold border-transparent hover:border-black
               xl:mt-5 xl:py-2 xl:px-8 xl:border-2 xl:text-md
               md:mt-5 md:py-2 md:px-4 md:border-1 md:text-sm
@@ -173,7 +173,7 @@ export default function LandingPage() {
               "
           >
             Register here
-          </button>
+          </button></Link>
         </div>
       </div>
     </div>

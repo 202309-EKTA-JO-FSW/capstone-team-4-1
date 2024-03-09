@@ -71,7 +71,7 @@ export default function RestaurantSignup() {
               2xs:text-md 2xs:mb-5
               ">Become a partner</h2>
               <label htmlFor="title" className="block text-left">Title<span className="text-red-900"> *</span>:</label>
-              <input type="text" id="title" name="title" placeholder="John" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="text" id="title" name="title" placeholder="Restaurant Name" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
               
               <label htmlFor="email" className="block text-left mt-4">Email<span className="text-red-900"> *</span>:</label>
               <input type="email" id="email" name="email" placeholder="example@example.com" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
@@ -111,7 +111,7 @@ export default function RestaurantSignup() {
 
 
               
-                <label htmlFor="deliveryTime" className="block text-left">
+                <label htmlFor="deliveryTime" className="block text-left pt-4">
                     Delivery Time<span className="text-red-900"> *</span>:
                 </label>
                 <input 
@@ -123,7 +123,7 @@ export default function RestaurantSignup() {
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
                 />
 
-                <label htmlFor="deliveryFee" className="block text-left">
+                <label htmlFor="deliveryFee" className="block text-left pt-4">
                     Delivery Fee<span className="text-red-900"> *</span>:
                 </label>
                 <input 

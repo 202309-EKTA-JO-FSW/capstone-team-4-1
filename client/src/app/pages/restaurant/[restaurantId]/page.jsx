@@ -34,8 +34,6 @@ const RestaurantProfile = () => {
 
   function handleInputChange(e) {
     setSearchInput(e.target.value);
-    // setSearchInput([]);
-    // setDishes([]);
   }
 
   useEffect(() => {

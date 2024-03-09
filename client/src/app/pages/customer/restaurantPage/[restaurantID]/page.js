@@ -107,7 +107,7 @@ const SingleRestaurantPage = ({ params }) => {
               {category.map((dish) => {
                 return (
                   !closedCategoryState.includes(dish.category) && (
-                    <div className="categoryCardContent">
+                    <div className="categoryCardContent hover:bg-[#F8F8F8]">
                       <div className="dish">
                         <div className="dishContentLeftSection">
                           <img
@@ -153,17 +153,17 @@ const SingleRestaurantPage = ({ params }) => {
   };
 
   return (
-    <div className="mainPageContainer">
+    <div className="mainPageContainer pt-[3.5rem]">
       {/* <h2>{restaurantState.title}</h2>
       <p>Email: {restaurantState.email}</p> */}
-      <div className="restaurantCard">
+      <div className="restaurantCard rounded-3xl">
         <div className="breadcrumbContainer">
-          <Link className="breadcrumpTextActive" href="/">
+          <Link className="breadcrumpTextActive hover:text-[#FFC245]" href="/">
             Home
           </Link>
           <p className="angularbrackets">{">"}</p>
           <Link
-            className="breadcrumpTextActive"
+            className="breadcrumpTextActive hover:text-[#FFC245]"
             href="/pages/customer/restaurantList"
           >
             Restaurants
@@ -173,28 +173,26 @@ const SingleRestaurantPage = ({ params }) => {
             {restaurantState.title}
           </span>
         </div>
-        <div className="restaurantCardHeader">
-          <img
-            className="restaurantCardHeaderImage"
-            src={
-              restaurantState.image ? restaurantState.image : "/placeholder.png"
-            }
-            alt={restaurantState.title}
-          />
-          <div className="restaurantCardHeaderContent">
+        <div className="flex items-center">
+          <div className="flex items-center justify-center my-4">
+            <img
+              className="object-contain w-[200px] h-[160px] rounded-[2rem]"
+              src={restaurantState.image ? restaurantState.image : "/placeholder.png"}
+              alt={restaurantState.title}
+            />
+          </div>
+          <div className="restaurantCardHeaderContent ml-4"> {/* Add some left margin if needed */}
             <h1 className="restaurantName">{restaurantState.title}</h1>
             <p className="restaurantLocation">
-              {restaurantState.buildingNo}, {restaurantState.street},{" "}
-              {restaurantState.area}
+              {restaurantState.buildingNo}, {restaurantState.street}, {restaurantState.area}
             </p>
             <p className="restaurantInfo">
-              {restaurantState?.cuisine
-                ? restaurantState?.cuisine?.join(", ")
-                : ""}
+              {restaurantState?.cuisine ? restaurantState?.cuisine.join(", ") : ""}
             </p>
             <p className="restaurantMinimumOrder">Min. order: JOD 2.00</p>
           </div>
         </div>
+
         <div className="flagStyle">
           <FontAwesomeIcon className="flagStyleIcon" icon={faInfoCircle} />
           <p className="flagStyleText">Delivered by us, with live tracking</p>

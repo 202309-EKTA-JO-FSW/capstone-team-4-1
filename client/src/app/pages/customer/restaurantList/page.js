@@ -52,8 +52,8 @@ const RestaurantList = () => {
   return (
     <div className="mainPageContainer">
       <div className="restaurantsList">
-        <div className="breadcrumbContainer">
-          <Link className="breadcrumpTextActive" href="/">
+        <div className="breadcrumbContainer mr-[3.5rem] -ml-[1.5rem]">
+          <Link className="breadcrumpTextActive hover:text-[#FFC245]" href="/">
             Home
           </Link>
           <p className="angularbrackets">{">"}</p>
@@ -66,27 +66,32 @@ const RestaurantList = () => {
             onFilterChange={handleFilterChange}
             fetchRestaurants={fetchRestaurants}
           />
-          <div className="restaurantList">
+          <div className="restaurantList ml-[4rem]">
             <h2 className="title">Restaurants</h2>
-            <div className="row restaurantListSub flex-wrap">
-              {filteredRestaurants.map((restaurant) => (
-                <div key={restaurant._id} className="restaurant">
-                  {/* Wrap the contents of the Link component with the anchor tag */}
-                  <Link href={`../customer/restaurantPage/${restaurant._id}`}>
-                    <>
-                      {restaurant.image && (
-                        <img
-                          className="restaurantImage"
-                          src={restaurant.image}
-                          alt={restaurant.title}
-                        />
-                      )}
-                      <h3 className="restaurantName">{restaurant.title}</h3>
-                    </>
-                  </Link>
-                </div>
-              ))}
-            </div>
+            <div className="grid grid-cols-3 gap-4">
+  {filteredRestaurants.map((restaurant) => (
+    <Link key={restaurant._id} href={`../customer/restaurantPage/${restaurant._id}`} passHref>
+      <div className="cursor-pointer mb-5">
+        {restaurant.image && (
+          <div className="overflow-hidden rounded-3xl">
+            <img
+              className="w-[450px] h-[160px] transition-transform duration-300 ease-in-out transform hover:scale-110 hover:rounded-3xl"
+              src={restaurant.image}
+              alt={restaurant.title}
+            />
+          </div>
+        )}
+        <div className="flex items-center justify-between">
+          <h3 className="restaurantName ml-2 mt-4">{restaurant.title}</h3>
+          <div className="mt-4 mr-2 text-sm px-1 bg-[#FDF3DC] rounded-md">
+            {restaurant.cuisine.length > 0 ? restaurant.cuisine[0] : "No cuisines available"}
+          </div>
+        </div>
+      </div>
+    </Link>
+  ))}
+</div>
+
           </div>
         </div>
       </div>

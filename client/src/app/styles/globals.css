@@ -76,10 +76,11 @@ body {
   font-weight: 700;
   border-radius: 9px;
 }
+
 .active:hover {
   color: var(--mainColor);
   background-color: #B92719;
-  border:1px var(--textColor) solid;
+  border: 1px var(--textColor) solid;
 }
 
 .inActive {

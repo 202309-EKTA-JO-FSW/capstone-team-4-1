@@ -1,20 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Login from "./login";
 import Logout from "./logout";
 import LoginModal from "../../pages/loginPage/index";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Customer from "@/app/pages/customer/restaurantList/page";
 import helpers from "../../services/helpers";
 
-import { useEffect } from "react";
 function Navbar() {
   const router = useRouter();
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userRoleState, setUserRoleState] = useState("");
   const [isValidTokenState, setIsValidTokenState] = useState(false);
-  const [isActive,setActive] = useState("")
+  const [isActive, setActive] = useState("");
 
   useEffect(() => {
     let userRole = localStorage.getItem("userRole");
@@ -23,6 +22,15 @@ function Navbar() {
     setUserRoleState(userRole);
   }, []);
 
+  const handleImageClick = () => {
+    if (userRoleState == "customer") {
+      router.push(`/pages/customer/restaurantList`);
+    } else if (userRoleState == "restaurant") {
+      router.push(`/pages/restaurant/restaurantList/page`);
+    } else {
+      router.push("/");
+    }
+  };
 
   function logout() {
     helpers.deleteCookie("token");
@@ -35,46 +43,57 @@ function Navbar() {
     router.push(`/`);
   }
 
-  
   return (
     <div className="fixed top-0 left-0 w-full z-50">
       <div className="flex firstPiece items-center space-x-2 bg-[#101B0B] sticky">
-        <Link href={`/`}>
+        <a style={{ cursor: "pointer" }}>
           <img
             src="/logo.png"
+            onClick={handleImageClick}
             className="
-      2xs:w-25 2xs:h-8 2xs:pl-4 2xs:pt-2
-      sm:w-24 sm:h-10 sm:pl-6 sm:pt-4 
-      md:w-[180px] md:h-auto md:pl-10 md:pt-10
-      
-      xl:w-[250px] xl:h-auto xl:pl-10 xl:pt-10
-      "
+            2xs:w-25 2xs:h-8 2xs:pl-4 2xs:pt-2
+            sm:w-24 sm:h-10 sm:pl-6 sm:pt-4 
+            md:w-[180px] md:h-auto md:pl-10 md:pt-10
+            xl:w-[250px] xl:h-auto xl:pl-10 xl:pt-10
+          "
             alt="logo"
           />
-        </Link>
+        </a>
+
         <div
           className="flex justify-end text-[#FFC245] w-full 
           xl:space-x-8 xl:pr-10  xl:text-[16px] 
           md:space-x-4 md:pr-10  2xs:space-x-2 2xs:pr-4 2xs:text-xs"
         >
           <div className="inActive">
-            { !isValidTokenState  && (
+            {!isValidTokenState && (
               <Login onLoginClick={() => setShowLoginModal(true)} />
             )}
           </div>
-          { !isValidTokenState && (
-            <div className={ (isActive == "register"? " active" : " inActive") } onClick={() => setActive("register")}>
+          {!isValidTokenState && (
+            <div
+              className={isActive == "register" ? " active" : " inActive"}
+              onClick={() => setActive("register")}
+            >
               <Link href="/pages/customerSignup">Register</Link>
             </div>
           )}
-          { isValidTokenState && (<div className="inActive">
-              <Logout onLoginClick={() => logout() } />
-          </div>)}
-          <div className={(isActive == "home"? " active" : " inActive") } onClick={() => setActive("home")}>
+          {isValidTokenState && (
+            <div className="inActive">
+              <Logout onLoginClick={() => logout()} />
+            </div>
+          )}
+          <div
+            className={isActive == "home" ? " active" : " inActive"}
+            onClick={() => setActive("home")}
+          >
             <Link href="/">Home</Link>
           </div>
           {isValidTokenState && userRoleState == "customer" && (
-            <div className={(isActive == "restaurantList"? " active" : " inActive") } onClick={() => setActive("restaurantList")}>
+            <div
+              className={isActive == "restaurantList" ? " active" : " inActive"}
+              onClick={() => setActive("restaurantList")}
+            >
               <Link href="/pages/customer/restaurantList">All restaurants</Link>
             </div>
           )}

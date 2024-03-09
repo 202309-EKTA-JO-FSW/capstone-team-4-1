@@ -8,7 +8,7 @@ export default function LandingPage() {
       >
         <img
           className="absolute top-0 left-0 z-0 bg-black opacity-50 w-full
-          xl:mt-10 xl:pt-10 md:mt-8 md:pt-4 mt-4 pt-5
+          xl:mt-6 xl:pt-6 md:mt-8 md:pt-4 mt-4 pt-5
             xl:h-[600px] lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]"
           src="/backgroundwelcome.png"
           alt="gifwelcome"
@@ -114,7 +114,7 @@ export default function LandingPage() {
             and highly competitive earnings <br />
             by delivering through FoodDrop today.
           </p>
-          <button
+          <Link href="/pages/riderSignup"><button
             className="bg-[#FFC245] hover:bg-[#B92719] text-black text-center mx-auto rounded-xl font-bold border-transparent hover:border-black
               xl:mt-5 xl:py-2 xl:px-8 xl:border-2 xl:text-md
               md:mt-5 md:py-2 md:px-4 md:border-1 md:text-sm
@@ -122,7 +122,7 @@ export default function LandingPage() {
               "
           >
             Register here
-          </button>
+          </button></Link>
         </div>
 
         <div
@@ -165,7 +165,7 @@ export default function LandingPage() {
             and explore new opportunities now!
           </p>
 
-          <button
+          <Link href="/pages/restaurantSignup"><button
             className="bg-[#FFC245] hover:bg-[#B92719] text-black text-center mx-auto rounded-xl font-bold border-transparent hover:border-black
               xl:mt-5 xl:py-2 xl:px-8 xl:border-2 xl:text-md
               md:mt-5 md:py-2 md:px-4 md:border-1 md:text-sm
@@ -173,7 +173,7 @@ export default function LandingPage() {
               "
           >
             Register here
-          </button>
+          </button></Link>
         </div>
       </div>
     </div>

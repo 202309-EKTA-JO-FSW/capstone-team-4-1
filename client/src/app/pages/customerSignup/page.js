@@ -9,7 +9,7 @@ export default function CustomerSignup() {
             lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]">
 
           <img className="absolute top-0 left-0 z-0 bg-black opacity-50 w-full
-          xl:mt-10 xl:pt-10 md:mt-8 md:pt-4 mt-4 pt-5
+          xl:mt-6 xl:pt-6 md:mt-8 md:pt-4 mt-4 pt-5
             xl:h-[600px] lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]"
              src="/customerSignupBackground.png" alt="gifwelcome" />
 

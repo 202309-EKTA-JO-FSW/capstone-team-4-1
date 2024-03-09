@@ -55,7 +55,7 @@ export default function LoginPage({ onClose }) {
           window.location.href=`http://localhost:3000/pages/customer/restaurantList`;
            //router.push(`pages/customer/restaurantList`)
         }
-        if (user.role !== "customer") {
+        if (user.role === "restaurant") {
           window.location.href=`http://localhost:3000/pages/${user.role}/${user._id}`;
            //router.push(`/pages/${user.role}/${user._id}`)
         }
@@ -204,7 +204,7 @@ export default function LoginPage({ onClose }) {
               <p className="xl:text-sm md:text-[12px] 2xs:text-[8px]">
                 Don't have an account?{" "}
                 <a
-                  href="#"
+                  href="/pages/customerSignup"
                   className="text-[#FFC245] hover:text-[#101B0B] font-bold"
                 >
                   Create an account

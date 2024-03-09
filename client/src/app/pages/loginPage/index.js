@@ -54,8 +54,8 @@ export default function LoginPage({ onClose }) {
           window.location.href=`http://localhost:3000/pages/customer/restaurantList`;
            //router.push(`pages/customer/restaurantList`)
         }
-        if (user.role !== "customer") {
-          window.location.href=`http://localhost:3000/pages/${user.role}/${user._id}`;
+        if (user.role === "restaurant") {
+          window.location.href=`http://localhost:3000/pages/restaurant`;
            //router.push(`/pages/${user.role}/${user._id}`)
         }
       } else {

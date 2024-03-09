@@ -13,21 +13,29 @@ function Navbar() {
   const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userRoleState, setUserRoleState] = useState("");
+  const [isValidTokenState, setIsValidTokenState] = useState(false);
+  const [isActive,setActive] = useState("")
 
   useEffect(() => {
     let userRole = localStorage.getItem("userRole");
+    let isValidToken = helpers.tokenValidator();
+    setIsValidTokenState(isValidToken);
     setUserRoleState(userRole);
   }, []);
 
-function logout (){
-  helpers.deleteCookie("token");
-  localStorage.setItem("user","");
-  localStorage.setItem("userID","");
-  localStorage.setItem("userRole","");
-  setUserRoleState("");
-  router.push(`/`);
-};
 
+  function logout() {
+    helpers.deleteCookie("token");
+    localStorage.setItem("token", "");
+    localStorage.setItem("user", "");
+    localStorage.setItem("userID", "");
+    localStorage.setItem("userRole", "");
+    setIsValidTokenState("");
+    setUserRoleState("");
+    router.push(`/`);
+  }
+
+  
   return (
     <div className="fixed top-0 left-0 w-full z-50">
       <div className="flex firstPiece items-center space-x-2 bg-[#101B0B] sticky">
@@ -49,25 +57,27 @@ function logout (){
           xl:space-x-8 xl:pr-10  xl:text-[16px] 
           md:space-x-4 md:pr-10  2xs:space-x-2 2xs:pr-4 2xs:text-xs"
         >
-          <div className="py-2 px-2 font-bold cursor-pointer hover:text-[#B92719]">
-            {userRoleState == "" && (
+          <div className="inActive">
+            { !isValidTokenState  && (
               <Login onLoginClick={() => setShowLoginModal(true)} />
             )}
           </div>
-          <div className="py-2 px-2 font-bold cursor-pointer hover:text-[#B92719]">
-            {userRoleState != "" && (
-              <Logout onLoginClick={() => logout()} />
-            )}
-          </div>
-          <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
-            <Link href="/pages/customerSignup">Home</Link>
-          </div>
-          {userRoleState == "customer" && (
-          <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
-            <Link href="/pages/customer/restaurantList">All restaurants</Link>
-          </div>
+          { !isValidTokenState && (
+            <div className={ (isActive == "register"? " active" : " inActive") } onClick={() => setActive("register")}>
+              <Link href="/pages/customerSignup">Register</Link>
+            </div>
           )}
-
+          { isValidTokenState && (<div className="inActive">
+              <Logout onLoginClick={() => logout() } />
+          </div>)}
+          <div className={(isActive == "home"? " active" : " inActive") } onClick={() => setActive("home")}>
+            <Link href="/">Home</Link>
+          </div>
+          {isValidTokenState && userRoleState == "customer" && (
+            <div className={(isActive == "restaurantList"? " active" : " inActive") } onClick={() => setActive("restaurantList")}>
+              <Link href="/pages/customer/restaurantList">All restaurants</Link>
+            </div>
+          )}
         </div>
       </div>
       <svg

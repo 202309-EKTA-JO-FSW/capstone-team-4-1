@@ -129,11 +129,11 @@ const SingleRestaurantPage = ({ params }) => {
                           />
                           <div className="dishTitleAndDescription">
                             <h6 className="dishTitle">{dish.title}</h6>
-                            <h6 className="dishDescription">{dish.title}</h6>
+                            <h6 className="flex dishDescription pr-[3rem]">{dish.description}</h6>
                           </div>
                         </div>
                         <div className="priceAndBTNContainer">
-                          <p className="dishPrice">{dish.price}JOD</p>
+                          <p className="dishPrice font-bold text-xl">{dish.price}JOD</p>
                           <Button
                             className={"addToCartBTN"}
                             color={"primary"}

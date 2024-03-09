@@ -58,10 +58,13 @@ const getSingleDish = async (req, res) => {
 
 const searchDish = async (req, res) => {
   const { restaurantId } = req.params;
-  const { title } = req.query;
+  const title = req.query.query;
+  
   try {
-    const dish = await Dish.find({ restaurant: restaurantId, title: title });
-    if (!dish) {
+    const regex = new RegExp(title, 'i');
+    const dish = await Dish.find({ $and: [ { restaurant: restaurantId, title: { $regex: regex } } ] });
+
+    if (dish.length === 0) {
       res.status(422).json({ message: "Dish not found" });
     }
 

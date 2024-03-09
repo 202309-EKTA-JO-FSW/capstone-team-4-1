@@ -1,14 +1,22 @@
 
 const verifyAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 'Admin') {
+  if (req.user && req.user.role === 'admin') {
     next();
   } else {
     res.status(401).json({ message: 'Unauthorized' }); 
   }
 };
+const verifyUser = (userRole)=>{
+  return (req, res, next) => {
+  if (req.user && userRole.includes(req.user.role)) {
+    next();
+  } else {
+    res.status(401).json({ message: 'Unauthorized' }); 
+  }}
+};
 
 const verifyCustomer = (req, res, next) => {
-  if (req.user && req.user.role === 'Customer') {
+  if (req.user && req.user.role === 'customer') {
     next();
   } else {
     res.status(401).json({ message: 'Unauthorized' }); 
@@ -17,7 +25,7 @@ const verifyCustomer = (req, res, next) => {
 
 const verifyRestauarant = (req, res, next) => {
   console.log("This is what we have now:", req.user)
-  if (req.user && req.user.role === 'Restaurant') {
+  if (req.user && req.user.role === 'restaurant') {
     next();
   } else {
     res.status(401).json({ message: 'Unauthorized' }); 
@@ -25,7 +33,7 @@ const verifyRestauarant = (req, res, next) => {
 };
 
 const verifyRider = (req, res, next) => {
-  if (req.user && req.user.role === 'Rider') {
+  if (req.user && req.user.role === 'rider') {
     next();
   } else {
     res.status(401).json({ message: 'Unauthorized' }); 
@@ -33,4 +41,4 @@ const verifyRider = (req, res, next) => {
 };
 
 
-module.exports = { verifyAdmin, verifyCustomer, verifyRestauarant, verifyRider };
+module.exports = { verifyAdmin, verifyCustomer, verifyRestauarant, verifyRider,verifyUser };

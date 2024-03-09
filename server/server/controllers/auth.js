@@ -19,18 +19,17 @@ const login = async (req, res, next) => {
       user = await userModel.findOne({ email });
       if (user) {
         const passwordMatch = await user.comparePassword(password);
-
         if (!user || !passwordMatch) {
           return res.status(401).json({ message: 'Incorrect email or password' });
         }
-
         token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
           expiresIn: '1 hour'
         });
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 }); // maxAge is in milliseconds (24 hours)
+        return res.status(200).json({ user, token });
       }
     }
-
-    res.json({ token });
+    return res.status(401).json({ message: 'Incorrect email or password' });
   } catch (error) {
     next(error);
   }

@@ -1,39 +1,73 @@
 "use client";
 import React, { useState } from "react";
 import Login from "./login";
+import Logout from "./logout";
 import LoginModal from "../../pages/loginPage/index";
 import Link from "next/link";
-import Customer from "@/app/pages/customer/restaurantList/page"
+import { useRouter } from "next/navigation";
+import Customer from "@/app/pages/customer/restaurantList/page";
+import helpers from "../../services/helpers";
+
+import { useEffect } from "react";
 function Navbar() {
+  const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [userRoleState, setUserRoleState] = useState("");
+
+  useEffect(() => {
+    let userRole = localStorage.getItem("userRole");
+    setUserRoleState(userRole);
+  }, []);
+
+function logout (){
+  helpers.deleteCookie("token");
+  localStorage.setItem("user","");
+  localStorage.setItem("userID","");
+  localStorage.setItem("userRole","");
+  setUserRoleState("");
+  router.push(`/`);
+};
+
   return (
     <div className="fixed top-0 left-0 w-full z-50">
       <div className="flex firstPiece items-center space-x-2 bg-[#101B0B] sticky">
-      <Link href={`/`}><img
-          src="/logo.png"
-          className="
+        <Link href={`/`}>
+          <img
+            src="/logo.png"
+            className="
       2xs:w-25 2xs:h-8 2xs:pl-4 2xs:pt-2
       sm:w-24 sm:h-10 sm:pl-6 sm:pt-4 
       md:w-[180px] md:h-auto md:pl-10 md:pt-10
       
       xl:w-[250px] xl:h-auto xl:pl-10 xl:pt-10
       "
-          alt="logo"
-        /></Link>
+            alt="logo"
+          />
+        </Link>
         <div
           className="flex justify-end text-[#FFC245] w-full 
           xl:space-x-8 xl:pr-10  xl:text-[16px] 
           md:space-x-4 md:pr-10  2xs:space-x-2 2xs:pr-4 2xs:text-xs"
         >
           <div className="py-2 px-2 font-bold cursor-pointer hover:text-[#B92719]">
-            <Login onLoginClick={() => setShowLoginModal(true)} />
+            {userRoleState == "" && (
+              <Login onLoginClick={() => setShowLoginModal(true)} />
+            )}
           </div>
-           <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
-           <Link href="/pages/customerSignup">Get Started</Link>
+          <div className="py-2 px-2 font-bold cursor-pointer hover:text-[#B92719]">
+            {userRoleState != "" && (
+              <Logout onLoginClick={() => logout()} />
+            )}
           </div>
+          <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
+            <Link href="/pages/customerSignup">Home</Link>
+          </div>
+          {userRoleState == "customer" && (
           <div className="bg-[#FFC245] hover:bg-[#B92719] text-black flex justify-center py-2 px-2 rounded-xl font-bold border-2 border-transparent hover:border-black">
             <Link href="/pages/customer/restaurantList">All restaurants</Link>
           </div>
+          )}
+
         </div>
       </div>
       <svg

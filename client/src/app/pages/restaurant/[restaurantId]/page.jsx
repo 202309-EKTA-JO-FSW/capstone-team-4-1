@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Navbar from "@/app/components/navbar/navbar";
-import Footer from "@/app/components/footer/footer";
 import Lottie from 'react-lottie';
 import Stars from "./components/stars";
 import animationData from '../../../lotties/loadingAnimation';
@@ -71,7 +69,6 @@ const RestaurantProfile = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="relative w-full h-[380px] overflow-hidden bg-black">
       <img className="absolute w-full h-[500px] top-0 left-0 z-0 mt-18 pt-10 bg-black opacity-50" src="/blur-restaurant.jpg" alt="restaurant background" />
         <div className=" absolute w-full h-[600px] flex items-center justify-center z-10">
@@ -137,7 +134,6 @@ const RestaurantProfile = () => {
         </div>
       </div>
       {showForm && <Form restaurantId={restaurantId} closeForm={() => setShowForm(false)} />}
-      <Footer />
     </div>
   );
 };

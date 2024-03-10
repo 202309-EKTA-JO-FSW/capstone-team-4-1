@@ -26,8 +26,15 @@ const RestaurantProfile = () => {
     }
   };
 
+  const token = localStorage.getItem('token');
+  const headers = {
+    Authorization: `Bearer ${token}`
+  };
+
   useEffect(() => {
-    fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`)
+    fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`, {
+      headers: headers
+    })
         .then(res => res.json())
         .then(data => setRestaurant(data))
   }, [restaurantId]);
@@ -38,12 +45,16 @@ const RestaurantProfile = () => {
 
   useEffect(() => {
     if (searchInput === '') {
-      fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`)
+      fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`, {
+        headers: headers
+      })
         .then(res => res.json())
         .then(data => setMenu(data))
     }
     if (searchInput !== '') {
-      fetch(`http://localhost:3001/restaurant/${restaurantId}/title?query=${searchInput}`)
+      fetch(`http://localhost:3001/restaurant/${restaurantId}/title?query=${searchInput}`, {
+        headers: headers
+      })
         .then(res => res.json())
         .then(data => setMenu(data))
     }

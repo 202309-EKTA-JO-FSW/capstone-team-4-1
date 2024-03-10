@@ -48,6 +48,7 @@ export default function LoginPage({ onClose }) {
         const user = data.user;
         document.cookie = 'token='+data.token;
         localStorage.setItem("user",user);
+        localStorage.setItem("token",data.token);
         localStorage.setItem("userID",user._id);
         localStorage.setItem("userRole",user.role);
         if (user.role === "customer") {

@@ -36,7 +36,8 @@ const SingleRestaurantPage = ({ params }) => {
       const response = await axios.get(
         `http://localhost:3001/customer/restaurant/${params.restaurantID}`,{
           headers: {
-            "authorization": "Bearer "+ helpers.getCookie("token"),
+            //"authorization": "Bearer "+ helpers.getCookie("token"),
+            "authorization": "Bearer "+ localStorage.getItem("token"),
           },
         }
       );
@@ -51,7 +52,8 @@ const SingleRestaurantPage = ({ params }) => {
       const response = await axios.get(
         `http://localhost:3001/customer/dishes/restaurant/${params.restaurantID}`,{
           headers: {
-            "authorization": "Bearer "+ helpers.getCookie("token"),
+            //"authorization": "Bearer "+ helpers.getCookie("token"),
+            "authorization": "Bearer "+ localStorage.getItem("token"),
           },
         }
       );

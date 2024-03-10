@@ -13,6 +13,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import helpers from "../../../../services/helpers";
+import AddItem from "./addItem/[dishId]/page";
 
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
@@ -21,6 +22,8 @@ const SingleRestaurantPage = ({ params }) => {
   const [closedCategoryState, setClosedCategoryState] = useState([]);
   const [dishesResponseState, setDishesResponseState] = useState({});
   const [selectedBtnState, setSelectedBtnState] = useState(1);
+  const [showItem, setShowItem] = useState(false);
+  const [selectedDishId, setSelectedDishId] = useState(null);
 
   useEffect(() => {
     fetchRestaurant();
@@ -115,6 +118,7 @@ const SingleRestaurantPage = ({ params }) => {
               {category.map((dish) => {
                 return (
                   !closedCategoryState.includes(dish.category) && (
+        
                     <div className="categoryCardContent hover:bg-[#F8F8F8]">
                       <div className="dish">
                         <div className="dishContentLeftSection">
@@ -135,15 +139,15 @@ const SingleRestaurantPage = ({ params }) => {
                         <div className="priceAndBTNContainer">
                           <p className="dishPrice font-bold text-xl">{dish.price}JOD</p>
                           <Button
-                            className={"addToCartBTN"}
-                            color={"primary"}
-                            onClick={() => {}}
-                          >
-                            <FontAwesomeIcon
-                              className="faPlus"
-                              icon={faPlus}
-                            />
-                          </Button>
+                          className={"addToCartBTN"}
+                          color={"primary"}
+                          onClick={() => { setShowItem(true); setSelectedDishId(dish._id); }}
+                        >
+                          <FontAwesomeIcon
+                            className="faPlus"
+                            icon={faPlus}
+                          />
+                        </Button>
                         </div>
                       </div>
                     </div>
@@ -226,7 +230,14 @@ const SingleRestaurantPage = ({ params }) => {
             Info
           </Button>
         </ButtonGroup>
-        {selectedBtnState === 1 && <div>{categorisWithDishesState}</div>}
+        {selectedBtnState === 1 && (
+          <div>
+          {categorisWithDishesState}
+          {/* The AddItem modal should be conditionally rendered here */}
+          {showItem && selectedDishId && <AddItem dishId={selectedDishId} closeForm={() => setShowItem(false)} />}
+        </div>
+        )}
+
         {selectedBtnState === 2 && (
           <div className="infoContainer">
             <h3 className="infoContainerRestaurantName">

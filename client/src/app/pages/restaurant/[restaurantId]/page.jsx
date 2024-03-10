@@ -24,12 +24,16 @@ const RestaurantProfile = () => {
     }
   };
 
-  const token = localStorage.getItem('token');
-  const headers = {
-    Authorization: `Bearer ${token}`
-  };
+  // const token = localStorage.getItem('token');
+  // const headers = {
+  //   Authorization: `Bearer ${token}`
+  // };
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
     fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`, {
       headers: headers
     })
@@ -42,6 +46,10 @@ const RestaurantProfile = () => {
   }
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
     if (searchInput === '') {
       fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`, {
         headers: headers

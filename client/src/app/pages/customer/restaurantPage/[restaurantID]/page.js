@@ -15,6 +15,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import helpers from "../../../../services/helpers";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
+import EmptyOrderAnimation from "@/app/components/emptyOrderAnim";
 
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
@@ -167,10 +168,9 @@ const SingleRestaurantPage = ({ params }) => {
   return (
     <div>
     <Navbar />
-    <div className="mainPageContainer pt-[3.5rem]">
-      {/* <h2>{restaurantState.title}</h2>
-      <p>Email: {restaurantState.email}</p> */}
-      <div className="restaurantCard rounded-3xl">
+    <div className="mainPageContainer pt-[3.5rem] flex justify-end flex-row">
+      
+      <div className="restaurantCard w-[1000px] rounded-3xl mr-[26rem] ml-[2rem]">
         <div className="breadcrumbContainer">
           <Link className="breadcrumpTextActive hover:text-[#FFC245]" href="/">
             Home
@@ -274,6 +274,12 @@ const SingleRestaurantPage = ({ params }) => {
             </div>
           </div>
         )}
+      </div>
+      <div className="w-[350px] top-0 mr-[2rem] fixed mt-[11rem]">
+        <div className="flex flex-col justify-center items-center border shadow-xl rounded-2xl">
+          <h1 className="font-bold text-xl text-gray-700">Your Order</h1>
+          <EmptyOrderAnimation />
+        </div>
       </div>
     </div>
     <Footer />

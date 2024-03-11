@@ -4,29 +4,25 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import helpers from "../../../../services/helpers";
-export default function AddItem({params}) {
-  const { dishID } = useParams();
-  const [item, setItem] = useState({});
+export default function AddItem() {
+  const params = useParams();
+  const dishID  = params.dishID;
+  const [item, setItem] = useState();
 
   useEffect(() => {
-    fetchDish();
+    const token = localStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+
+    fetch (`http://localhost:3001/customer/dishes/${params.dishID}`,{
+        headers: headers
+    })
+        .then(res => res.json())
+        .then(data => setItem(data))
   }, [dishID]);
 
-
-  const fetchDish = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3001/customer/dishes/${params.dishID}`,{
-            headers: {
-              "authorization": "Bearer "+ helpers.getCookie("token"),
-            },
-          }
-        );
-        setItem(response.data);
-      } catch (error) {
-        console.error("Error fetching restaurant:", error);
-      }
-    };
+    
 console.log(item)
   if (!item) { 
     return <LoadingAnimation />; 

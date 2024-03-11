@@ -138,16 +138,16 @@ const SingleRestaurantPage = ({ params }) => {
                           </div>
                         </div>
                         <div className="priceAndBTNContainer">
-  <p className="dishPrice font-bold text-xl">{dish.price} JOD</p>
-  <Link key={dish._id} href={`../addItem/${dish._id}`} passHref>
-    <Button
-      className="addToCartBTN"
-      color="primary"
-    >
-      <FontAwesomeIcon className="faPlus" icon={faPlus} />
-    </Button>
-  </Link>
-</div>
+                          <p className="dishPrice font-bold text-xl">{dish.price} JOD</p>
+                          <Link key={dish._id} href={`../addItem/${dish._id}`} passHref>
+                          <Button
+                            className="addToCartBTN"
+                            color="primary"
+                          >
+                          <FontAwesomeIcon className="faPlus" icon={faPlus} />
+                          </Button>
+                          </Link>
+                        </div>
 
 
                       </div>

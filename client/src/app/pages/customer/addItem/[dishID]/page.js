@@ -4,9 +4,11 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import helpers from "../../../../services/helpers";
-export default function AddItem() {
+
+export default function AddItem({ dishId }) {
+  console.log(dishId);
   const params = useParams();
-  const dishID  = params.dishID;
+  const dishID  = dishId;
   const [item, setItem] = useState();
 
   useEffect(() => {

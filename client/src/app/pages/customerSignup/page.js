@@ -1,10 +1,10 @@
 import Footer from "@/app/components/footer/footer";
+import Navbar from "../../components/navbar/navbar";
 import Location from "./components/location";
-
 export default function CustomerSignup() {
   return (
     <div className="relative bg-[#101B0B] overflow-hidden text-black">
-
+      <Navbar />
         <div className="relative w-full overflow-hidden bg-black xl:h-[600px] 
             lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]">
 
@@ -136,7 +136,7 @@ export default function CustomerSignup() {
             </div>
 
       <div className="mt-10 pt-10 bg-[#101B0B]">
-
+        <Footer />
       </div>
     </div>
   );

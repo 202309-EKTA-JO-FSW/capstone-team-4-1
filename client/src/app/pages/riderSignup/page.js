@@ -1,10 +1,12 @@
 "use client"
 import Location from "../customerSignup/components/location";
 import React, { useState } from 'react';
+import Navbar from "@/app/components/navbar/navbar";
+import Footer from "@/app/components/footer/footer";
 export default function RiderSignup() {
   return (
     <div className="relative bg-[#101B0B] overflow-hidden text-black">
-
+        <Navbar />
         <div className="relative w-full overflow-hidden bg-black xl:h-[600px] 
             lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]">
 
@@ -141,7 +143,7 @@ export default function RiderSignup() {
             </div>
 
       <div className="mt-[5rem] pt-[5rem] mb-[5rem] bg-[#101B0B]">
-
+      <Footer />
       </div>
     </div>
   );

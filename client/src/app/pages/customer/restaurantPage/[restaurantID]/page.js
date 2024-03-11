@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Link from "next/link"; // Import Link from 'next/link'
+import Link from "next/link";
 import "./restaurantPage.css";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
@@ -13,8 +13,8 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import helpers from "../../../../services/helpers";
-import LoadingAnimation from "@/app/components/loadingAnimation";
-import AddItem from "../../addItem/[dishID]/page";
+import Navbar from "@/app/components/navbar/navbar";
+import Footer from "@/app/components/footer/footer";
 
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
@@ -164,6 +164,8 @@ const SingleRestaurantPage = ({ params }) => {
   };
 
   return (
+    <div>
+    <Navbar />
     <div className="mainPageContainer pt-[3.5rem]">
       {/* <h2>{restaurantState.title}</h2>
       <p>Email: {restaurantState.email}</p> */}
@@ -280,6 +282,8 @@ const SingleRestaurantPage = ({ params }) => {
         )}
       </div>
       {showDish && <AddItem dishId={dishId} />}
+    </div>
+    <Footer />
     </div>
   );
 };

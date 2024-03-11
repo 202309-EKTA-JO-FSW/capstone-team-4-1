@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link"; // Import Link from 'next/link'
 import RestaurantFilter from "../../../components/restaurantFilter"; // Import RestaurantFilter component
+import Footer from "@/app/components/footer/footer";
+import Navbar from "@/app/components/navbar/navbar";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -56,6 +58,8 @@ const RestaurantList = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="mainPageContainer">
       <div className="restaurantsList">
         <div className="breadcrumbContainer mr-[3.5rem] -ml-[1.5rem]">
@@ -101,6 +105,8 @@ const RestaurantList = () => {
           </div>
         </div>
       </div>
+    </div>
+    <Footer />
     </div>
   );
 };

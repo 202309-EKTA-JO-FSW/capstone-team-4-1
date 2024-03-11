@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "next/navigation";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
+import LoadingAnimation from "../../../components/loadingAnimation"; 
 
 const CusotmerProfile = () => { 
     const params = useParams();
@@ -23,7 +24,7 @@ const CusotmerProfile = () => {
 
     if (!customer) {
         return (
-            <div>Loading...</div>
+            LoadingAnimation
         )
     } else {
         console.log(customer);

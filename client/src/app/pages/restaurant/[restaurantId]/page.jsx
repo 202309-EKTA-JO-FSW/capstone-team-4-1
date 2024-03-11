@@ -113,12 +113,12 @@ const RestaurantProfile = () => {
         </div>
 
 
-        <div className="flex items-center bg-gray-200 p-2 rounded-md">
+        <div className="mr-[1.5rem] ml-[1.5rem] flex items-center border border-gray-700 hover:border-[#FFC245] p-2 pl-4 pr-2 rounded-3xl">
         <FaSearch className="text-gray-600" />
         <input
           type="text"
           placeholder="Search for dishes..."
-          className="w-full pl-2 py-1 rounded-md focus:outline-none"
+          className="w-full pl-2 py-1 mx-4 focus:outline-none"
           value={searchInput}
           onChange={handleInputChange}
         />

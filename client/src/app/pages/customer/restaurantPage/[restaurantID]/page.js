@@ -13,7 +13,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import helpers from "../../../../services/helpers";
-import AddItem from "./addItem/[dishId]/page";
+import LoadingAnimation from "@/app/components/loadingAnimation";
 
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
@@ -23,7 +23,6 @@ const SingleRestaurantPage = ({ params }) => {
   const [dishesResponseState, setDishesResponseState] = useState({});
   const [selectedBtnState, setSelectedBtnState] = useState(1);
   const [showItem, setShowItem] = useState(false);
-  const [selectedDishId, setSelectedDishId] = useState(null);
 
   useEffect(() => {
     fetchRestaurant();
@@ -68,7 +67,7 @@ const SingleRestaurantPage = ({ params }) => {
   };
 
   if (!restaurantState) {
-    return <p>Loading...</p>;
+    return LoadingAnimation;
   }
   const toggleCategory = async (categoryName) => {
     try {
@@ -137,20 +136,22 @@ const SingleRestaurantPage = ({ params }) => {
                           </div>
                         </div>
                         <div className="priceAndBTNContainer">
-                          <p className="dishPrice font-bold text-xl">{dish.price}JOD</p>
-                          <Button
-                          className={"addToCartBTN"}
-                          color={"primary"}
-                          onClick={() => { setShowItem(true); setSelectedDishId(dish._id); }}
-                        >
-                          <FontAwesomeIcon
-                            className="faPlus"
-                            icon={faPlus}
-                          />
-                        </Button>
-                        </div>
+  <p className="dishPrice font-bold text-xl">{dish.price} JOD</p>
+  <Link key={dish._id} href={`../addItem/${dish._id}`} passHref>
+    <Button
+      className="addToCartBTN"
+      color="primary"
+    >
+      <FontAwesomeIcon className="faPlus" icon={faPlus} />
+    </Button>
+  </Link>
+</div>
+
+
                       </div>
+                      
                     </div>
+                    
                   )
                 );
               })}
@@ -233,8 +234,8 @@ const SingleRestaurantPage = ({ params }) => {
         {selectedBtnState === 1 && (
           <div>
           {categorisWithDishesState}
-          {/* The AddItem modal should be conditionally rendered here */}
-          {showItem && selectedDishId && <AddItem dishId={selectedDishId} closeForm={() => setShowItem(false)} />}
+          {/* {showItem && <AddItem dishId={selectedDishId} />} */}
+          
         </div>
         )}
 

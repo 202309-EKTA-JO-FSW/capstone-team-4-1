@@ -1,36 +1,40 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-export default function AddItem({ dishId }) {
-  const [itemData, setItemData] = useState(null);
+import { useParams } from "react-router-dom";
+import LoadingAnimation from '../../../../components/loadingAnimation';
+import helpers from "../../../../services/helpers";
+export default function AddItem({params}) {
+  const { dishID } = useParams();
+  const [item, setItem] = useState({});
 
   useEffect(() => {
-    async function fetchData() {
+    fetchDish();
+  }, [dishID]);
+
+
+  const fetchDish = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/customer/dishes/${dishId}`,{
+          `http://localhost:3001/customer/dishes/${params.dishID}`,{
             headers: {
               "authorization": "Bearer "+ helpers.getCookie("token"),
             },
           }
         );
-        if (response.data) {
-          setItemData(response.data); // Set the entire dish data object
-        }
+        setItem(response.data);
       } catch (error) {
-        console.error('Error fetching dish data:', error);
+        console.error("Error fetching restaurant:", error);
       }
-    }
-
-    if (dishId) {
-      fetchData();
-    }
-  }, [dishId]);
-
-  if (!itemData) { // Show loading state or nothing if itemData is not yet loaded
-    return null; // or loading spinner
+    };
+console.log(item)
+  if (!item) { 
+    return <LoadingAnimation />; 
   }
+
+  
   return (
+    
     <div className="z-50 fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
       <div className="relative mx-auto my-0 top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 border w-[650px] shadow-lg rounded-3xl bg-white
        xl:p-5 xl:w-[650px] xl:h-auto xl:rounded-3xl xl:shadow-lg
@@ -39,19 +43,19 @@ export default function AddItem({ dishId }) {
         <div className="space-y-4 pt-10">
           <div className="text-center p-2 bg-green-100 text-green-700 rounded-md">Dish Information</div>
           <div>
-            <h5 className="block text-gray-700 text-sm font-bold mb-2">Title: {itemData.title}</h5>
+            <h5 className="block text-gray-700 text-sm font-bold mb-2">Title: {item.title}</h5>
           </div>
           <div>
-            <h5 className="block text-gray-700 text-sm font-bold mb-2">Description: {itemData.description}</h5>
+            <h5 className="block text-gray-700 text-sm font-bold mb-2">Description: {item.description}</h5>
           </div>
           <div>
-            <img src={itemData.image} alt="Dish" className="w-full h-auto rounded" />
+            <img src={item.image} alt="Dish" className="w-full h-auto rounded" />
           </div>
           <div>
-            <h5 className="block text-gray-700 text-sm font-bold mb-2">Price: {itemData.price}</h5>
+            <h5 className="block text-gray-700 text-sm font-bold mb-2">Price: {item.price}</h5>
           </div>
           <div>
-            <h5 className="block text-gray-700 text-sm font-bold mb-2">Category: {itemData.category}</h5>
+            <h5 className="block text-gray-700 text-sm font-bold mb-2">Category: {item.category}</h5>
           </div>
         </div>
       </div>

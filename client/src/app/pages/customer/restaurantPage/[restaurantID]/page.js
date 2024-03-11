@@ -23,7 +23,6 @@ const SingleRestaurantPage = ({ params }) => {
   const [closedCategoryState, setClosedCategoryState] = useState([]);
   const [dishesResponseState, setDishesResponseState] = useState({});
   const [selectedBtnState, setSelectedBtnState] = useState(1);
-  const [showItem, setShowItem] = useState(false);
   const [dishId, setDishId] = useState(null);
   const [showDish, setShowDish] = useState(false);
 
@@ -148,14 +147,6 @@ const SingleRestaurantPage = ({ params }) => {
                           }}>
                             <FontAwesomeIcon className="faPlus" icon={faPlus} />
                           </button>
-                          {/* <Link key={dish._id} href={`../addItem/${dish._id}`} passHref>
-                          <Button
-                            className="addToCartBTN"
-                            color="primary"
-                          >
-                          <FontAwesomeIcon className="faPlus" icon={faPlus} />
-                          </Button>
-                          </Link> */}
                         </div>
                       </div>
                     </div> 

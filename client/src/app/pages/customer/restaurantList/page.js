@@ -14,12 +14,14 @@ const RestaurantList = () => {
   }, []);
 
   const fetchRestaurants = async (title,rate,deliveryTime,area,cuisine) => {
+    const token = localStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
     try {
       const response = await axios.get(
         `http://localhost:3001/customer/restaurants?${title?"title="+title:""}${rate?"&rate="+rate:""}${deliveryTime?"&deliveryTime="+time:""}${area?"&area="+area:""}${cuisine?"&cuisine="+cuisine:""}`,{
-          headers: {
-            "authorization": "Bearer "+ decodeURIComponent(document.cookie).split("=")[1].split(";")[0],
-          },
+          headers: headers,
         }
       );
       setRestaurants(response.data);

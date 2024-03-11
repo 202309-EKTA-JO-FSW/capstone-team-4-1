@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Navbar from "@/app/components/navbar/navbar";
-import Footer from "@/app/components/footer/footer";
+import Lottie from 'react-lottie';
 import Stars from "./components/stars";
 import Form from "./dishform/page";
 import { FaSearch } from 'react-icons/fa'
@@ -16,9 +15,28 @@ const RestaurantProfile = () => {
   const [menu, setMenu] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+
+  // const token = localStorage.getItem('token');
+  // const headers = {
+  //   Authorization: `Bearer ${token}`
+  // };
 
   useEffect(() => {
-    fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`)
+    const token = localStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+    fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`, {
+      headers: headers
+    })
         .then(res => res.json())
         .then(data => setRestaurant(data))
   }, [restaurantId]);
@@ -28,13 +46,21 @@ const RestaurantProfile = () => {
   }
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
     if (searchInput === '') {
-      fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`)
+      fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`, {
+        headers: headers
+      })
         .then(res => res.json())
         .then(data => setMenu(data))
     }
     if (searchInput !== '') {
-      fetch(`http://localhost:3001/restaurant/${restaurantId}/title?query=${searchInput}`)
+      fetch(`http://localhost:3001/restaurant/${restaurantId}/title?query=${searchInput}`, {
+        headers: headers
+      })
         .then(res => res.json())
         .then(data => setMenu(data))
     }
@@ -49,7 +75,6 @@ const RestaurantProfile = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="relative w-full h-[380px] overflow-hidden bg-black">
       <img className="absolute w-full h-[500px] top-0 left-0 z-0 mt-18 pt-10 bg-black opacity-50" src="/blur-restaurant.jpg" alt="restaurant background" />
         <div className=" absolute w-full h-[600px] flex items-center justify-center z-10">
@@ -115,7 +140,6 @@ const RestaurantProfile = () => {
         </div>
       </div>
       {showForm && <Form restaurantId={restaurantId} closeForm={() => setShowForm(false)} />}
-      <Footer />
     </div>
   );
 };

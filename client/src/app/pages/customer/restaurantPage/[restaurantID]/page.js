@@ -15,8 +15,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import helpers from "../../../../services/helpers";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
-import EmptyOrderAnimation from "@/app/components/emptyOrderAnim";
-
+import AddItem from "../../addItem/[dishID]/page";
+import Item from "./item/page";
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
   const [restaurantState, setRestaurantState] = useState({});
@@ -24,6 +24,9 @@ const SingleRestaurantPage = ({ params }) => {
   const [closedCategoryState, setClosedCategoryState] = useState([]);
   const [dishesResponseState, setDishesResponseState] = useState({});
   const [selectedBtnState, setSelectedBtnState] = useState(1);
+  const [dishId, setDishId] = useState(null);
+  const [showDish, setShowDish] = useState(false);
+  const [count, setCount] = useState(1);
 
   useEffect(() => {
     fetchRestaurant();
@@ -70,7 +73,7 @@ const SingleRestaurantPage = ({ params }) => {
   };
 
   if (!restaurantState) {
-    return <p>Loading...</p>;
+    return LoadingAnimation;
   }
   const toggleCategory = async (categoryName) => {
     try {
@@ -86,6 +89,45 @@ const SingleRestaurantPage = ({ params }) => {
       console.error("", error);
     }
   };
+
+
+
+const openAddItemModal = (dish) => {
+  setDishId(dish._id);
+  setCount(1); // Reset or initialize count when opening AddItem modal
+  setShowDish(true);
+};
+
+
+
+const handleAddToCart = () => {
+  const dishToAdd = categorisWithDishesState.find(dish => dish._id === dishId);
+  if (dishToAdd) {
+    const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const itemIndex = currentCart.findIndex((cartItem) => cartItem.dishId === dishId);
+
+    if (itemIndex > -1) {
+      currentCart[itemIndex].count += count;
+      currentCart[itemIndex].totalPrice = (currentCart[itemIndex].price * currentCart[itemIndex].count).toFixed(2);
+    } else {
+      currentCart.push({
+        dishId: dishToAdd._id,
+        title: dishToAdd.title,
+        count,
+        price: dishToAdd.price,
+        description: dishToAdd.description,
+        image: dishToAdd.image,
+        totalPrice: (dishToAdd.price * count).toFixed(2),
+      });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(currentCart));
+    setShowDish(false);
+  }
+};
+
+
+
   const renderDishes = async (response) => {
     if (response?.data) {
       if (response?.data?.dishes) {
@@ -120,6 +162,7 @@ const SingleRestaurantPage = ({ params }) => {
               {category.map((dish) => {
                 return (
                   !closedCategoryState.includes(dish.category) && (
+        
                     <div className="categoryCardContent hover:bg-[#F8F8F8]">
                       <div className="dish">
                         <div className="dishContentLeftSection">
@@ -138,20 +181,16 @@ const SingleRestaurantPage = ({ params }) => {
                           </div>
                         </div>
                         <div className="priceAndBTNContainer">
-                          <p className="dishPrice font-bold text-xl">{dish.price}JOD</p>
-                          <Button
-                            className={"addToCartBTN"}
-                            color={"primary"}
-                            onClick={() => {}}
-                          >
-                            <FontAwesomeIcon
-                              className="faPlus"
-                              icon={faPlus}
-                            />
-                          </Button>
+                          <p className="dishPrice font-bold text-xl">{dish.price} JOD</p>
+                          <button className="addToCartBTN" color="primary" onClick={() => {
+                            setDishId(dish._id);
+                            setShowDish(true);
+                          }}>
+                            <FontAwesomeIcon className="faPlus" icon={faPlus} />
+                          </button>
                         </div>
                       </div>
-                    </div>
+                    </div> 
                   )
                 );
               })}
@@ -165,6 +204,10 @@ const SingleRestaurantPage = ({ params }) => {
     }
   };
 
+
+
+
+  
   return (
     <div>
     <Navbar />
@@ -232,7 +275,14 @@ const SingleRestaurantPage = ({ params }) => {
             Info
           </Button>
         </ButtonGroup>
-        {selectedBtnState === 1 && <div>{categorisWithDishesState}</div>}
+        {selectedBtnState === 1 && (
+          <div>
+          {categorisWithDishesState}
+          {/* {showItem && <AddItem dishId={selectedDishId} />} */}
+          
+        </div>
+        )}
+
         {selectedBtnState === 2 && (
           <div className="infoContainer">
             <h3 className="infoContainerRestaurantName">
@@ -275,12 +325,19 @@ const SingleRestaurantPage = ({ params }) => {
           </div>
         )}
       </div>
-      <div className="w-[350px] top-0 mr-[2rem] fixed mt-[11rem]">
-        <div className="flex flex-col justify-center items-center border shadow-xl rounded-2xl">
-          <h1 className="font-bold text-xl text-gray-700">Your Order</h1>
-          <EmptyOrderAnimation />
-        </div>
+      
+      <div className="cartItem w-[350px] z-10 top-0 mr-[2rem] fixed mt-[11rem] mb-[10rem]">
+        <Item />
       </div>
+       {showDish && (
+        <AddItem
+          dishId={dishId}
+          count={count}
+          onAddToCart={handleAddToCart}
+          onCountChange={setCount} // Pass setCount to AddItem to manage the count
+          closeItem={() => setShowDish(false)}
+        />
+      )}
     </div>
     <Footer />
     </div>

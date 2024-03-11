@@ -4,11 +4,11 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import Lottie from 'react-lottie';
 import Stars from "./components/stars";
-import animationData from '../../../lotties/loadingAnimation';
 import Form from "./dishform/page";
 import { FaSearch } from 'react-icons/fa'
 import Navbar from "@/app/components/navbar/navbar";
-import Footer from "@/app/components/footer/footer";
+import Footer from "@/app/components/footer/footer";import LoadingAnimation from "../../../components/loadingAnimation"; 
+
 const RestaurantProfile = () => {
   const params = useParams();
   const restaurantId = params.restaurantId;
@@ -16,14 +16,7 @@ const RestaurantProfile = () => {
   const [menu, setMenu] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
+
 
   // const token = localStorage.getItem('token');
   // const headers = {
@@ -70,9 +63,7 @@ const RestaurantProfile = () => {
 
   if (!restaurant || !menu) {
     return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        <Lottie options={defaultOptions} height={200} width={200} />
-      </div>
+      LoadingAnimation
     );    
   }
 

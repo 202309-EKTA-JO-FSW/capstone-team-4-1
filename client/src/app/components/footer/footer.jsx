@@ -17,7 +17,7 @@ const Footer = () => {
       router.push(`/pages/customer/restaurantList`);
     } 
     else if (userRoleState == 'restaurant') {
-      router.push(`/pages/restaurant/restaurantList/page`);
+      router.push(`/pages/restaurant/[restaurantId]/page`);
     }
     else {
 

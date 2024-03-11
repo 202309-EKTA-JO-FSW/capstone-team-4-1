@@ -1,7 +1,10 @@
 import Link from "next/link";
+import Navbar from "@/app/components/navbar/navbar";
+import Footer from "@/app/components/footer/footer";
 export default function LandingPage() {
   return (
     <div className="relative bg-[#fff] overflow-hidden text-black">
+      <Navbar />
       <div
         className="relative w-full overflow-hidden bg-black xl:h-[600px] 
             lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]"
@@ -176,6 +179,7 @@ export default function LandingPage() {
           </button></Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

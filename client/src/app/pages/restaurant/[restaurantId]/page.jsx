@@ -4,11 +4,11 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import Lottie from 'react-lottie';
 import Stars from "./components/stars";
-import animationData from '../../../lotties/loadingAnimation';
 import Form from "./dishform/page";
 import { FaSearch } from 'react-icons/fa'
 import Navbar from "@/app/components/navbar/navbar";
-import Footer from "@/app/components/footer/footer";
+import Footer from "@/app/components/footer/footer";import LoadingAnimation from "../../../components/loadingAnimation"; 
+
 const RestaurantProfile = () => {
   const params = useParams();
   const restaurantId = params.restaurantId;
@@ -70,9 +70,7 @@ const RestaurantProfile = () => {
 
   if (!restaurant || !menu) {
     return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        <Lottie options={defaultOptions} height={200} width={200} />
-      </div>
+      LoadingAnimation
     );    
   }
 

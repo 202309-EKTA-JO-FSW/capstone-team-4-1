@@ -76,12 +76,8 @@ const getDishById = async (req, res) => {
     if (!dish) {
       return res.status(404).json({ message: 'Dish not found' })
     }
-    const restaurant = await RestaurantModel.findById(dish.restaurant)
-    if (!restaurant) {
-      return res.status(404).json({ message: 'Restaurant not found for the dish' })
-    }
-    const restaurantName = restaurant.name
-    res.status(200).json({ dish, restaurantName })
+    
+    res.status(200).json(dish)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

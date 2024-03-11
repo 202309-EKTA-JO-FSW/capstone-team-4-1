@@ -59,31 +59,31 @@ export default function Form({ restaurantId, closeForm }) {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
               Title
             </label>
-            <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
               Description
             </label>
-            <input type="text" name="description" id="description" value={formData.description} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="text" name="description" id="description" value={formData.description} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
               Image URL
             </label>
-            <input type="url" name="image" id="image" value={formData.image} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="url" name="image" id="image" value={formData.image} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
               Price
             </label>
-            <input type="number" name="price" id="price" value={formData.price} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="number" name="price" id="price" value={formData.price} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
               Category
             </label>
-            <input type="text" name="category" id="category" value={formData.category} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="text" name="category" id="category" value={formData.category} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div className="flex justify-center">
             <button type="submit"

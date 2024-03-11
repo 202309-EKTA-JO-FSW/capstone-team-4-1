@@ -15,7 +15,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import helpers from "../../../../services/helpers";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
-
+import AddItem from "../../addItem/[dishID]/page";
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
   const [restaurantState, setRestaurantState] = useState({});
@@ -23,6 +23,8 @@ const SingleRestaurantPage = ({ params }) => {
   const [closedCategoryState, setClosedCategoryState] = useState([]);
   const [dishesResponseState, setDishesResponseState] = useState({});
   const [selectedBtnState, setSelectedBtnState] = useState(1);
+  const [dishId, setDishId] = useState(null);
+  const [showDish, setShowDish] = useState(false);
 
   useEffect(() => {
     fetchRestaurant();
@@ -69,7 +71,7 @@ const SingleRestaurantPage = ({ params }) => {
   };
 
   if (!restaurantState) {
-    return <p>Loading...</p>;
+    return LoadingAnimation;
   }
   const toggleCategory = async (categoryName) => {
     try {
@@ -119,6 +121,7 @@ const SingleRestaurantPage = ({ params }) => {
               {category.map((dish) => {
                 return (
                   !closedCategoryState.includes(dish.category) && (
+        
                     <div className="categoryCardContent hover:bg-[#F8F8F8]">
                       <div className="dish">
                         <div className="dishContentLeftSection">
@@ -137,20 +140,16 @@ const SingleRestaurantPage = ({ params }) => {
                           </div>
                         </div>
                         <div className="priceAndBTNContainer">
-                          <p className="dishPrice font-bold text-xl">{dish.price}JOD</p>
-                          <Button
-                            className={"addToCartBTN"}
-                            color={"primary"}
-                            onClick={() => {}}
-                          >
-                            <FontAwesomeIcon
-                              className="faPlus"
-                              icon={faPlus}
-                            />
-                          </Button>
+                          <p className="dishPrice font-bold text-xl">{dish.price} JOD</p>
+                          <button className="addToCartBTN" color="primary" onClick={() => {
+                            setDishId(dish._id);
+                            setShowDish(true);
+                          }}>
+                            <FontAwesomeIcon className="faPlus" icon={faPlus} />
+                          </button>
                         </div>
                       </div>
-                    </div>
+                    </div> 
                   )
                 );
               })}
@@ -232,7 +231,14 @@ const SingleRestaurantPage = ({ params }) => {
             Info
           </Button>
         </ButtonGroup>
-        {selectedBtnState === 1 && <div>{categorisWithDishesState}</div>}
+        {selectedBtnState === 1 && (
+          <div>
+          {categorisWithDishesState}
+          {/* {showItem && <AddItem dishId={selectedDishId} />} */}
+          
+        </div>
+        )}
+
         {selectedBtnState === 2 && (
           <div className="infoContainer">
             <h3 className="infoContainerRestaurantName">
@@ -275,6 +281,7 @@ const SingleRestaurantPage = ({ params }) => {
           </div>
         )}
       </div>
+      {showDish && <AddItem dishId={dishId} closeItem={() => setShowDish(false)} />}
     </div>
     <Footer />
     </div>

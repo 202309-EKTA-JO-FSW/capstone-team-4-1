@@ -2,6 +2,24 @@ const RestaurantModel = require('../models/restaurant');
 const Order = require('../models/order');
 const Item = require('../models/item');
 const Dish = require('../models/dish');
+const Customer = require('../models/customer');
+
+// get customer profile
+
+const getProfile = async (req, res) => {
+  const { customerId } = req.params;
+  try {
+    const profile = await Customer.findById(customerId);
+
+    if (!profile) {
+      res.status(422).json({ message: "No profile found" });
+    }
+
+    res.status(200).json(profile);
+  } catch (err) {
+    res.status(422).json({ message: err.message });
+  }
+};
 
 // Get All Restaurants:
 
@@ -151,4 +169,4 @@ const getPendingOrders = async (req, res) => {
   }
 }
 
-module.exports = { getAllRestaurants, getRestaurantById, getAllDishes, getDishById, getAllDishesOfRestaurant, getAllOrdersByCustomerId, getPendingOrders, addItem, removeItemFromCart };
+module.exports = { getProfile, getAllRestaurants, getRestaurantById, getAllDishes, getDishById, getAllDishesOfRestaurant, getAllOrdersByCustomerId, getPendingOrders, addItem, removeItemFromCart };

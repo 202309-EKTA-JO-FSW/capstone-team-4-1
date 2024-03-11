@@ -14,6 +14,7 @@ import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import helpers from "../../../../services/helpers";
 import LoadingAnimation from "@/app/components/loadingAnimation";
+import AddItem from "../../addItem/[dishID]/page";
 
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
@@ -23,6 +24,8 @@ const SingleRestaurantPage = ({ params }) => {
   const [dishesResponseState, setDishesResponseState] = useState({});
   const [selectedBtnState, setSelectedBtnState] = useState(1);
   const [showItem, setShowItem] = useState(false);
+  const [dishId, setDishId] = useState(null);
+  const [showDish, setShowDish] = useState(false);
 
   useEffect(() => {
     fetchRestaurant();
@@ -139,21 +142,23 @@ const SingleRestaurantPage = ({ params }) => {
                         </div>
                         <div className="priceAndBTNContainer">
                           <p className="dishPrice font-bold text-xl">{dish.price} JOD</p>
-                          <Link key={dish._id} href={`../addItem/${dish._id}`} passHref>
+                          <button className="addToCartBTN" color="primary" onClick={() => {
+                            setDishId(dish._id);
+                            setShowDish(true);
+                          }}>
+                            <FontAwesomeIcon className="faPlus" icon={faPlus} />
+                          </button>
+                          {/* <Link key={dish._id} href={`../addItem/${dish._id}`} passHref>
                           <Button
                             className="addToCartBTN"
                             color="primary"
                           >
                           <FontAwesomeIcon className="faPlus" icon={faPlus} />
                           </Button>
-                          </Link>
+                          </Link> */}
                         </div>
-
-
                       </div>
-                      
-                    </div>
-                    
+                    </div> 
                   )
                 );
               })}

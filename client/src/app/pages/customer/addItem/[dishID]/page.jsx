@@ -1,13 +1,11 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from "react-router-dom";
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import helpers from "../../../../services/helpers";
 
 export default function AddItem({ dishId }) {
   console.log(dishId);
-  const params = useParams();
   const dishID  = dishId;
   const [item, setItem] = useState();
 
@@ -17,7 +15,7 @@ export default function AddItem({ dishId }) {
       Authorization: `Bearer ${token}`
     };
 
-    fetch (`http://localhost:3001/customer/dishes/${params.dishID}`,{
+    fetch (`http://localhost:3001/customer/dishes/${dishID}`,{
         headers: headers
     })
         .then(res => res.json())

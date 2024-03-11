@@ -1,5 +1,14 @@
+"use client";
 import React from 'react';
+import Navbar from "@/app/components/navbar/navbar";
+import Footer from "@/app/components/footer/footer";
 
-const HiPage = () => { return ( <div> <h1>Hi there Customer</h1> </div> ); }
+const CusotmerProfile = () => { 
+    return ( 
+        <div> 
+            <h1>Hi there Customer</h1> 
+        </div> 
+    ); 
+}
 
-export default HiPage;
+export default CusotmerProfile;

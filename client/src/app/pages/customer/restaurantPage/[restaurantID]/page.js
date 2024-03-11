@@ -288,6 +288,7 @@ const SingleRestaurantPage = ({ params }) => {
           </div>
         )}
       </div>
+      {showDish && <AddItem dishId={dishId} />}
     </div>
   );
 };

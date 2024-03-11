@@ -16,14 +16,7 @@ const RestaurantProfile = () => {
   const [menu, setMenu] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
+
 
   // const token = localStorage.getItem('token');
   // const headers = {

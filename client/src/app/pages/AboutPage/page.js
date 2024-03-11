@@ -1,54 +1,66 @@
 import React from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
-import MenuSection from './MenuSection';
-import TestimonialsSection from './TestimonialsSection';
+import Footer from '@/app/components/footer/footer';
+
 
 const AboutPage = () => {
-  const testimonials = [
-    {
-      id: 1,
-      quote: "Wow, it was very wonderful to deal with them. They really appreciate the customer and strive for his satisfaction",
-      author: "Mohammad Amayreh"
-    },
-    {
-      id: 2,
-      quote: "I liked their menu. They offer a very unique selection of dishes. I think they just gained a new customer.",
-      author: "Dana"
-    },
-    {
-      id: 3,
-      quote: "I believe that the speed of delivery of the order reflects the extent of their credibility in dealing. I will make all my friends deal with them.",
-      author: "Omar"
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar />
-      <div className="container mx-auto px-4 py-12">
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-center">Welcome to Our Restaurant</h1>
-          <p className="text-lg text-center text-gray-700">Discover the Taste, Order Now!</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div>
-            <img src="/restaurant-image.jpg" alt="Restaurant" className="rounded-lg shadow-lg" />
+      <div className="relative bg-[#fff] overflow-hidden text-black">
+      <div
+        className="relative w-full overflow-hidden bg-black xl:h-[600px] 
+            lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]"
+      >
+        <img
+          className="absolute top-0 left-0 z-0 bg-black opacity-50 w-full
+            xl:h-[600px] lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]"
+          src="/aboutUsBg.png"
+          alt="gifwelcome"
+        />
+
+          <div className="flex absolute bottom-0 mb-4 w-full justify-center z-10">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><InstagramIcon className="text-white w-6 h-6 mx-2" /></a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FacebookIcon className="text-white w-6 h-6 mx-2" /></a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><TwitterIcon className="text-white w-6 h-6 mx-2" /></a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><LinkedInIcon className="text-white w-6 h-6 mx-2" /></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"><YouTubeIcon className="text-white w-6 h-6 mx-2" /></a>
           </div>
-          <div className="text-lg">
-            <p className="mb-6">In a competitive world where trust is paramount, we distinguish ourselves by prioritizing sincerity and loyalty in serving our customers. We deeply understand our customers' love for food and recognize the significance of timely service and excellence. Our commitment is reflected in our extensive menu, offering a wide array of dishes to cater to diverse tastes and preferences. By prioritizing customer satisfaction and delivering the best service possible, we strive to exceed expectations and foster lasting relationships with our valued patrons.</p>
-            <p className="mb-6">Explore our menu and place your order now to experience the exceptional taste and service that we offer.</p>
-            <div className="text-center">
-              <a href="/menu" className="bg-blue-500 text-white px-8 py-3 rounded-lg shadow-md hover:bg-blue-600">View Menu</a>
-            </div>
-          </div>
+
+        <div className="xl:mt-[2rem] xl:ml-[4rem]">
+          <img className="absolute xl:w-[200px] xl:h-auto" 
+          src="/logo.png"
+          alt=""
+          />
         </div>
-        <TestimonialsSection testimonials={testimonials} />
-        <MenuSection />
+
+        <div
+          className="absolute w-full  flex items-center justify-center z-10 
+            xl:h-[600px] lg:h-[400px] md:h-[400px] sm:h-[300px] h-[200px]"
+        >
+          <h1
+            className="font-bold text-white text-center
+              xl:text-6xl lg:text-4xl md:text-xl sm:text-lg text-md
+               xl:pt-10 lg:pt-4 sm:pt-2 pt-4 xl:mt-10 lg:mt-10 sm:mt-6 mt-4
+               xl:px-[10rem]
+               "
+          >
+          Our vision is easy citywide access to Jordan's best dining
+          </h1>
+        </div>
       </div>
+
+      <svg
+        className="relative xl:-mt-12 lg:-mt-8 md:-mt-6 sm:-mt-4 2xs:-mt-4"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 80"
+      >
+        <path
+          fill="#ffffff"
+          fillOpacity="1"
+          d="M0,40L60,43.3C120,47,240,53,360,53.3C480,53,600,43,720,36.7C840,31,960,29,1080,36.7C1200,43,1320,57,1380,62.7L1440,64L1440,80L1380,80C1320,80,1200,80,1080,80C960,80,840,80,720,80C600,80,480,80,360,80C240,80,120,80,60,80L0,80Z"
+        ></path>
+      </svg>
       <Footer />
-    </div>
-  );
-};
+      </div>
+  )
+}
 
 export default AboutPage;

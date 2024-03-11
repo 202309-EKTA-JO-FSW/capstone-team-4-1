@@ -100,7 +100,7 @@ const Footer = () => {
                 <ul className="mt-6 space-y-4 xl:text-sm md:text-xs 2xs:text-[6px]">
                   <li>
                     <a
-                      href="#"
+                      href="/pages/aboutPage"
                       className="text-white transition hover:opacity-75"
                     >
                       About us

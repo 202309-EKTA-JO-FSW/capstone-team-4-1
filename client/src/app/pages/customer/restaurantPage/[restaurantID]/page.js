@@ -15,7 +15,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import helpers from "../../../../services/helpers";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
-
+import AddItem from "../../addItem/[dishID]/page";
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
   const [restaurantState, setRestaurantState] = useState({});
@@ -281,7 +281,7 @@ const SingleRestaurantPage = ({ params }) => {
           </div>
         )}
       </div>
-      {showDish && <AddItem dishId={dishId} />}
+      {showDish && <AddItem dishId={dishId} closeItem={() => setShowDish(false)} />}
     </div>
     <Footer />
     </div>

@@ -31,8 +31,8 @@ const CusotmerProfile = () => {
 
     return ( 
         <div> 
-            {/* <Navbar /> */}
-            <div className='max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-16 bg-white shadow-xl rounded-lg text-gray-900'>
+            <Navbar />
+            <div className='max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-32 bg-white shadow-xl rounded-lg text-gray-900'>
                 <div className='rounded-t-lg h-32 overflow-hidden'>
                     <img src="/blur-restaurant.jpg" alt="background" className='object-cover object-top w-full' />
                 </div>
@@ -48,7 +48,7 @@ const CusotmerProfile = () => {
                     <p className="text-gray-500">Building Number: {customer.buildingNo}</p>
                 </div>
             </div>
-            {/* <Footer /> */}
+            <Footer />
         </div> 
     ); 
 }

@@ -6,13 +6,23 @@ import Counter from './components/counter';
 export default function AddItem({ dishId, closeItem, count, onAddToCart, onCountChange }) {
   const dishID  = dishId;
   const [item, setItem] = useState();
-
+  const [userId, setUserId] = useState(null);
+  const [itemData, setItemData] = useState = ({
+    customerId: '',
+    dishId: '',
+    quantity: 1,
+    price: 0,
+    note: ''
+  })
 
   useEffect(() => {
+    const customerId = localStorage.getItem("userID");
     const token = localStorage.getItem('token');
     const headers = {
       Authorization: `Bearer ${token}`
     };
+
+    setUserId(customerId);
 
     fetch(`http://localhost:3001/customer/dishes/${dishID}`,{
         headers: headers
@@ -21,12 +31,29 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
       .then(data => setItem(data))
   }, [dishID]);
 
-  const handleAddToOrder = () => {
+  const handleAddToOrder = async () => {
     console.log("Attempting to add to order:", { item, count });
 
     onAddToCart(item, count); // Make sure this is correctly defined and passed down
 
     console.log("Item added to order", { item, count });
+
+    try {
+      const response = await fetch(`http://localhost:3001/customer/cart/${userId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(itemData),
+      });
+      if (response.ok) {
+        // setFormSubmitted(true);
+        console.log('Item created successfully!');
+        setItemData({ restaurant: restaurantId, title: '', description: '', image: '', price: 0, category: '', });
+      } else {
+        console.error('Failed to create item');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   if (!item) { 

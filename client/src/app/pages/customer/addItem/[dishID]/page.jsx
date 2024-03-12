@@ -26,11 +26,12 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
 
   const handleAddToOrder = async (e) => {
     e.preventDefault();
-    // console.log("Attempting to add to order:", { item, count });
+    onAddToCart(item, count);
 
-    onAddToCart(item, count); // Make sure this is correctly defined and passed down
-
-    console.log("Item added to order", { item, count });
+    const token = localStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
 
     try {
       const response = await fetch(`http://localhost:3001/customer/cart`, {
@@ -41,6 +42,8 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
           dishId: dishID,
           quantity: count,
         }),
+      },{
+        headers: headers
       });
       if (response.ok) {
         // setFormSubmitted(true);

@@ -18,7 +18,7 @@ const getAllRestaurants = async (req, res) => {
     const restaurants = await RestaurantModel.find(query);
     res.status(200).json(restaurants);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(402).json({ message: error.message });
   }
 }
 
@@ -34,7 +34,7 @@ const getRestaurantById = async (req, res) => {
     }
     res.status(200).json(restaurant)
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -45,7 +45,7 @@ const getAllDishes = async (req, res) => {
     const dishes = await Dish.find()
     res.status(200).json({ dishes })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -61,7 +61,7 @@ const getDishById = async (req, res) => {
     
     res.status(200).json(dish)
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -75,7 +75,7 @@ const getAllDishesOfRestaurant = async (req, res) => {
     res.status(200).json({ dishes })
   } catch (error) {
     console.error('Error fetching dishes:', error)
-    res.status(500).json({ error: 'Internal server error' })
+    res.status(402).json({ error: 'Internal server error' })
   }
 }
 
@@ -87,7 +87,7 @@ const getAllOrdersByCustomerId = async (req, res) => {
     const orders = await Order.find({ customer: customerId })
     res.status(200).json({ orders })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -108,10 +108,18 @@ const addItem = async (req, res) => {
       price: totalPrice,
       note: note
     })
+    // const cartItem = await Item.create({ 
+    //   customer: customerId,
+    //   dish: dishId,
+    //   quantity: quantity,
+    //   price: totalPrice,
+    //   note: note
+    // },
+    // { new: true, upsert: true })
     await cartItem.save()
     res.status(201).json({ message: 'Item added to cart successfully', cartItem })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -135,7 +143,7 @@ const removeItemFromCart = async (req, res) => {
     await order.save()
     res.status(200).json({ message: 'Item removed from cart successfully', order })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -148,7 +156,7 @@ const getPendingOrders = async (req, res) => {
       .populate('items')
     res.status(200).json({ orders: pendingOrders })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 

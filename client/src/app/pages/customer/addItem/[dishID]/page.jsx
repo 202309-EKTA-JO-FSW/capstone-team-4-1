@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import Counter from './components/counter';
 
-export default function AddItem({ dishId, closeItem, count, onAddToCart, onCountChange }) {
+export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onCountChange }) {
   const dishID  = dishId;
   const [item, setItem] = useState();
-
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -27,6 +27,13 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
     onAddToCart(item, count); // Make sure this is correctly defined and passed down
 
     console.log("Item added to order", { item, count });
+    resetAndClose();
+  };
+
+  const handleClose = () => {
+    setNote(""); // Reset the note
+    onCountChange(1); // Reset the count to 1
+    resetAndClose(); // This will call the resetAndClose passed as a prop which will handle closing the modal
   };
 
   if (!item) { 
@@ -43,7 +50,7 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
              md:p-3 md:w-[400px] md:h-auto md:rounded-2xl md:shadow-sm 
                2xs:p-1 2xs:w-[250px] 2xs:h-auto 2xs:rounded-xl 2xs:shadow-xs">
 
-        <button onClick={closeItem} className="absolute top-5 right-5 p-1 rounded-full transition-all duration-200 ease-in-out hover:bg-gray-200
+        <button onClick={handleClose} className="absolute top-5 right-5 p-1 rounded-full transition-all duration-200 ease-in-out hover:bg-gray-200
         xl:top-5 xl:right-5 xl:p-1
         md:top-5 md:right-4 md:p-1
         2xs:top-2 2xs:right-2 2xs:p-1/2">
@@ -74,7 +81,15 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
           </div>
 
           <div className="flex justify-center items-center w-full ">
-              <input type="text" id="streetName" name="streetName" placeholder="Note: (optional)" className="mr-[2rem] ml-[2rem] w-full px-2 py-[1rem] bg-gray-50 rounded-xl border border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+          <input
+              type="text"
+              id="note"
+              name="note"
+              placeholder="Note: (optional)"
+              value={note}
+              onChange={(e) => setNote(e.target.value)} 
+              className="mr-[2rem] ml-[2rem] w-full px-2 py-[1rem] bg-gray-50 rounded-xl border border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+            />
           </div>
           <div className="flex justify-center items-center w-full ">
           <button onClick={handleAddToOrder}

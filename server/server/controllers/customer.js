@@ -134,14 +134,27 @@ const editProfile = async (req, res) => {
   const { customerId } = req.params;
   const { firstName, lastName, email, phone, street, buildingNo } = req.body
   try {
-    const infoUpdate = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phone: phone,
-      street: street,
-      buildingNo: buildingNo,
+    const infoUpdate = {};
+    
+    if (firstName !== '') {
+      infoUpdate.firstName = firstName;
     }
+    if (lastName !== '') {
+      infoUpdate.lastName = lastName;
+    }
+    if (email !== '') {
+      infoUpdate.email = email;
+    }
+    if (phone !== '') {
+      infoUpdate.phone = phone;
+    }
+    if (street !== '') {
+      infoUpdate.street = street;
+    }
+    if (buildingNo !== '') {
+      infoUpdate.buildingNo = buildingNo;
+    }
+
     const customer = await Customer.findByIdAndUpdate(customerId, infoUpdate, { new: true } )
     if (!customer) {
       return res.status(404).json({ message: 'Customer not found' })

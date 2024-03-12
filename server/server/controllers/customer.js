@@ -227,7 +227,7 @@ const getPendingOrders = async (req, res) => {
 }
 
 module.exports = { 
-getAllRestaurants,
+  getAllRestaurants,
   getRestaurantById,
   getAllDishes,
   getDishById,
@@ -236,6 +236,7 @@ getAllRestaurants,
   getPendingOrders,
   getCart,
   addItem,
+  editProfile,
   removeItemFromCart
 };
 

@@ -108,14 +108,6 @@ const addItem = async (req, res) => {
       price: totalPrice,
       note: note
     })
-    // const cartItem = await Item.create({ 
-    //   customer: customerId,
-    //   dish: dishId,
-    //   quantity: quantity,
-    //   price: totalPrice,
-    //   note: note
-    // },
-    // { new: true, upsert: true })
     await cartItem.save()
     res.status(201).json({ message: 'Item added to cart successfully', cartItem })
   } catch (error) {

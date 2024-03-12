@@ -15,13 +15,9 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
     'Content-Type': 'application/json'
   };
 
-  console.log(headers);
-
   useEffect(() => {
     setUserId(customerId);
   }, []);
-
-  console.log(userId);
 
   useEffect(() => {
     fetch(`http://localhost:3001/customer/dishes/${dishID}`,{

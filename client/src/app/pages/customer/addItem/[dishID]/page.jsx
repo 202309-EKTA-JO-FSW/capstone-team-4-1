@@ -37,7 +37,9 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          
+          customerId: userId,
+          dishId: dishID,
+          quantity: count,
         }),
       });
       if (response.ok) {

@@ -9,6 +9,15 @@ const CusotmerProfile = () => {
     const params = useParams();
     const customerId = params.customerId;
     const [customer, setCustomer] = useState();
+    const [edit, setEdit] = useState(false);
+    const [updatedCustomer, setUpdatedCustomer] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        street: '',
+        buildingNo: '',
+    });
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -21,6 +30,15 @@ const CusotmerProfile = () => {
         .then(res => res.json())
         .then(data => setCustomer(data))
     }, [customerId]);
+
+    const handleEdit = () => {
+        setEdit(true);
+    };
+
+    const handleSave = () => {
+        // Implement the logic to save the updated customer information
+        setEdit(false);
+    };
 
     if (!customer) {
         return (
@@ -41,13 +59,39 @@ const CusotmerProfile = () => {
                     <img src="https://cdn0.iconfinder.com/data/icons/communication-456/24/account_profile_user_contact_person_avatar_placeholder-512.png" alt="profile picture" className='object-cover object-center h-32' />
                 </div>
                 <div className='text-center mt-2'>
+                <h2 className="font-semibold">{customer.firstName} {customer.lastName}</h2>
+                {edit ? (
+                    <div className="space-y-4 pt-10">
+                        <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                        <input type="email" value={updatedCustomer.email} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={(e) => setUpdatedCustomer({...updatedCustomer, email: e.target.value})} />
+                        <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">Phone</label>
+                        <input type="text" value={updatedCustomer.phone} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={(e) => setUpdatedCustomer({...updatedCustomer, phone: e.target.value})} />
+                        {/* Add input fields for other customer information */}
+                        <div className="flex justify-center">
+                        <button onClick={handleSave} className="block text-gray-700 text-sm font-bold">
+                        Save
+                        </button>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <p className="text-gray-500">{customer.email}</p>
+                        <p className="text-gray-500">0{customer.phone}</p>
+                        <p className="text-gray-500">Balance: {customer.balance}</p>
+                        <p className="text-gray-500">Street: {customer.street}</p>
+                        <p className="text-gray-500">Building Number: {customer.buildingNo}</p>
+                        <button onClick={handleEdit}>Edit</button>
+                    </>
+                )}
+            </div>
+                {/* <div className='text-center mt-2'>
                     <h2 className="font-semibold">{customer.firstName} {customer.lastName}</h2>
                     <p className="text-gray-500">{customer.email}</p>
                     <p className="text-gray-500">0{customer.phone}</p>
                     <p className="text-gray-500">Balance: {customer.balance}</p>
                     <p className="text-gray-500">Street: {customer.street}</p>
                     <p className="text-gray-500">Building Number: {customer.buildingNo}</p>
-                </div>
+                </div> */}
             </div>
             <Footer />
         </div> 

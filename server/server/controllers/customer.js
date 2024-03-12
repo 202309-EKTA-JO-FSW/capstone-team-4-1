@@ -2,6 +2,24 @@ const RestaurantModel = require('../models/restaurant');
 const Order = require('../models/order');
 const Item = require('../models/item');
 const Dish = require('../models/dish');
+const Customer = require('../models/customer');
+
+// get customer profile
+
+const getProfile = async (req, res) => {
+  const { customerId } = req.params;
+  try {
+    const profile = await Customer.findById(customerId);
+
+    if (!profile) {
+      res.status(422).json({ message: "No profile found" });
+    }
+
+    res.status(200).json(profile);
+  } catch (err) {
+    res.status(422).json({ message: err.message });
+  }
+};
 
 // Get All Restaurants:
 
@@ -110,6 +128,44 @@ const addItem = async (req, res) => {
   }
 }
 
+// Edit Customer Profile
+
+const editProfile = async (req, res) => {
+  const { customerId } = req.params;
+  const { firstName, lastName, email, phone, street, buildingNo } = req.body
+  try {
+    const infoUpdate = {};
+    
+    if (firstName !== '') {
+      infoUpdate.firstName = firstName;
+    }
+    if (lastName !== '') {
+      infoUpdate.lastName = lastName;
+    }
+    if (email !== '') {
+      infoUpdate.email = email;
+    }
+    if (phone !== '') {
+      infoUpdate.phone = phone;
+    }
+    if (street !== '') {
+      infoUpdate.street = street;
+    }
+    if (buildingNo !== '') {
+      infoUpdate.buildingNo = buildingNo;
+    }
+
+    const customer = await Customer.findByIdAndUpdate(customerId, infoUpdate, { new: true } )
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' })
+    }
+    
+    res.status(201).json(customer)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 // Remove Item From Cart
 
 const removeItemFromCart = async (req, res) => {
@@ -147,4 +203,16 @@ const getPendingOrders = async (req, res) => {
   }
 }
 
-module.exports = { getAllRestaurants, getRestaurantById, getAllDishes, getDishById, getAllDishesOfRestaurant, getAllOrdersByCustomerId, getPendingOrders, addItem, removeItemFromCart };
+module.exports = { 
+  getProfile,
+  getAllRestaurants,
+  getRestaurantById,
+  getAllDishes,
+  getDishById,
+  getAllDishesOfRestaurant,
+  getAllOrdersByCustomerId,
+  getPendingOrders,
+  addItem,
+  editProfile,
+  removeItemFromCart 
+};

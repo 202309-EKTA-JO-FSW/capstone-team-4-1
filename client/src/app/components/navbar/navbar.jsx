@@ -11,15 +11,18 @@ function Navbar() {
   const router = useRouter();
 
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [userId, setUserId] = useState(null);
   const [userRoleState, setUserRoleState] = useState("");
   const [isValidTokenState, setIsValidTokenState] = useState(false);
   const [isActive, setActive] = useState("");
 
   useEffect(() => {
+    let userID = localStorage.getItem("userID");
     let userRole = localStorage.getItem("userRole");
     let isValidToken = helpers.tokenValidator();
     setIsValidTokenState(isValidToken);
     setUserRoleState(userRole);
+    setUserId(userID);
   }, []);
 
   const handleImageClick = () => {
@@ -97,6 +100,11 @@ function Navbar() {
               <Link href="/pages/customer/restaurantList">All restaurants</Link>
             </div>
           )}
+          {isValidTokenState && userRoleState == "customer" && (
+            <div>
+              <Link href={`/pages/customer/${userId}`}>Profile</Link>
+            </div>
+            )}
         </div>
       </div>
       <svg

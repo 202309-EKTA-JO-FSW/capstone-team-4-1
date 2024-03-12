@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-    order: {
+    customer: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order',
+      ref: 'Customer',
       required: true
     },
     dish: {

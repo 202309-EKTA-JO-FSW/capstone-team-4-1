@@ -128,6 +128,31 @@ const addItem = async (req, res) => {
   }
 }
 
+// Edit Customer Profile
+
+const editProfile = async (req, res) => {
+  const { customerId } = req.params;
+  const { firstName, lastName, email, phone, street, buildingNo } = req.body
+  try {
+    const infoUpdate = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+      street: street,
+      buildingNo: buildingNo,
+    }
+    const customer = await Customer.findByIdAndUpdate(customerId, infoUpdate, { new: true } )
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' })
+    }
+    
+    res.status(201).json(customer)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 // Remove Item From Cart
 
 const removeItemFromCart = async (req, res) => {
@@ -165,4 +190,16 @@ const getPendingOrders = async (req, res) => {
   }
 }
 
-module.exports = { getProfile, getAllRestaurants, getRestaurantById, getAllDishes, getDishById, getAllDishesOfRestaurant, getAllOrdersByCustomerId, getPendingOrders, addItem, removeItemFromCart };
+module.exports = { 
+  getProfile,
+  getAllRestaurants,
+  getRestaurantById,
+  getAllDishes,
+  getDishById,
+  getAllDishesOfRestaurant,
+  getAllOrdersByCustomerId,
+  getPendingOrders,
+  addItem,
+  editProfile,
+  removeItemFromCart 
+};

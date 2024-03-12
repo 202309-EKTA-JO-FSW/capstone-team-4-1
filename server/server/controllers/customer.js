@@ -93,6 +93,22 @@ const getAllOrdersByCustomerId = async (req, res) => {
 
 // Add An Item To Cart
 
+const getCart = async (req, res) => {
+  const { customerId } = req.body
+  try {
+    const cartItems = await Item.find({ customer: customerId, state: 'cart'});
+    if (!cartItems) {
+      return res.status(404).json({ message: 'Cart empty' })
+    }
+    
+    res.status(201).json(cartItems)
+  } catch (error) {
+    res.status(402).json({ message: error.message })
+  }
+}
+
+// Add An Item To Cart
+
 const addItem = async (req, res) => {
   const { customerId, dishId, quantity, note } = req.body
   try {
@@ -107,7 +123,8 @@ const addItem = async (req, res) => {
       dish: dishId,
       quantity: quantity,
       price: totalPrice,
-      note: note
+      note: note,
+      state: 'cart'
     })
     await cartItem.save()
     res.status(201).json({ message: 'Item added to cart successfully', cartItem })
@@ -153,4 +170,14 @@ const getPendingOrders = async (req, res) => {
   }
 }
 
-module.exports = { getAllRestaurants, getRestaurantById, getAllDishes, getDishById, getAllDishesOfRestaurant, getAllOrdersByCustomerId, getPendingOrders, addItem, removeItemFromCart };
+module.exports = { 
+  getAllRestaurants,
+  getRestaurantById,
+  getAllDishes,
+  getDishById,
+  getAllDishesOfRestaurant,
+  getAllOrdersByCustomerId,
+  getPendingOrders,
+  getCart,
+  addItem,
+  removeItemFromCart };

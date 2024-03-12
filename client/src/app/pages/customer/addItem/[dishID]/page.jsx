@@ -8,15 +8,25 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
   const [item, setItem] = useState();
   const [userId, setUserId] = useState(null);
 
+  const customerId = localStorage.getItem("userID");
+  const token = localStorage.getItem('token');
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }; 
+  // const headers = {
+  //   Authorization: `Bearer ${token}`
+  // };
+
+  console.log(headers);
+
   useEffect(() => {
-    const customerId = localStorage.getItem("userID");
-    const token = localStorage.getItem('token');
-    const headers = {
-      Authorization: `Bearer ${token}`
-    };
-
     setUserId(customerId);
+  }, []);
 
+  console.log(userId);
+
+  useEffect(() => {
     fetch(`http://localhost:3001/customer/dishes/${dishID}`,{
       headers: headers
     })
@@ -28,25 +38,18 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
     e.preventDefault();
     onAddToCart(item, count);
 
-    const token = localStorage.getItem('token');
-    const headers = {
-      Authorization: `Bearer ${token}`
-    };
-
     try {
       const response = await fetch(`http://localhost:3001/customer/cart`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify({
           customerId: userId,
           dishId: dishID,
           quantity: count,
         }),
-      },{
-        headers: headers
       });
+      
       if (response.ok) {
-        // setFormSubmitted(true);
         console.log('Item created successfully!');
         // setItemData({ restaurant: restaurantId, title: '', description: '', image: '', price: 0, category: '', });
       } else {

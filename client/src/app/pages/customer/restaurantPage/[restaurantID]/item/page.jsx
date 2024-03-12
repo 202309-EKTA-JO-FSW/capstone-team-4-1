@@ -48,7 +48,7 @@ export default function Item() {
       </div>
     );
   }
-  console.log(cartItems)
+  
   return (
     <div className="flex flex-col bg-white justify-center items-center border shadow-3xl rounded-2xl">
       <h1 className="font-bold text-2xl text-gray-700 mb-5 mt-8">Your Order</h1>

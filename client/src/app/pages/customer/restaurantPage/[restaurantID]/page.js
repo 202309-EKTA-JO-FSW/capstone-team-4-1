@@ -17,8 +17,9 @@ import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
 import AddItem from "../../addItem/[dishID]/page";
 import Item from "./item/page";
+import ReplaceItems from "../../addItem/[dishID]/confirmReplaceItems/page";
 
-const SingleRestaurantPage = ({ params }) => {
+const SingleRestaurantPage = ({ params, replace }) => {
   const { restaurantID } = useParams();
   const [restaurantState, setRestaurantState] = useState({});
   const [categorisWithDishesState, setCategorisWithDishesState] = useState([]);
@@ -28,7 +29,10 @@ const SingleRestaurantPage = ({ params }) => {
   const [dishId, setDishId] = useState(null);
   const [showDish, setShowDish] = useState(false);
   const [count, setCount] = useState(1);
-  
+  const [showReplaceItemsPopup, setShowReplaceItemsPopup] = useState(false);
+
+  const [pendingAddition, setPendingAddition] = useState(null);
+
 
   useEffect(() => {
     fetchRestaurant();
@@ -99,31 +103,63 @@ const SingleRestaurantPage = ({ params }) => {
     setShowDish(false); 
   };
 
-const handleAddToCart = (addedItem, itemCount ) => {
-  const userId = localStorage.getItem('userId');
-  const currentCart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
-  const itemIndex = currentCart.findIndex((cartItem) => cartItem.dishId === addedItem._id);
-  
-  if (itemIndex > -1) {
-    currentCart[itemIndex].count += itemCount;
-    currentCart[itemIndex].totalPrice = (currentCart[itemIndex].price * currentCart[itemIndex].count).toFixed(2);
-  } else {
-    currentCart.push({
-      dishId: addedItem._id,
-      title: addedItem.title,
-      count: itemCount,
-      price: addedItem.price,
-      description: addedItem.description,
-      image: addedItem.image,
-      totalPrice: (addedItem.price * itemCount).toFixed(2),
-    });
-  }
-    
-  localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
-  setShowDish(false);
-  
-};
 
+
+  // Triggered when the user attempts to add an item to the cart
+  const handleAddToCart = (addedItem, itemCount, note) => {
+    const userId = localStorage.getItem('userId');
+    const currentCart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+    const differentRestaurantExists = currentCart.some(item => item.restaurantId !== params.restaurantID);
+  
+    if (differentRestaurantExists) {
+      // Store the pending addition and show the replace confirmation popup
+      setPendingAddition({addedItem, itemCount, note});
+      setShowReplaceItemsPopup(true);
+    } else {
+      // No conflicting restaurant, proceed to add to cart
+      addToCartDirectly(addedItem, itemCount, note, currentCart, userId);
+    }
+  
+    setShowDish(false);
+  };
+  
+  // Directly add to cart (used for initial add and after confirmation)
+  const addToCartDirectly = (addedItem, itemCount, note, currentCart, userId) => {
+    const itemIndex = currentCart.findIndex(cartItem => cartItem.dishId === addedItem._id);
+  
+    if (itemIndex > -1) {
+      currentCart[itemIndex].count += itemCount;
+      currentCart[itemIndex].totalPrice = (currentCart[itemIndex].price * currentCart[itemIndex].count).toFixed(2);
+      currentCart[itemIndex].note = note; // Optionally update the note
+    } else {
+      currentCart.push({
+        restaurantId: params.restaurantID,
+        dishId: addedItem._id,
+        title: addedItem.title,
+        count: itemCount,
+        price: addedItem.price,
+        description: addedItem.description,
+        image: addedItem.image,
+        totalPrice: (addedItem.price * itemCount).toFixed(2),
+        note: note
+      });
+    }
+  
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
+  };
+  
+  // This should be called after the user confirms replacement in the ReplaceItems component
+  const handleReplaceConfirm = (replaceConfirmed) => {
+    if (replaceConfirmed && pendingAddition) {
+      const { addedItem, itemCount, note } = pendingAddition;
+      const userId = localStorage.getItem('userId');
+      const newCart = []; // Start with an empty cart for the new restaurant
+  
+      addToCartDirectly(addedItem, itemCount, note, newCart, userId);
+      setPendingAddition(null); // Clear the pending addition after handling
+    }
+    setShowReplaceItemsPopup(false);
+  };
 
 
   const renderDishes = async (response) => {
@@ -179,7 +215,7 @@ const handleAddToCart = (addedItem, itemCount ) => {
                           </div>
                         </div>
                         <div className="priceAndBTNContainer">
-                          <p className="dishPrice font-bold text-xl">{dish.price} JOD</p>
+                          <p className="dishPrice font-bold text-xl w-20 pl-2">{dish.price} JOD</p>
                           <button className="addToCartBTN" color="primary" onClick={() => {
                             setDishId(dish._id);
                             setShowDish(true);
@@ -324,10 +360,12 @@ const handleAddToCart = (addedItem, itemCount ) => {
         )}
       </div>
       
-      <div className="cartItem w-[350px] z-10 top-0 mr-[2rem] fixed mt-[11rem] mb-[10rem]">
+      <div className="cartItem w-[350px] z-20 top-0 mr-[2rem] fixed mt-[11rem] mb-[10rem]">
         <Item />
       </div>
-      {showDish && (
+      
+    </div>
+    {showDish && (
       <AddItem
         dishId={dishId}
         count={count}
@@ -336,8 +374,16 @@ const handleAddToCart = (addedItem, itemCount ) => {
         resetAndClose={resetAndClose}
       />
     )}
-    </div>
     <Footer />
+    {showReplaceItemsPopup && (
+    <ReplaceItems 
+        closePopup={() => setShowReplaceItemsPopup(false)}
+        onConfirmReplace={(confirm) => handleReplaceConfirm(confirm)} // Assuming ReplaceItems calls this with true/false
+        restaurantName={restaurantState.title} // Or any other restaurant name you wish to display
+    />
+    )}
+
+
     </div>
   );
 };

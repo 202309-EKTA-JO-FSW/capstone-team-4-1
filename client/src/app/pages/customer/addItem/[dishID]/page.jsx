@@ -21,18 +21,16 @@ export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onC
   }, [dishID]);
 
   const handleAddToOrder = () => {
-    console.log("Attempting to add to order:", { item, count });
 
-    onAddToCart(item, count); // Make sure this is correctly defined and passed down
+    onAddToCart(item, count, note);
 
-    console.log("Item added to order", { item, count });
     resetAndClose();
   };
 
   const handleClose = () => {
-    setNote(""); // Reset the note
-    onCountChange(1); // Reset the count to 1
-    resetAndClose(); // This will call the resetAndClose passed as a prop which will handle closing the modal
+    setNote(""); 
+    onCountChange(1); 
+    resetAndClose();
   };
 
   if (!item) { 
@@ -72,7 +70,7 @@ export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onC
           </div>
 
           <div>
-            <h5 className="block text-gray-500 text-xs font-md mb-2 mr-[2rem] ml-[2rem]">{item.description}</h5>
+            <h5 className="block text-center text-gray-500 text-xs font-md mb-2 mr-[2rem] ml-[2rem]">{item.description}</h5>
           </div>
           
           <div className="flex justify-center items-center">

@@ -36,6 +36,8 @@ export default function Item() {
     setCartItems(updatedCartItems);
     localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
   };
+  const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);
 
   if (cartItems.length === 0) {
     return (
@@ -48,31 +50,40 @@ export default function Item() {
       </div>
     );
   }
-  
+  console.log(cartItems)
   return (
-    <div className="flex flex-col bg-white justify-center items-center border shadow-3xl rounded-2xl">
+    <div className="flex flex-col bg-white justify-center items-center border shadow-3xl rounded-2xl px-2">
       <h1 className="font-bold text-2xl text-gray-700 mb-5 mt-8">Your Order</h1>
-      
+      <div style={{ maxHeight: cartItems.length > 3 ? '300px' : 'auto', overflowY: cartItems.length > 3 ? 'scroll' : 'visible' }} className="w-full">
       {cartItems.map((item) => (
-        <div key={item.dishId} className="flex flex-col w-full items-center justify-between px-2 py-6">
-          <div className="flex space-between space-x-[12rem]">
-           <span className="mr-3 text-lg font-bold pr-10">{parseFloat(item.totalPrice).toFixed(2)}<span className="text-sm">JOD</span></span>
-            <span className="mx-3 text-lg font-bold">{item.count}x</span>
+        <div key={item.dishId} className="flex flex-col w-full py-3">
+          <div className="flex flex-row justify-left items-center ml-5">
+            <img
+              className="itemImage w-[70px] h-[70px] rounded-3xl"
+              src={item.image ? item.image : "/placeholder.png"}
+              alt={item.title}
+            />
+            <div className="text-left flex-grow pl-3">
+              <h2 className="text-lg font-md">{item.title}</h2>
+              {/* <h2 className="text-xs font-md">{item.note}</h2> */}
+              <span className="mr-3 text-md font-bold pr-10 pt-10">{parseFloat(item.totalPrice).toFixed(2)}<span className="text-xs">JOD</span></span>
+            </div>
           </div>
-          <div className="flex flex-row">
-            <div className="justify-center ml-4">
+          
+          <div className="flex flex-row justify-end items-right -mt-[2rem]">
+            <div className="justify-right ml-4">
               <button 
                 onClick={() => item.count > 1 ? handleCountChange(item.dishId, item.count - 1) : handleRemoveItem(item.dishId)}
-                className="px-2 py-1 text-sm font-bold text-[#FFC245] bg-gray-200 rounded-full hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
+                className="px-2 py-1 text-sm font-bold text-[#FFC245] bg-gray-600 rounded-full hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
               >
                 -
               </button>
               
             </div>
-            <div className="text-center flex-grow mx-4">
-              <h2 className="text-md font-medium">{item.title}</h2>
+            <div className="justify-right">
+              <span className="mx-3 text-md text-center font-md">{item.count}</span>
             </div>
-            <div className="justify-center mr-4">
+            <div className="justify-right mr-4">
             
               <button 
                 onClick={() => handleCountChange(item.dishId, item.count + 1)}
@@ -84,6 +95,10 @@ export default function Item() {
           </div>
         </div>
       ))}
+      </div>
+      <div className="flex items-center justify-center">
+          <button className="w-full text-md mt-8 mb-5 px-10 py-2 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Order {totalQuantity} for {totalPrice} JOD</button>
+      </div>
     </div>
   );
 }

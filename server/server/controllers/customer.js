@@ -95,7 +95,7 @@ const getAllOrdersByCustomerId = async (req, res) => {
 
 const addItem = async (req, res) => {
   const { customerId } = req.params;
-  const { dishId, quantity, price, note } = req.body
+  const { dishId, quantity, note } = req.body
   try {
     const item = await Item.findOne(({ 'dish._id': dishId }))
     if (!item) {

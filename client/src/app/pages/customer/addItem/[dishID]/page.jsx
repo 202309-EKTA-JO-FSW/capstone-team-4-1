@@ -7,13 +7,12 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
   const dishID  = dishId;
   const [item, setItem] = useState();
   const [userId, setUserId] = useState(null);
-  const [itemData, setItemData] = useState = ({
-    customerId: '',
-    dishId: '',
-    quantity: 1,
-    price: 0,
-    note: ''
-  })
+  const [itemData, setItemData] = useState({
+    customer: '',
+    dish: '',
+    quantity: '',
+    note: '',
+  });
 
   useEffect(() => {
     const customerId = localStorage.getItem("userID");
@@ -25,35 +24,45 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
     setUserId(customerId);
 
     fetch(`http://localhost:3001/customer/dishes/${dishID}`,{
-        headers: headers
+      headers: headers
     })
       .then(res => res.json())
       .then(data => setItem(data))
   }, [dishID]);
 
-  const handleAddToOrder = async () => {
-    console.log("Attempting to add to order:", { item, count });
+  const handleAddToOrder = async (e) => {
+    e.preventDefault();
+    // console.log("Attempting to add to order:", { item, count });
 
     onAddToCart(item, count); // Make sure this is correctly defined and passed down
 
     console.log("Item added to order", { item, count });
 
-    try {
-      const response = await fetch(`http://localhost:3001/customer/cart/${userId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(itemData),
-      });
-      if (response.ok) {
-        // setFormSubmitted(true);
-        console.log('Item created successfully!');
-        setItemData({ restaurant: restaurantId, title: '', description: '', image: '', price: 0, category: '', });
-      } else {
-        console.error('Failed to create item');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    setItemData({
+      customer: userId,
+      dish: item,
+      quantity: count,
+      note: e.target.note,
+    })
+
+    console.log(itemData);
+
+    // try {
+    //   const response = await fetch(`http://localhost:3001/customer/cart/${userId}`, {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(itemData),
+    //   });
+    //   if (response.ok) {
+    //     // setFormSubmitted(true);
+    //     console.log('Item created successfully!');
+    //     // setItemData({ restaurant: restaurantId, title: '', description: '', image: '', price: 0, category: '', });
+    //   } else {
+    //     console.error('Failed to create item');
+    //   }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // }
   };
 
   if (!item) { 
@@ -101,7 +110,7 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
           </div>
 
           <div className="flex justify-center items-center w-full ">
-              <input type="text" id="streetName" name="streetName" placeholder="Note: (optional)" className="mr-[2rem] ml-[2rem] w-full px-2 py-[1rem] bg-gray-50 rounded-xl border border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              <input type="text" id="note" value={itemData.note} name="note" placeholder="Note: (optional)" className="mr-[2rem] ml-[2rem] w-full px-2 py-[1rem] bg-gray-50 rounded-xl border border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
           </div>
           <div className="flex justify-center items-center w-full ">
           <button onClick={handleAddToOrder}

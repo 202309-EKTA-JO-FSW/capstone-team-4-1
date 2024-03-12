@@ -17,6 +17,7 @@ import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
 import AddItem from "../../addItem/[dishID]/page";
 import Item from "./item/page";
+
 const SingleRestaurantPage = ({ params }) => {
   const { restaurantID } = useParams();
   const [restaurantState, setRestaurantState] = useState({});
@@ -27,6 +28,7 @@ const SingleRestaurantPage = ({ params }) => {
   const [dishId, setDishId] = useState(null);
   const [showDish, setShowDish] = useState(false);
   const [count, setCount] = useState(1);
+  
 
   useEffect(() => {
     fetchRestaurant();
@@ -91,39 +93,34 @@ const SingleRestaurantPage = ({ params }) => {
   };
 
 
+  const resetAndClose = () => {
+    
+    setCount(1); 
+    setShowDish(false); 
+  };
 
-const openAddItemModal = (dish) => {
-  setDishId(dish._id);
-  setCount(1); // Reset or initialize count when opening AddItem modal
-  setShowDish(true);
-};
-
-
-
-const handleAddToCart = () => {
-  const dishToAdd = categorisWithDishesState.find(dish => dish._id === dishId);
-  if (dishToAdd) {
-    const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const itemIndex = currentCart.findIndex((cartItem) => cartItem.dishId === dishId);
-
-    if (itemIndex > -1) {
-      currentCart[itemIndex].count += count;
-      currentCart[itemIndex].totalPrice = (currentCart[itemIndex].price * currentCart[itemIndex].count).toFixed(2);
+const handleAddToCart = (addedItem, itemCount ) => {
+  const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const itemIndex = currentCart.findIndex((cartItem) => cartItem.dishId === addedItem._id);
+  const userId = localStorage.getItem('userId');
+if (itemIndex > -1) {
+    currentCart[itemIndex].count += itemCount;
+    currentCart[itemIndex].totalPrice = (currentCart[itemIndex].price * currentCart[itemIndex].count).toFixed(2);
     } else {
       currentCart.push({
-        dishId: dishToAdd._id,
-        title: dishToAdd.title,
-        count,
-        price: dishToAdd.price,
-        description: dishToAdd.description,
-        image: dishToAdd.image,
-        totalPrice: (dishToAdd.price * count).toFixed(2),
+        dishId: addedItem._id,
+        title: addedItem.title,
+        count: itemCount,
+        price: addedItem.price,
+        description: addedItem.description,
+        image: addedItem.image,
+        totalPrice: (addedItem.price * itemCount).toFixed(2),
       });
     }
-
-    localStorage.setItem('cart', JSON.stringify(currentCart));
-    setShowDish(false);
-  }
+    
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
+  setShowDish(false);
+  
 };
 
 
@@ -329,15 +326,15 @@ const handleAddToCart = () => {
       <div className="cartItem w-[350px] z-10 top-0 mr-[2rem] fixed mt-[11rem] mb-[10rem]">
         <Item />
       </div>
-       {showDish && (
-        <AddItem
-          dishId={dishId}
-          count={count}
-          onAddToCart={handleAddToCart}
-          onCountChange={setCount} // Pass setCount to AddItem to manage the count
-          closeItem={() => setShowDish(false)}
-        />
-      )}
+      {showDish && (
+      <AddItem
+        dishId={dishId}
+        count={count}
+        onAddToCart={handleAddToCart}
+        onCountChange={setCount}
+        resetAndClose={resetAndClose}
+      />
+    )}
     </div>
     <Footer />
     </div>

@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant',
+      required: true
+    },
     customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Customer',

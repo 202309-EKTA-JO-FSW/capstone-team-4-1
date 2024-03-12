@@ -94,15 +94,20 @@ const getAllOrdersByCustomerId = async (req, res) => {
 // Add An Item To Cart
 
 const addItem = async (req, res) => {
-  const { customerId } = req.params;
-  const { dishId, quantity, note } = req.body
+  const { customerId, dishId, quantity, note } = req.body
   try {
-    const item = await Item.findOne(({ 'dish._id': dishId }))
-    if (!item) {
+    const dish = await Dish.findById(dishId)
+    if (!dish) {
       return res.status(404).json({ message: 'Dish not found' })
     }
-    const totalPrice = item.dish.price * quantity
-    const cartItem = await Item.create({ 'dish._id': dishId, quantity, price: totalPrice, note },
+    const totalPrice = dish.price * quantity
+    const cartItem = await Item.create({ 
+      customer: customerId,
+      dish: dishId,
+      quantity: quantity,
+      price: totalPrice,
+      note: note
+    },
     { new: true, upsert: true })
     await cartItem.save()
     res.status(201).json({ message: 'Item added to cart successfully', cartItem })

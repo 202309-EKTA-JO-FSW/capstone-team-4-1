@@ -100,25 +100,26 @@ const SingleRestaurantPage = ({ params }) => {
   };
 
 const handleAddToCart = (addedItem, itemCount ) => {
-  const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const itemIndex = currentCart.findIndex((cartItem) => cartItem.dishId === addedItem._id);
   const userId = localStorage.getItem('userId');
-if (itemIndex > -1) {
+  const currentCart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+  const itemIndex = currentCart.findIndex((cartItem) => cartItem.dishId === addedItem._id);
+  
+  if (itemIndex > -1) {
     currentCart[itemIndex].count += itemCount;
     currentCart[itemIndex].totalPrice = (currentCart[itemIndex].price * currentCart[itemIndex].count).toFixed(2);
-    } else {
-      currentCart.push({
-        dishId: addedItem._id,
-        title: addedItem.title,
-        count: itemCount,
-        price: addedItem.price,
-        description: addedItem.description,
-        image: addedItem.image,
-        totalPrice: (addedItem.price * itemCount).toFixed(2),
-      });
-    }
+  } else {
+    currentCart.push({
+      dishId: addedItem._id,
+      title: addedItem.title,
+      count: itemCount,
+      price: addedItem.price,
+      description: addedItem.description,
+      image: addedItem.image,
+      totalPrice: (addedItem.price * itemCount).toFixed(2),
+    });
+  }
     
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
+  localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
   setShowDish(false);
   
 };

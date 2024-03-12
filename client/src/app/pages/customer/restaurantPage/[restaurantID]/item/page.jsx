@@ -56,7 +56,7 @@ export default function Item() {
       {cartItems.map((item) => (
         <div key={item.dishId} className="flex flex-col w-full items-center justify-between px-2 py-6">
           <div className="flex space-between space-x-[12rem]">
-           <span className="mr-3 text-lg font-bold pr-10">{parseFloat(item.totalPrice).toFixed(2)}€</span>
+           <span className="mr-3 text-lg font-bold pr-10">{parseFloat(item.totalPrice).toFixed(2)}<span className="text-sm">JOD</span></span>
             <span className="mx-3 text-lg font-bold">{item.count}x</span>
           </div>
           <div className="flex flex-row">

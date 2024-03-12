@@ -9,10 +9,10 @@ export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onC
   const [note, setNote] = useState("");
 
   useEffect(() => {
-    setUserId(customerId);
-  }, []);
-
-  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
     fetch(`http://localhost:3001/customer/dishes/${dishID}`,{
       headers: headers
     })

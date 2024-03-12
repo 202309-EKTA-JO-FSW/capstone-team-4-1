@@ -26,7 +26,15 @@ const itemSchema = new mongoose.Schema({
       default: 0,
       required: true
     },
-    note: String
+    note: {
+      type: String,
+    },
+    state: {
+      type: String,
+        enum: ['cart', 'order', 'done'],
+        default: 'customer',
+        required: true
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Item', itemSchema);

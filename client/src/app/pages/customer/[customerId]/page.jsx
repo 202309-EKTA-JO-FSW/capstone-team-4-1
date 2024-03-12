@@ -43,7 +43,7 @@ const CusotmerProfile = () => {
 
     const handleSave = async (e) => {
         e.preventDefault();
-        
+
         try {
             const response = await fetch(`http://localhost:3001/customer/profile/${customerId}`, {
                 method: 'PUT',
@@ -62,6 +62,7 @@ const CusotmerProfile = () => {
                     street: '',
                     buildingNo: '',
                 });
+                window.location.reload();
             } else {
                 console.error('Failed to update customer info');
             }

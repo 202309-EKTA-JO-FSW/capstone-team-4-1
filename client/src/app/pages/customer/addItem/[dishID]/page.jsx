@@ -13,10 +13,7 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
   const headers = {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json'
-  }; 
-  // const headers = {
-  //   Authorization: `Bearer ${token}`
-  // };
+  };
 
   console.log(headers);
 
@@ -51,7 +48,6 @@ export default function AddItem({ dishId, closeItem, count, onAddToCart, onCount
       
       if (response.ok) {
         console.log('Item created successfully!');
-        // setItemData({ restaurant: restaurantId, title: '', description: '', image: '', price: 0, category: '', });
       } else {
         console.error('Failed to create item');
       }

@@ -19,14 +19,16 @@ const CusotmerProfile = () => {
         buildingNo: '',
     });
 
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
+
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const headers = {
-            Authorization: `Bearer ${token}`
-        };
         fetch(`http://localhost:3001/customer/profile/${customerId}`, {
-      headers: headers
-    })
+            headers: headers
+        })
         .then(res => res.json())
         .then(data => setCustomer(data))
     }, [customerId]);
@@ -35,9 +37,37 @@ const CusotmerProfile = () => {
         setEdit(true);
     };
 
-    const handleSave = () => {
-        // Implement the logic to save the updated customer information
-        setEdit(false);
+    const handleChange = (e) => {
+        setUpdatedCustomer({ ...updatedCustomer, [e.target.name]: e.target.value });
+    };
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const response = await fetch(`http://localhost:3001/customer/profile/${customerId}`, {
+                method: 'PUT',
+                headers: headers,
+                body: JSON.stringify(updatedCustomer),
+            });
+            if (response.ok) {
+                setEdit(false);
+                // setFormSubmitted(true);
+                console.log('Customer info updated successfully!');
+                setUpdatedCustomer({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phone: '',
+                    street: '',
+                    buildingNo: '',
+                });
+            } else {
+                console.error('Failed to update customer info');
+            }
+        } catch (error) {
+        console.error('Error:', error);
+        }
     };
 
     if (!customer) {
@@ -62,11 +92,19 @@ const CusotmerProfile = () => {
                 <h2 className="font-semibold">{customer.firstName} {customer.lastName}</h2>
                 {edit ? (
                     <div className="space-y-4 pt-10">
+                        <label htmlFor="text" className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+                        <input type="text" name="firstName" value={updatedCustomer.firstName} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
+                        <label htmlFor="text" className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+                        <input type="text" name="lastName" value={updatedCustomer.lastName} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
                         <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                        <input type="email" value={updatedCustomer.email} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={(e) => setUpdatedCustomer({...updatedCustomer, email: e.target.value})} />
+                        <input type="email" name="email" value={updatedCustomer.email} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
                         <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">Phone</label>
-                        <input type="text" value={updatedCustomer.phone} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={(e) => setUpdatedCustomer({...updatedCustomer, phone: e.target.value})} />
-                        {/* Add input fields for other customer information */}
+                        <input type="text" name="phone" value={updatedCustomer.phone} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
+                        <label htmlFor="text" className="block text-gray-700 text-sm font-bold mb-2">Street</label>
+                        <input type="text" name="street" value={updatedCustomer.street} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
+                        <label htmlFor="text" className="block text-gray-700 text-sm font-bold mb-2">Building Number</label>
+                        <input type="text" name="buildingNo" value={updatedCustomer.buildingNo} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
+                        
                         <div className="flex justify-center">
                         <button onClick={handleSave} className="block text-gray-700 text-sm font-bold">
                         Save
@@ -84,14 +122,6 @@ const CusotmerProfile = () => {
                     </>
                 )}
             </div>
-                {/* <div className='text-center mt-2'>
-                    <h2 className="font-semibold">{customer.firstName} {customer.lastName}</h2>
-                    <p className="text-gray-500">{customer.email}</p>
-                    <p className="text-gray-500">0{customer.phone}</p>
-                    <p className="text-gray-500">Balance: {customer.balance}</p>
-                    <p className="text-gray-500">Street: {customer.street}</p>
-                    <p className="text-gray-500">Building Number: {customer.buildingNo}</p>
-                </div> */}
             </div>
             <Footer />
         </div> 

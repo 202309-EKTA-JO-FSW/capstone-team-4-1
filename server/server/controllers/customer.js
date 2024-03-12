@@ -102,6 +102,7 @@ const addItem = async (req, res) => {
     }
     const totalPrice = dish.price * quantity
     const cartItem = await Item.create({ 
+      restaurant: dish.restaurant,
       customer: customerId,
       dish: dishId,
       quantity: quantity,

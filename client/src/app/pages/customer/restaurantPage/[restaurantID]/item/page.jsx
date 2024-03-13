@@ -5,8 +5,8 @@ export default function Item() {
   const [cartItems, setCartItems] = useState([]);
 
   const updateCart = () => {
-    const userId = localStorage.getItem('userId');
-    const cartData = localStorage.getItem(`cart_${userId}`);
+    const userID = localStorage.getItem('userID');
+    const cartData = localStorage.getItem(`cart_${userID}`);
     if (cartData) {
       setCartItems(JSON.parse(cartData));
     }
@@ -17,7 +17,7 @@ export default function Item() {
   }, []);
 
   const handleCountChange = (dishId, newCount) => {
-    const userId = localStorage.getItem('userId');
+    const userID = localStorage.getItem('userID');
     const updatedCartItems = cartItems.map(item => {
       if (item.dishId === dishId) {
         return { ...item, count: newCount, totalPrice: (item.price * newCount).toFixed(2) };
@@ -26,15 +26,15 @@ export default function Item() {
     });
 
     setCartItems(updatedCartItems);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
+    localStorage.setItem(`cart_${userID}`, JSON.stringify(updatedCartItems));
   };
 
   const handleRemoveItem = (dishId) => {
-    const userId = localStorage.getItem('userId');
+    const userID = localStorage.getItem('userID');
     const updatedCartItems = cartItems.filter(item => item.dishId !== dishId);
     
     setCartItems(updatedCartItems);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
+    localStorage.setItem(`cart_${userID}`, JSON.stringify(updatedCartItems));
   };
   const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
   const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);
@@ -54,7 +54,7 @@ export default function Item() {
   return (
     <div className="flex flex-col bg-white justify-center items-center border shadow-3xl rounded-2xl px-2">
       <h1 className="font-bold text-2xl text-gray-700 mb-3 mt-5">Your Order</h1>
-      <div style={{ maxHeight: cartItems.length > 3 ? '300px' : 'auto', overflowY: cartItems.length > 3 ? 'scroll' : 'visible' }} className="w-full">
+      <div style={{ maxHeight: cartItems.length > 3 ? '250px' : 'auto', overflowY: cartItems.length > 3 ? 'scroll' : 'visible' }} className="w-full">
       {cartItems.map((item) => (
         <div key={item.dishId} className="flex flex-col w-full py-3">
           <div className="flex flex-row justify-left items-top ml-5">

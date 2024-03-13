@@ -26,9 +26,8 @@ const SingleRestaurantPage = ({ params, replace }) => {
   const [showDish, setShowDish] = useState(false);
   const [count, setCount] = useState(1);
   const [showReplaceItemsPopup, setShowReplaceItemsPopup] = useState(false);
-
+  const [cartItemsChangedState, setCartItemsChangedState] = useState(true);
   const [pendingAddition, setPendingAddition] = useState(null);
-
 
   useEffect(() => {
     fetchRestaurant();
@@ -103,8 +102,8 @@ const SingleRestaurantPage = ({ params, replace }) => {
 
   // Triggered when the user attempts to add an item to the cart
   const handleAddToCart = (addedItem, itemCount, note) => {
-    const userId = localStorage.getItem('userId');
-    const currentCart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+    const userID = localStorage.getItem('userID');
+    const currentCart = JSON.parse(localStorage.getItem(`cart_${userID}`) || '[]');
     const differentRestaurantExists = currentCart.some(item => item.restaurantId !== params.restaurantID);
 
     if (differentRestaurantExists) {
@@ -113,14 +112,14 @@ const SingleRestaurantPage = ({ params, replace }) => {
       setShowReplaceItemsPopup(true);
     } else {
       // No conflicting restaurant, proceed to add to cart
-      addToCartDirectly(addedItem, itemCount, note, currentCart, userId);
+      addToCartDirectly(addedItem, itemCount, note, currentCart, userID);
     }
 
     setShowDish(false);
   };
 
   // Directly add to cart (used for initial add and after confirmation)
-  const addToCartDirectly = (addedItem, itemCount, note, currentCart, userId) => {
+  const addToCartDirectly = (addedItem, itemCount, note, currentCart, userID) => {
     const itemIndex = currentCart.findIndex(cartItem => cartItem.dishId === addedItem._id);
 
     if (itemIndex > -1) {
@@ -140,19 +139,22 @@ const SingleRestaurantPage = ({ params, replace }) => {
         note: note
       });
     }
-
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
+    localStorage.setItem(`cart_${userID}`, JSON.stringify(currentCart));
+    setCartItemsChangedState(false);
+    setTimeout(() => {
+      setCartItemsChangedState(true);
+    }, 100);
   };
 
-  
+  // This should be called after the user confirms replacement in the ReplaceItems component
   const handleReplaceConfirm = (replaceConfirmed) => {
     if (replaceConfirmed && pendingAddition) {
       const { addedItem, itemCount, note } = pendingAddition;
-      const userId = localStorage.getItem('userId');
-      const newCart = [];
+      const userID = localStorage.getItem('userID');
+      const newCart = []; // Start with an empty cart for the new restaurant
 
-      addToCartDirectly(addedItem, itemCount, note, newCart, userId);
-      setPendingAddition(null);
+      addToCartDirectly(addedItem, itemCount, note, newCart, userID);
+      setPendingAddition(null); // Clear the pending addition after handling
     }
     setShowReplaceItemsPopup(false);
   };
@@ -350,7 +352,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
         </div>
 
         <div className="cartItem w-[350px] z-20 top-0 mr-[2rem] fixed mt-[9.5rem] mb-[10rem]">
-          <Item />
+          {cartItemsChangedState && <Item />}
         </div>
 
       </div>

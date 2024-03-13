@@ -249,6 +249,7 @@ const getPendingOrders = async (req, res) => {
 }
 
 module.exports = { 
+  getProfile,
   getAllRestaurants,
   getRestaurantById,
   getAllDishes,

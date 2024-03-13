@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Captcha from "./components/captcha";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { useRouter } from "next/navigation";
 import LoginSuccessfully from "./loginSuccessfully/page";
 
 export default function LoginPage({ onClose }) {
+  const router = useRouter(); 
   const [showLoginSuccess, setShowLoginSuccess] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [captchaValue, setCaptchaValue] = useState(null);
@@ -53,14 +54,16 @@ export default function LoginPage({ onClose }) {
         localStorage.setItem("userRole",user.role);
         if(user.role!==""){
           onClose=true;
-          setShowLoginSuccess(true)
+          setShowLoginSuccess(true);
           if (user.role === "customer") {
-            window.location.href=`http://localhost:3000/pages/customer/restaurantList`;
+            localStorage.setItem("activePage", 'restaurantList');
+             window.location.href=`http://localhost:3000/pages/customer/restaurantList`;
              //router.push(`pages/customer/restaurantList`)
           }
           else if (user.role === "restaurant") {
+            localStorage.setItem("activePage", 'myRestaurant');
             window.location.href=`http://localhost:3000/pages/${user.role}/${user._id}`;
-             //router.push(`/pages/${user.role}/${user._id}`)
+            // router.push(`/pages/${user.role}/${user._id}`)
           }
         }
         

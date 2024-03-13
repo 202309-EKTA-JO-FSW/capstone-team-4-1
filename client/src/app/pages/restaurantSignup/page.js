@@ -1,10 +1,7 @@
 "use client"
-import Location from "../customerSignup/components/location";
-import React, { useState } from 'react';
-import { Edit, SimpleForm } from 'react-admin';
-import CuisineInput from "./components/cuisine";
-import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
+import { useState } from 'react';
+import CuisineInput from "./components/cuisine";
 
 export default function RestaurantSignup() {
     const [cuisines, setCuisines] = useState([]);
@@ -16,7 +13,6 @@ export default function RestaurantSignup() {
   return (
     
     <div className="relative bg-[#101B0B] overflow-hidden text-black">
-      <Navbar />
         <div className="relative w-full overflow-hidden bg-black xl:h-[600px] 
             lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]">
 

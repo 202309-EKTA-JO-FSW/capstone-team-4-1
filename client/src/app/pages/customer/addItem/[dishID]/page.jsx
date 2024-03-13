@@ -3,28 +3,36 @@ import React, { useState, useEffect } from 'react';
 import LoadingAnimation from '../../../../components/loadingAnimation';
 import Counter from './components/counter';
 
-export default function AddItem({ dishId, closeItem }) {
+export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onCountChange }) {
   const dishID  = dishId;
   const [item, setItem] = useState();
-  const [count, setCount] = useState(1);
-
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     const headers = {
       Authorization: `Bearer ${token}`
     };
-
     fetch(`http://localhost:3001/customer/dishes/${dishID}`,{
-        headers: headers
+      headers: headers
     })
       .then(res => res.json())
       .then(data => setItem(data))
   }, [dishID]);
 
-  const handleCountChange = (newCount) => {
-    setCount(newCount);
+  const handleAddToOrder = () => {
+
+    onAddToCart(item, count, note);
+
+    resetAndClose();
   };
+
+  const handleClose = () => {
+    setNote(""); 
+    onCountChange(1); 
+    resetAndClose();
+  };
+
   if (!item) { 
     return <LoadingAnimation />; 
   }
@@ -39,7 +47,7 @@ export default function AddItem({ dishId, closeItem }) {
              md:p-3 md:w-[400px] md:h-auto md:rounded-2xl md:shadow-sm 
                2xs:p-1 2xs:w-[250px] 2xs:h-auto 2xs:rounded-xl 2xs:shadow-xs">
 
-        <button onClick={closeItem} className="absolute top-5 right-5 p-1 rounded-full transition-all duration-200 ease-in-out hover:bg-gray-200
+        <button onClick={handleClose} className="absolute top-5 right-5 p-1 rounded-full transition-all duration-200 ease-in-out hover:bg-gray-200
         xl:top-5 xl:right-5 xl:p-1
         md:top-5 md:right-4 md:p-1
         2xs:top-2 2xs:right-2 2xs:p-1/2">
@@ -62,18 +70,26 @@ export default function AddItem({ dishId, closeItem }) {
           </div>
 
           <div>
-            <h5 className="block text-gray-500 text-xs font-md mb-2 mr-[2rem] ml-[2rem]">{item.description}</h5>
+            <h5 className="block text-center text-gray-500 text-xs font-md mb-2 mr-[2rem] ml-[2rem]">{item.description}</h5>
           </div>
           
           <div className="flex justify-center items-center">
-          <Counter count={count} onCountChange={handleCountChange} />
+          <Counter count={count} onCountChange={onCountChange} />
           </div>
 
           <div className="flex justify-center items-center w-full ">
-              <input type="text" id="streetName" name="streetName" placeholder="Note: (optional)" className="mr-[2rem] ml-[2rem] w-full px-2 py-[1rem] bg-gray-50 rounded-xl border border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+          <input
+              type="text"
+              id="note"
+              name="note"
+              placeholder="Note: (optional)"
+              value={note}
+              onChange={(e) => setNote(e.target.value)} 
+              className="mr-[2rem] ml-[2rem] w-full px-2 py-[1rem] bg-gray-50 rounded-xl border border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+            />
           </div>
           <div className="flex justify-center items-center w-full ">
-          <button onClick={closeItem}
+          <button onClick={handleAddToOrder}
           type="submit"
                 className="bg-[#FFC245] hover:bg-[#101B0B] hover:text-[#FFC245] text-gray-700 font-medium w-full mr-[2rem] ml-[2rem]
                 xl:rounded-xl xl:text-lg  xl:px-4 xl:py-2

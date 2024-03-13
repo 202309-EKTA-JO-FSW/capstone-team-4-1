@@ -43,6 +43,7 @@ function Navbar() {
     localStorage.setItem("userRole", "");
     setIsValidTokenState("");
     setUserRoleState("");
+    localStorage.clear();
     router.push(`/`);
   }
 

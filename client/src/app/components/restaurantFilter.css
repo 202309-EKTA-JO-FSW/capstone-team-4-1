@@ -3,18 +3,17 @@
 }
 
 .restaurantFilter {
-  color: var(--helio-color-primaryText);
+  color: var(--textColor);
   font-size: 12px;
   font-weight: 400;
   line-height: 1.33;
-  margin-bottom: var(--helio-space-S);
   margin-top: 0;
 }
 
 .searchInputAndButton {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   margin-top: 10px;
 }
@@ -42,9 +41,9 @@
 .filterList {
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  color: var(--helio-color-primaryText);
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: var(--textColor);
   font-size: 14px;
   font-weight: 300;
   line-height: 1.29;

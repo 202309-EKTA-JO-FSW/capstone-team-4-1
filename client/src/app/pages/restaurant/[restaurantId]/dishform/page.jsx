@@ -18,10 +18,17 @@ export default function Form({ restaurantId, closeForm }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
+
     try {
       const response = await fetch(`http://localhost:3001/restaurant/dish/${restaurantId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify(formData),
       });
       if (response.ok) {

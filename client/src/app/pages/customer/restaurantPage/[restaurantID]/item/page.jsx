@@ -5,8 +5,8 @@ export default function Item() {
   const [cartItems, setCartItems] = useState([]);
 
   const updateCart = () => {
-    const userId = localStorage.getItem('userId');
-    const cartData = localStorage.getItem(`cart_${userId}`);
+    const userID = localStorage.getItem('userID');
+    const cartData = localStorage.getItem(`cart_${userID}`);
     if (cartData) {
       setCartItems(JSON.parse(cartData));
     }
@@ -17,7 +17,7 @@ export default function Item() {
   }, []);
 
   const handleCountChange = (dishId, newCount) => {
-    const userId = localStorage.getItem('userId');
+    const userID = localStorage.getItem('userID');
     const updatedCartItems = cartItems.map(item => {
       if (item.dishId === dishId) {
         return { ...item, count: newCount, totalPrice: (item.price * newCount).toFixed(2) };
@@ -26,15 +26,15 @@ export default function Item() {
     });
 
     setCartItems(updatedCartItems);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
+    localStorage.setItem(`cart_${userID}`, JSON.stringify(updatedCartItems));
   };
 
   const handleRemoveItem = (dishId) => {
-    const userId = localStorage.getItem('userId');
+    const userID = localStorage.getItem('userID');
     const updatedCartItems = cartItems.filter(item => item.dishId !== dishId);
 
     setCartItems(updatedCartItems);
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
+    localStorage.setItem(`cart_${userID}`, JSON.stringify(updatedCartItems));
   };
   const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
   const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);

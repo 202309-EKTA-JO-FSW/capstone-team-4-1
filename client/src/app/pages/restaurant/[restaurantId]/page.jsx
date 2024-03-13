@@ -6,8 +6,8 @@ import Lottie from 'react-lottie';
 import Stars from "./components/stars";
 import Form from "./dishform/page";
 import { FaSearch } from 'react-icons/fa'
-import Navbar from "@/app/components/navbar/navbar";
-import Footer from "@/app/components/footer/footer";import LoadingAnimation from "../../../components/loadingAnimation"; 
+import Footer from "@/app/components/footer/footer";
+import LoadingAnimation from "../../../components/loadingAnimation"; 
 
 const RestaurantProfile = () => {
   const params = useParams();
@@ -63,13 +63,12 @@ const RestaurantProfile = () => {
 
   if (!restaurant || !menu) {
     return (
-      LoadingAnimation
+      <LoadingAnimation/>
     );    
   }
 
   return (
     <div>
-      <Navbar />
       <div className="relative w-full h-[380px] overflow-hidden bg-black">
       <img className="absolute w-full h-[500px] top-0 left-0 z-0 mt-18 pt-10 bg-black opacity-50" src="/blur-restaurant.jpg" alt="restaurant background" />
         <div className=" absolute w-full h-[600px] flex items-center justify-center z-10">

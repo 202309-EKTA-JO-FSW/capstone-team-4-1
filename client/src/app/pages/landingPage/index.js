@@ -1,6 +1,10 @@
+"use client"
 import Link from "next/link";
 import Navbar from "@/app/components/navbar/navbar";
 import Footer from "@/app/components/footer/footer";
+import LoginStep from "@/app/components/loginStep";
+import FindDishStep from "@/app/components/findDishSetp";
+import OrderStep from "@/app/components/orderStep";
 export default function LandingPage() {
   return (
     <div className="relative bg-[#fff] overflow-hidden text-black">
@@ -42,6 +46,32 @@ export default function LandingPage() {
           d="M0,40L60,43.3C120,47,240,53,360,53.3C480,53,600,43,720,36.7C840,31,960,29,1080,36.7C1200,43,1320,57,1380,62.7L1440,64L1440,80L1380,80C1320,80,1200,80,1080,80C960,80,840,80,720,80C600,80,480,80,360,80C240,80,120,80,60,80L0,80Z"
         ></path>
       </svg>
+
+      <div className="felx justif-center items-center"><h1 className="font-bold text-black text-center
+              xl:text-4xl xl:pt-10
+              md:text-2xl md:pt-8
+              sm:text-xl sm:pt-6
+              2xs:text-lg 2xs:pt-4
+              ">How it works</h1>
+      </div>
+
+      <div className="flex flex-row space-between space-x-[10rem] mx-[8rem] my-[4rem]">
+        <div className="">
+            <LoginStep />
+            <h1 className="font-bold text-xl text-left pt-3">Step 1</h1>
+            <h4 className="font-md text-left text-sm">Create your account and fill your information simply by the button above</h4>
+        </div>
+        <div>
+            <FindDishStep />
+            <h1 className="font-bold text-xl text-left pt-3">Step 2</h1>
+            <h4 className="font-md text-left text-sm">Post-login, instantly find and add dishes from your chosen restaurant with just one click.</h4>
+        </div>
+        <div>
+            <OrderStep />
+            <h1 className="font-bold text-xl text-left pt-3">Step 3</h1>
+            <h4 className="font-md text-left text-sm">After selecting your dishes, finalize your order with a single click to confirm.</h4>
+        </div>
+      </div>
 
       <div className="flex items-center justify-center">
         <h1

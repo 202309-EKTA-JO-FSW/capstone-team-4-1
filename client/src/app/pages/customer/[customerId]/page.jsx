@@ -107,7 +107,7 @@ const CusotmerProfile = () => {
                         <input type="text" name="buildingNo" value={updatedCustomer.buildingNo} placeholder={customer.buildingNo} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
                         
                         <div className="flex justify-center">
-                        <button onClick={handleSave} className="block text-gray-700 text-sm font-bold">
+                        <button onClick={handleSave} className="block text-gray-700 text-sm font-bold p-2">
                         Save
                         </button>
                         </div>

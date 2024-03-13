@@ -6,8 +6,6 @@ import LoadingAnimation from "../../../components/loadingAnimation";
 
 const CusotmerProfile = () => {
   const params = useParams();
-  let token = "";
-  const headers = {};
   const customerId = params.customerId;
   const [customer, setCustomer] = useState();
   const [edit, setEdit] = useState(false);
@@ -15,16 +13,20 @@ const CusotmerProfile = () => {
     firstName: "",
     lastName: "",
     email: "",
+    password: "",
+    newpassword: "",
+    confirmpassword: "",
     phone: "",
     street: "",
     buildingNo: "",
   });
 
   useEffect(() => {
-    token = localStorage.getItem("token");
-    headers.Authorization = `Bearer ${token}`;
-    headers["Content-Type"] = "application/json";
-
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
     fetch(`http://localhost:3001/customer/profile/${customerId}`, {
       headers: headers,
     })
@@ -43,6 +45,12 @@ const CusotmerProfile = () => {
   const handleSave = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
     try {
       const response = await fetch(
         `http://localhost:3001/customer/profile/${customerId}`,
@@ -60,6 +68,9 @@ const CusotmerProfile = () => {
           firstName: "",
           lastName: "",
           email: "",
+          password: "",
+          newpassword: "",
+          confirmpassword: "",
           phone: "",
           street: "",
           buildingNo: "",
@@ -74,11 +85,10 @@ const CusotmerProfile = () => {
   };
 
   if (!customer) {
-    return <LoadingAnimation/>;
+    return <LoadingAnimation />;
   } else {
     console.log(customer);
   }
-
   return (
     <div>
       <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-32 bg-white shadow-xl rounded-lg text-gray-900">
@@ -112,6 +122,7 @@ const CusotmerProfile = () => {
                 type="text"
                 name="firstName"
                 value={updatedCustomer.firstName}
+                placeholder={customer.firstName}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
                 onChange={handleChange}
               />
@@ -125,6 +136,7 @@ const CusotmerProfile = () => {
                 type="text"
                 name="lastName"
                 value={updatedCustomer.lastName}
+                placeholder={customer.lastName}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
                 onChange={handleChange}
               />
@@ -138,9 +150,54 @@ const CusotmerProfile = () => {
                 type="email"
                 name="email"
                 value={updatedCustomer.email}
+                placeholder={customer.email}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
                 onChange={handleChange}
               />
+
+              <label
+                htmlFor="password"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={updatedCustomer.password}
+                placeholder="Current Password"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                onChange={handleChange}
+              />
+              <label
+                htmlFor="password"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                New Password
+              </label>
+              <input
+                type="password"
+                name="newpassword"
+                value={updatedCustomer.newpassword}
+                placeholder="New Password"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                onChange={handleChange}
+              />
+              <label
+                htmlFor="password"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                name="confirmpassword"
+                value={updatedCustomer.confirmpassword}
+                placeholder="Confirm Password"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                onChange={handleChange}
+              />
+
               <label
                 htmlFor="phone"
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -151,6 +208,7 @@ const CusotmerProfile = () => {
                 type="text"
                 name="phone"
                 value={updatedCustomer.phone}
+                placeholder={customer.phone}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
                 onChange={handleChange}
               />
@@ -164,6 +222,7 @@ const CusotmerProfile = () => {
                 type="text"
                 name="street"
                 value={updatedCustomer.street}
+                placeholder={customer.street}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
                 onChange={handleChange}
               />
@@ -177,6 +236,7 @@ const CusotmerProfile = () => {
                 type="text"
                 name="buildingNo"
                 value={updatedCustomer.buildingNo}
+                placeholder={customer.buildingNo}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
                 onChange={handleChange}
               />
@@ -184,7 +244,7 @@ const CusotmerProfile = () => {
               <div className="flex justify-center">
                 <button
                   onClick={handleSave}
-                  className="block text-gray-700 text-sm font-bold"
+                  className="block text-gray-700 text-sm font-bold p-2"
                 >
                   Save
                 </button>

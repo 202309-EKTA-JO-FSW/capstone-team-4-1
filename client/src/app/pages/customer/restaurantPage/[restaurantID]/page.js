@@ -1,21 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import Link from "next/link";
-import "./restaurantPage.css";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import helpers from "../../../../services/helpers";
 import Footer from "@/app/components/footer/footer";
+import { faChevronDown, faChevronUp, faInfoCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import axios from "axios";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import helpers from "../../../../services/helpers";
+import ReplaceItems from "../../addItem/[dishID]/confirmReplaceItems/page";
 import AddItem from "../../addItem/[dishID]/page";
-const SingleRestaurantPage = ({ params }) => {
+import Item from "./item/page";
+import "./restaurantPage.css";
+
+const SingleRestaurantPage = ({ params, replace }) => {
   const { restaurantID } = useParams();
   const [restaurantState, setRestaurantState] = useState({});
   const [categorisWithDishesState, setCategorisWithDishesState] = useState([]);
@@ -24,6 +24,11 @@ const SingleRestaurantPage = ({ params }) => {
   const [selectedBtnState, setSelectedBtnState] = useState(1);
   const [dishId, setDishId] = useState(null);
   const [showDish, setShowDish] = useState(false);
+  const [count, setCount] = useState(1);
+  const [showReplaceItemsPopup, setShowReplaceItemsPopup] = useState(false);
+
+  const [pendingAddition, setPendingAddition] = useState(null);
+
 
   useEffect(() => {
     fetchRestaurant();
@@ -70,7 +75,7 @@ const SingleRestaurantPage = ({ params }) => {
   };
 
   if (!restaurantState) {
-    return <LoadingAnimation />;
+    return LoadingAnimation;
   }
   const toggleCategory = async (categoryName) => {
     try {
@@ -86,6 +91,73 @@ const SingleRestaurantPage = ({ params }) => {
       console.error("", error);
     }
   };
+
+
+  const resetAndClose = () => {
+
+    setCount(1);
+    setShowDish(false);
+  };
+
+
+
+  // Triggered when the user attempts to add an item to the cart
+  const handleAddToCart = (addedItem, itemCount, note) => {
+    const userId = localStorage.getItem('userId');
+    const currentCart = JSON.parse(localStorage.getItem(`cart_${userId}`) || '[]');
+    const differentRestaurantExists = currentCart.some(item => item.restaurantId !== params.restaurantID);
+
+    if (differentRestaurantExists) {
+      // Store the pending addition and show the replace confirmation popup
+      setPendingAddition({ addedItem, itemCount, note });
+      setShowReplaceItemsPopup(true);
+    } else {
+      // No conflicting restaurant, proceed to add to cart
+      addToCartDirectly(addedItem, itemCount, note, currentCart, userId);
+    }
+
+    setShowDish(false);
+  };
+
+  // Directly add to cart (used for initial add and after confirmation)
+  const addToCartDirectly = (addedItem, itemCount, note, currentCart, userId) => {
+    const itemIndex = currentCart.findIndex(cartItem => cartItem.dishId === addedItem._id);
+
+    if (itemIndex > -1) {
+      currentCart[itemIndex].count += itemCount;
+      currentCart[itemIndex].totalPrice = (currentCart[itemIndex].price * currentCart[itemIndex].count).toFixed(2);
+      currentCart[itemIndex].note = note; // Optionally update the note
+    } else {
+      currentCart.push({
+        restaurantId: params.restaurantID,
+        dishId: addedItem._id,
+        title: addedItem.title,
+        count: itemCount,
+        price: addedItem.price,
+        description: addedItem.description,
+        image: addedItem.image,
+        totalPrice: (addedItem.price * itemCount).toFixed(2),
+        note: note
+      });
+    }
+
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
+  };
+
+  // This should be called after the user confirms replacement in the ReplaceItems component
+  const handleReplaceConfirm = (replaceConfirmed) => {
+    if (replaceConfirmed && pendingAddition) {
+      const { addedItem, itemCount, note } = pendingAddition;
+      const userId = localStorage.getItem('userId');
+      const newCart = []; // Start with an empty cart for the new restaurant
+
+      addToCartDirectly(addedItem, itemCount, note, newCart, userId);
+      setPendingAddition(null); // Clear the pending addition after handling
+    }
+    setShowReplaceItemsPopup(false);
+  };
+
+
   const renderDishes = async (response) => {
     if (response?.data) {
       if (response?.data?.dishes) {
@@ -120,7 +192,6 @@ const SingleRestaurantPage = ({ params }) => {
               {category.map((dish) => {
                 return (
                   !closedCategoryState.includes(dish.category) && (
-
                     <div className="categoryCardContent hover:bg-[#F8F8F8]">
                       <div className="dish">
                         <div className="dishContentLeftSection">
@@ -139,7 +210,7 @@ const SingleRestaurantPage = ({ params }) => {
                           </div>
                         </div>
                         <div className="priceAndBTNContainer">
-                          <p className="dishPrice font-bold text-xl">{dish.price} JOD</p>
+                          <p className="dishPrice font-bold text-xl w-20 pl-2">{dish.price} JOD</p>
                           <button className="addToCartBTN" color="primary" onClick={() => {
                             setDishId(dish._id);
                             setShowDish(true);
@@ -164,10 +235,8 @@ const SingleRestaurantPage = ({ params }) => {
 
   return (
     <div>
-      <div className="mainPageContainer pt-[3.5rem]">
-        {/* <h2>{restaurantState.title}</h2>
-      <p>Email: {restaurantState.email}</p> */}
-        <div className="restaurantCard rounded-3xl">
+      <div className="mainPageContainer pt-[3.5rem] flex justify-end flex-row">
+        <div className="restaurantCard w-[1000px] rounded-3xl mr-[26rem] ml-[2rem]">
           <div className="breadcrumbContainer">
             <Link className="breadcrumpTextActive hover:text-[#FFC245]" href="/">
               Home
@@ -279,9 +348,29 @@ const SingleRestaurantPage = ({ params }) => {
             </div>
           )}
         </div>
-        {showDish && <AddItem dishId={dishId} closeItem={() => setShowDish(false)} />}
+
+        <div className="cartItem w-[350px] z-20 top-0 mr-[2rem] fixed mt-[11rem] mb-[10rem]">
+          <Item />
+        </div>
+
       </div>
+      {showDish && (
+        <AddItem
+          dishId={dishId}
+          count={count}
+          onAddToCart={handleAddToCart}
+          onCountChange={setCount}
+          resetAndClose={resetAndClose}
+        />
+      )}
       <Footer />
+      {showReplaceItemsPopup && (
+        <ReplaceItems
+          closePopup={() => setShowReplaceItemsPopup(false)}
+          onConfirmReplace={(confirm) => handleReplaceConfirm(confirm)} // Assuming ReplaceItems calls this with true/false
+          restaurantName={restaurantState.title} // Or any other restaurant name you wish to display
+        />
+      )}
     </div>
   );
 };

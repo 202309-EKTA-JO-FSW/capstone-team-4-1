@@ -1,8 +1,8 @@
 import React from 'react';
 import Lottie from 'react-lottie';
-import animationData from '../lotties/loadingAnimation'; // Adjust the path as necessary
+import animationData from '../lotties/emptyOrderAnimation';
 
-const LoadingAnimation = () => {
+const EmptyOrderAnimation = () => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -13,7 +13,7 @@ const LoadingAnimation = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
+    <div className="flex justify-center items-center">
       <div style={{ pointerEvents: 'none' }}>
         <Lottie options={defaultOptions} height={200} width={200} />
       </div>
@@ -21,4 +21,4 @@ const LoadingAnimation = () => {
   );
 };
 
-export default LoadingAnimation;
+export default EmptyOrderAnimation;

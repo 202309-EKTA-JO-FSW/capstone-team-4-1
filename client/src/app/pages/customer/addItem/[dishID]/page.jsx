@@ -41,7 +41,7 @@ export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onC
   const totalPrice = (item.price * count).toFixed(2);
   
   return (
-    <div className="z-50 fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div className="z-50 fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full addModal">
       <div className="relative mx-auto my-0 top-1/2 -right-1/2 left-0 -translate-y-1/2 border
          w-[650px] shadow-lg rounded-3xl bg-white
            xl:p-5 xl:w-[450px] xl:h-auto xl:rounded-3xl xl:shadow-lg 

@@ -44,7 +44,7 @@ export default function Form({ restaurantId, closeForm }) {
   };
 
   return (
-    <div className="z-50 fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div className="z-50 fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full addModal">
       <main className="relative mx-auto my-0 top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 border w-[650px] shadow-lg rounded-3xl bg-white
        xl:p-5 xl:w-[650px] xl:h-auto xl:rounded-3xl xl:shadow-lg
        md:p-3 md:w-[400px] md:h-auto md:rounded-2xl md:shadow-sm

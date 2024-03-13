@@ -1,0 +1,9 @@
+.plusMinus {
+    padding: 8px;
+    border-radius: 25px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

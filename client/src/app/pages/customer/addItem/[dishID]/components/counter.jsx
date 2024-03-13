@@ -1,5 +1,4 @@
 // counter.jsx
-import React, { useState } from 'react';
 
 const Counter = ({ count, onCountChange }) => {
   const incrementCount = () => {
@@ -17,7 +16,7 @@ const Counter = ({ count, onCountChange }) => {
       <button
         onClick={decrementCount}
         disabled={count === 1}
-        className="px-6 py-4 text-lg font-bold text-[#FFC245] bg-gray-200 rounded-full hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
+        className="text-lg font-bold text-[#FFC245] bg-gray-200 rounded-full hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 plusMinus"
       >
         -
       </button>
@@ -26,7 +25,7 @@ const Counter = ({ count, onCountChange }) => {
       </span>
       <button
         onClick={incrementCount}
-        className="px-6 py-4 text-lg font-bold text-[#101B0B] bg-[#FFC245] rounded-full hover:bg-[#101B0B] hover:text-[#FFC245] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
+        className="text-lg font-bold text-[#101B0B] bg-[#FFC245] rounded-full hover:bg-[#101B0B] hover:text-[#FFC245] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 plusMinus"
       >
         +
       </button>

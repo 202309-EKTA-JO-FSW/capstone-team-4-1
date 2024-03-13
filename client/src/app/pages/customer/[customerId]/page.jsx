@@ -22,13 +22,18 @@ const CusotmerProfile = () => {
         buildingNo: '',
     });
 
-    const token = localStorage.getItem('token');
-    const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-    };
+    // const token = localStorage.getItem('token');
+    // const headers = {
+    //     Authorization: `Bearer ${token}`,
+    //     'Content-Type': 'application/json',
+    // };
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        };
         fetch(`http://localhost:3001/customer/profile/${customerId}`, {
             headers: headers
         })
@@ -46,6 +51,12 @@ const CusotmerProfile = () => {
 
     const handleSave = async (e) => {
         e.preventDefault();
+
+        const token = localStorage.getItem('token');
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        };
 
         try {
             const response = await fetch(`http://localhost:3001/customer/profile/${customerId}`, {

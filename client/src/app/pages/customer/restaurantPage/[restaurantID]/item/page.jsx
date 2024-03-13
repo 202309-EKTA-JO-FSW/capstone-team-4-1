@@ -32,7 +32,7 @@ export default function Item() {
   const handleRemoveItem = (dishId) => {
     const userId = localStorage.getItem('userId');
     const updatedCartItems = cartItems.filter(item => item.dishId !== dishId);
-
+    
     setCartItems(updatedCartItems);
     localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCartItems));
   };
@@ -53,13 +53,13 @@ export default function Item() {
   console.log(cartItems)
   return (
     <div className="flex flex-col bg-white justify-center items-center border shadow-3xl rounded-2xl px-2">
-      <h1 className="font-bold text-2xl text-gray-700 mb-5 mt-8">Your Order</h1>
+      <h1 className="font-bold text-2xl text-gray-700 mb-3 mt-5">Your Order</h1>
       <div style={{ maxHeight: cartItems.length > 3 ? '300px' : 'auto', overflowY: cartItems.length > 3 ? 'scroll' : 'visible' }} className="w-full">
       {cartItems.map((item) => (
         <div key={item.dishId} className="flex flex-col w-full py-3">
-          <div className="flex flex-row justify-left items-center ml-5">
+          <div className="flex flex-row justify-left items-top ml-5">
             <img
-              className="itemImage w-[70px] h-[70px] rounded-3xl"
+              className="itemImage w-[60px] h-[60px] rounded-3xl"
               src={item.image ? item.image : "/placeholder.png"}
               alt={item.title}
             />
@@ -95,6 +95,9 @@ export default function Item() {
           </div>
         </div>
       ))}
+      </div>
+      <div className="flex items-center justify-center">
+          <h1 className="text-md mt-4 mb-2 text-left py-2 text-gray-700">Delivery Fee: JOD</h1>
       </div>
       <div className="flex items-center justify-center">
           <button className="w-full text-md mt-8 mb-5 px-10 py-2 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Order {totalQuantity} for {totalPrice} JOD</button>

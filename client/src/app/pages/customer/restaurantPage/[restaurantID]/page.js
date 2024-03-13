@@ -125,7 +125,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
 
     if (itemIndex > -1) {
       currentCart[itemIndex].count += itemCount;
-      currentCart[itemIndex].totalPrice = (currentCart[itemIndex].price * currentCart[itemIndex].count).toFixed(2);
+      currentCart[itemIndex].totalPrice = ((currentCart[itemIndex].price * currentCart[itemIndex].count)+restaurantState.deliveryFee).toFixed(2);
       currentCart[itemIndex].note = note; // Optionally update the note
     } else {
       currentCart.push({
@@ -144,15 +144,15 @@ const SingleRestaurantPage = ({ params, replace }) => {
     localStorage.setItem(`cart_${userId}`, JSON.stringify(currentCart));
   };
 
-  // This should be called after the user confirms replacement in the ReplaceItems component
+  
   const handleReplaceConfirm = (replaceConfirmed) => {
     if (replaceConfirmed && pendingAddition) {
       const { addedItem, itemCount, note } = pendingAddition;
       const userId = localStorage.getItem('userId');
-      const newCart = []; // Start with an empty cart for the new restaurant
+      const newCart = [];
 
       addToCartDirectly(addedItem, itemCount, note, newCart, userId);
-      setPendingAddition(null); // Clear the pending addition after handling
+      setPendingAddition(null);
     }
     setShowReplaceItemsPopup(false);
   };
@@ -235,7 +235,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
 
   return (
     <div>
-      <div className="mainPageContainer pt-[3.5rem] flex justify-end flex-row">
+      <div className="mainPageContainer pt-[2rem] flex justify-end flex-row">
         <div className="restaurantCard w-[1000px] rounded-3xl mr-[26rem] ml-[2rem]">
           <div className="breadcrumbContainer">
             <Link className="breadcrumpTextActive hover:text-[#FFC245]" href="/">
@@ -349,7 +349,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
           )}
         </div>
 
-        <div className="cartItem w-[350px] z-20 top-0 mr-[2rem] fixed mt-[11rem] mb-[10rem]">
+        <div className="cartItem w-[350px] z-20 top-0 mr-[2rem] fixed mt-[9.5rem] mb-[10rem]">
           <Item />
         </div>
 

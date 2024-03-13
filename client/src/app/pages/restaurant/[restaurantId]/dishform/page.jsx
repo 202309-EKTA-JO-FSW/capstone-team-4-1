@@ -41,7 +41,7 @@ export default function Form({ restaurantId, closeForm }) {
       <main className="relative mx-auto my-0 top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 border w-[650px] shadow-lg rounded-3xl bg-white
        xl:p-5 xl:w-[650px] xl:h-auto xl:rounded-3xl xl:shadow-lg
        md:p-3 md:w-[400px] md:h-auto md:rounded-2xl md:shadow-sm
-      2xs:p-1 2xs:w-[250px] 2xs:h-auto 2xs:rounded-xl 2xs:shadow-xs">
+      2xs:p-1 2xs:w-[250px] 2xs:h-auto 2xs:rounded-xl 2xs:shadow-xs addModal">
         <button onClick={closeForm} className="absolute top-5 right-5 p-1 rounded-full transition-all duration-200 ease-in-out hover:bg-gray-200
         xl:top-5 xl:right-5 xl:p-1
         md:top-5 md:right-4 md:p-1

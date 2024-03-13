@@ -14,6 +14,9 @@ const CusotmerProfile = () => {
         firstName: '',
         lastName: '',
         email: '',
+        password: '',
+        newpassword: '',
+        confirmpassword: '',
         phone: '',
         street: '',
         buildingNo: '',
@@ -58,6 +61,9 @@ const CusotmerProfile = () => {
                     firstName: '',
                     lastName: '',
                     email: '',
+                    password: '',
+                    newpassword: '',
+                    confirmpassword: '',
                     phone: '',
                     street: '',
                     buildingNo: '',
@@ -99,6 +105,14 @@ const CusotmerProfile = () => {
                         <input type="text" name="lastName" value={updatedCustomer.lastName} placeholder={customer.lastName} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
                         <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
                         <input type="email" name="email" value={updatedCustomer.email} placeholder={customer.email} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
+
+                        <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                        <input type="password" name="password" value={updatedCustomer.password} placeholder="Current Password" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
+                        <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">New Password</label>
+                        <input type="password" name="newpassword" value={updatedCustomer.newpassword} placeholder="New Password" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
+                        <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+                        <input type="password" name="confirmpassword" value={updatedCustomer.confirmpassword} placeholder="Confirm Password" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
+
                         <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">Phone</label>
                         <input type="text" name="phone" value={updatedCustomer.phone} placeholder={customer.phone} className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" onChange={handleChange} />
                         <label htmlFor="text" className="block text-gray-700 text-sm font-bold mb-2">Street</label>

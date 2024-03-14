@@ -5,10 +5,12 @@ import Footer from '@/app/components/footer/footer';
 
 const ContactPage = () => {
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
   const nameRef = useRef();
   const emailRef = useRef();
-  const subjectRef = useRef(); // Assuming you want to keep using the subject field
-  const messageRef = useRef(); // Assuming you want to keep the message field
+  const subjectRef = useRef();
+  const messageRef = useRef();
 
   useEffect(() => {
     emailjs.init("XiuAFl3Ivwu3_z99g");
@@ -29,14 +31,16 @@ const ContactPage = () => {
     try {
       setLoading(true);
       await emailjs.send(serviceId, templateId, templateParams);
-      alert("Email successfully sent. Check inbox.");
-      // Clear the form if needed
+      setMessage("FoodDrop successfully received your email, thanks for reach us.");
+      setMessageType('success');
       nameRef.current.value = '';
       emailRef.current.value = '';
       subjectRef.current.value = '';
       messageRef.current.value = '';
     } catch (error) {
       console.error("Failed to send the email:", error);
+      setMessage("Failed to send the email. Please try again.");
+      setMessageType('error');
     } finally {
       setLoading(false);
     }
@@ -54,35 +58,38 @@ const ContactPage = () => {
       
       <div className="flex mx-[10rem] mt-[4rem] flex-col justify-center items-center">
         <div className="w-full"> 
-          <h2 className="text-2xl text-black font-bold mb-4 text-center">How we can help you?</h2>
-          {/* {formStatus && (
-            <div className={`mb-4 p-3 ${formStatus.type === 'success' ? 'bg-green-100 text-green-900' : 'bg-red-100 text-red-900'} rounded-md`}>
-              {formStatus.message}
-            </div>
-          )} */}
+          <h2 className="text-2xl text-black font-bold mb-4 text-center">How can we help you?</h2>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-row space-between space-x-[3rem] w-full mt-10">
               <div className="mb-4 w-[800px]">
-                <input ref={nameRef} placeholder="Your Name" type="text" id="name" className="mt-1 px-2 py-4 w-full border-gray-700 rounded-md focus:border-gray-700 focus:ring-0" />
-                {/* {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>} */}
+                <input ref={nameRef} placeholder="Your Name" type="text" id="name" className="mt-1 px-2 py-4 w-full  bg-gray-50 border border-gray-800 rounded-3xl w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+             
               </div>
               <div className="mb-4 w-[800px]">
-                <input ref={emailRef} placeholder="Your Email" type="email" id="email" className="mt-1 px-2 py-4 w-full border-gray-700 rounded-md focus:border-gray-700 focus:ring-0" />
-                {/* {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>} */}
+                <input ref={emailRef} placeholder="Your Email" type="email" id="email" className="mt-1 px-2 py-4 w-full  bg-gray-50 border border-gray-800 rounded-3xl w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+
               </div>
               <div className="mb-4 w-[800px]">
-                <input ref={subjectRef} placeholder="The subject" type="text" id="subject" className="mt-1 px-2 py-4 w-full border-gray-700 rounded-md focus:border-gray-700 focus:ring-0" />
-                {/* {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>} */}
+                <input ref={subjectRef} placeholder="The subject" type="text" id="subject" className="mt-1 px-2 py-4 w-full  bg-gray-50 border border-gray-800 rounded-3xl w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+               
               </div>
             </div>
             <div className="mb-4">
-              <textarea ref={messageRef} placeholder="Your Message" id="message" className="mt-1 px-2 py-4 w-full border-gray-700 rounded-md focus:border-gray-700 focus:ring-0" rows="4" />
-              {/* {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>} */}
+              <textarea ref={messageRef} placeholder="Your Message" id="message" className="mt-1 px-2 py-4 w-full  bg-gray-50 border border-gray-800 rounded-3xl w-full focus:border-b-2 focus:border-[#FFC245] focus:outline-none" rows="4" />
+             
             </div>
-            <button type="submit" className="bg-[#101B0B] hover:bg-green-800 text-[#FFC245] font-bold py-2 px-8 rounded-xl" disabled={loading}>Submit
-              {/* {isSubmitting ? 'Submitting...' : 'Submit'} */}
-            </button>
+            <div className="flex justify-center items-center">
+              <button type="submit" className="w-[300px] bg-[#101B0B] hover:bg-green-800 text-[#FFC245] font-bold py-2 px-8 rounded-xl" disabled={loading}>Submit
+              </button>
+            </div>
           </form>
+         
+            {message && (
+              <div className={`flex justify-center items-center text-white font-md text-center w-full mx-[2rem] py-4 rounded-3xl mt-4 ${messageType === 'success' ? 'bg-green-800' : 'bg-red-800'}`}>
+                {message}
+              </div>
+            )}
+          
         </div>
       </div>
       <Footer />

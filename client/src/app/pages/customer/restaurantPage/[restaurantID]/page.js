@@ -28,11 +28,14 @@ const SingleRestaurantPage = ({ params, replace }) => {
   const [showReplaceItemsPopup, setShowReplaceItemsPopup] = useState(false);
   const [cartItemsChangedState, setCartItemsChangedState] = useState(true);
   const [pendingAddition, setPendingAddition] = useState(null);
+  const [perviousRestaurant, setPerviousRestaurant] = useState({});
 
   useEffect(() => {
     fetchRestaurant();
     fetchDishes();
   }, [restaurantID]);
+
+
 
   useEffect(() => {
     renderDishes(dishesResponseState);
@@ -43,7 +46,6 @@ const SingleRestaurantPage = ({ params, replace }) => {
       const response = await axios.get(
         `http://localhost:3001/customer/restaurant/${params.restaurantID}`, {
         headers: {
-          //"authorization": "Bearer "+ helpers.getCookie("token"),
           "authorization": "Bearer " + localStorage.getItem("token"),
         },
       }
@@ -59,7 +61,6 @@ const SingleRestaurantPage = ({ params, replace }) => {
       const response = await axios.get(
         `http://localhost:3001/customer/dishes/restaurant/${params.restaurantID}`, {
         headers: {
-          //"authorization": "Bearer "+ helpers.getCookie("token"),
           "authorization": "Bearer " + localStorage.getItem("token"),
         },
       }
@@ -99,18 +100,45 @@ const SingleRestaurantPage = ({ params, replace }) => {
   };
 
 
+  useEffect(() => {
+    const userID = localStorage.getItem('userID');
+    const storedCart = JSON.parse(localStorage.getItem(`cart_${userID}`) || '[]');
 
-  // Triggered when the user attempts to add an item to the cart
+    if (storedCart && storedCart.length > 0) {
+        fetchPreviousRestaurant(storedCart);
+    }
+}, []);
+
+const fetchPreviousRestaurant = async (cart) => {
+    if(cart && cart.length > 0) {
+        const restaurantId = cart[0].restaurantId;
+
+        try {
+            const response = await axios.get(
+                `http://localhost:3001/customer/restaurant/${restaurantId}`, {
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("token"),
+                },
+            });
+
+            if (response.data) {
+                setPerviousRestaurant(response.data);
+            }
+        } catch (error) {
+            console.error("Error fetching previous restaurant:", error);
+        }
+    }
+};
+
   const handleAddToCart = (addedItem, itemCount, note) => {
     const userID = localStorage.getItem('userID');
     const currentCart = JSON.parse(localStorage.getItem(`cart_${userID}`) || '[]');
     const differentRestaurantExists = currentCart.some(item => item.restaurantId !== params.restaurantID);
     if (differentRestaurantExists) {
-      // Store the pending addition and show the replace confirmation popup
+     
       setPendingAddition({ addedItem, itemCount, note });
       setShowReplaceItemsPopup(true);
     } else {
-      // No conflicting restaurant, proceed to add to cart
       addToCartDirectly(addedItem, itemCount, note, currentCart, userID, restaurantState.deliveryFee);
     }
 
@@ -118,7 +146,6 @@ const SingleRestaurantPage = ({ params, replace }) => {
   };
 
   
-  // Directly add to cart (used for initial add and after confirmation)
   const addToCartDirectly = (addedItem, itemCount, note, currentCart, userID, deliveryFee) => {
     const itemIndex = currentCart.findIndex(cartItem => cartItem.dishId === addedItem._id);
 
@@ -148,15 +175,14 @@ const SingleRestaurantPage = ({ params, replace }) => {
     }, 100);
   };
 
-  // This should be called after the user confirms replacement in the ReplaceItems component
   const handleReplaceConfirm = (replaceConfirmed) => {
     if (replaceConfirmed && pendingAddition) {
       const { addedItem, itemCount, note } = pendingAddition;
       const userID = localStorage.getItem('userID');
-      const newCart = []; // Start with an empty cart for the new restaurant
+      const newCart = [];
 
       addToCartDirectly(addedItem, itemCount, note, newCart, userID, restaurantState.deliveryFee);
-      setPendingAddition(null); // Clear the pending addition after handling
+      setPendingAddition(null);
     }
     setShowReplaceItemsPopup(false);
   };
@@ -203,7 +229,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
                             className="dishImage"
                             src={dish.image ? dish.image : "/placeholder.png"}
                             onError={({ currentTarget }) => {
-                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.onerror = null;
                               currentTarget.src = "/placeholder.png";
                             }}
                             alt={dish.title}
@@ -372,8 +398,8 @@ const SingleRestaurantPage = ({ params, replace }) => {
       {showReplaceItemsPopup && (
         <ReplaceItems
           closePopup={() => setShowReplaceItemsPopup(false)}
-          onConfirmReplace={(confirm) => handleReplaceConfirm(confirm)} // Assuming ReplaceItems calls this with true/false
-          restaurantName={restaurantState.title} // Or any other restaurant name you wish to display
+          onConfirmReplace={(confirm) => handleReplaceConfirm(confirm)} 
+          restaurantName={perviousRestaurant.title}
         />
       )}
     </div>

@@ -3,7 +3,7 @@ export default function ReplaceItems({ closePopup, onConfirmReplace, restaurantN
     return(
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 overflow-y-auto h-full w-full">
             <div className="relative flex justify-center p-5 top-20 
-            items-center mx-auto border w-[550px] h-[420px] shadow-lg rounded-3xl bg-white
+            items-center mx-auto border w-[550px] h-[380px] shadow-lg rounded-3xl bg-white
           ">
                 <div className="flex flex-col space-between space-y-[2rem]"> 
                     <div className="flex flex-col items-center justify-center mb-[3rem]">

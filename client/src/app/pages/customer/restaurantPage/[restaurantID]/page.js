@@ -105,27 +105,27 @@ const SingleRestaurantPage = ({ params, replace }) => {
     const userID = localStorage.getItem('userID');
     const currentCart = JSON.parse(localStorage.getItem(`cart_${userID}`) || '[]');
     const differentRestaurantExists = currentCart.some(item => item.restaurantId !== params.restaurantID);
-
     if (differentRestaurantExists) {
       // Store the pending addition and show the replace confirmation popup
       setPendingAddition({ addedItem, itemCount, note });
       setShowReplaceItemsPopup(true);
     } else {
       // No conflicting restaurant, proceed to add to cart
-      addToCartDirectly(addedItem, itemCount, note, currentCart, userID);
+      addToCartDirectly(addedItem, itemCount, note, currentCart, userID, restaurantState.deliveryFee);
     }
 
     setShowDish(false);
   };
 
+  
   // Directly add to cart (used for initial add and after confirmation)
-  const addToCartDirectly = (addedItem, itemCount, note, currentCart, userID) => {
+  const addToCartDirectly = (addedItem, itemCount, note, currentCart, userID, deliveryFee) => {
     const itemIndex = currentCart.findIndex(cartItem => cartItem.dishId === addedItem._id);
 
     if (itemIndex > -1) {
       currentCart[itemIndex].count += itemCount;
       currentCart[itemIndex].totalPrice = ((currentCart[itemIndex].price * currentCart[itemIndex].count)+restaurantState.deliveryFee).toFixed(2);
-      currentCart[itemIndex].note = note; // Optionally update the note
+      currentCart[itemIndex].note = note;
     } else {
       currentCart.push({
         restaurantId: params.restaurantID,
@@ -136,9 +136,11 @@ const SingleRestaurantPage = ({ params, replace }) => {
         description: addedItem.description,
         image: addedItem.image,
         totalPrice: (addedItem.price * itemCount).toFixed(2),
-        note: note
+        note: note,
+        deliveryFee:restaurantState.deliveryFee
       });
     }
+    localStorage.setItem(`deliveryFee`, deliveryFee);
     localStorage.setItem(`cart_${userID}`, JSON.stringify(currentCart));
     setCartItemsChangedState(false);
     setTimeout(() => {
@@ -153,7 +155,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
       const userID = localStorage.getItem('userID');
       const newCart = []; // Start with an empty cart for the new restaurant
 
-      addToCartDirectly(addedItem, itemCount, note, newCart, userID);
+      addToCartDirectly(addedItem, itemCount, note, newCart, userID, restaurantState.deliveryFee);
       setPendingAddition(null); // Clear the pending addition after handling
     }
     setShowReplaceItemsPopup(false);
@@ -351,7 +353,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
           )}
         </div>
 
-        <div className="cartItem w-[350px] z-20 top-0 mr-[2rem] fixed mt-[9.5rem] mb-[10rem]">
+        <div className="cartItem rounded-2xl w-[350px] z-20 top-0 mr-[2rem] fixed mt-[9.5rem] mb-[10rem]">
           {cartItemsChangedState && <Item />}
         </div>
 
@@ -363,6 +365,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
           onAddToCart={handleAddToCart}
           onCountChange={setCount}
           resetAndClose={resetAndClose}
+          deliveryFee={restaurantState.deliveryFee}
         />
       )}
       <Footer />

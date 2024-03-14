@@ -14,7 +14,9 @@ const FindDishStep = () => {
 
   return (
     <div className="flex justify-center items-center">
-      <Lottie options={defaultOptions} height={200} width={200} />
+      <div style={{ pointerEvents: 'none' }}>
+        <Lottie options={defaultOptions} height={200} width={200} />
+      </div>
     </div>
   );
 };

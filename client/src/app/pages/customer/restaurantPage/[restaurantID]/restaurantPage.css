@@ -10,7 +10,9 @@
     box-shadow: rgb(171, 169, 171) 0px 0px 5px 0px;
     overflow: auto;
 }
-
+.cartItem{
+    box-shadow: rgb(171, 169, 171) 0px 0px 5px 0px;
+}
 .restaurantCardHeader {
     display: flex;
     justify-content: flex-start;

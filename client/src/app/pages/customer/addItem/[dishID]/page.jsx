@@ -4,7 +4,7 @@ import LoadingAnimation from '../../../../components/loadingAnimation';
 import Counter from './components/counter';
 import './addItem.css';
 
-export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onCountChange }) {
+export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onCountChange, deliveryFee }) {
   const dishID  = dishId;
   const [item, setItem] = useState();
   const [note, setNote] = useState("");
@@ -22,8 +22,8 @@ export default function AddItem({ dishId, resetAndClose, count, onAddToCart, onC
   }, [dishID]);
 
   const handleAddToOrder = () => {
-
-    onAddToCart(item, count, note);
+console.log("item: ",item)
+    onAddToCart(item, count, note, deliveryFee);
 
     resetAndClose();
   };

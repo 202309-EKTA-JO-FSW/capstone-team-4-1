@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Footer from "@/app/components/footer/footer";
 import Location from "./components/location";
+
 export default function CustomerSignup() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
@@ -36,6 +38,20 @@ export default function CustomerSignup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+    const phoneRegex = /^(78|77|79)\d{7}$/;
+
+    if (!passwordRegex.test(formData.password)) {
+      setErrors({ password: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character." });
+      return;
+    } else if (formData.password !== formData.repeatPassword) {
+      setErrors({ repeatPassword: "Passwords must match." });
+    }
+
+    if (!phoneRegex.test(formData.phone)) {
+      setErrors({ phone: "Please enter a valid phone number."})
+    }
 
     try {
       const response = await fetch(`http://localhost:3001/user/customer/register`, {
@@ -154,8 +170,8 @@ export default function CustomerSignup() {
               <div className="flex w-full">
                 <span className="bg-gray-50 border-b border-gray-300 px-3 py-2">+962</span>
                 <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required placeholder="770000000" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
-                {errors.phone && <span className="text-red-500">{errors.phone}</span>}
               </div>
+              {errors.phone && <span className="text-red-500">{errors.phone}</span>}
 
               <Location />
               

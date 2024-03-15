@@ -189,7 +189,14 @@ export default function CustomerSignup() {
                 id="avatar" 
                 name="avatar"
                 value={formData.avatar}
-                onChange={handleChange}
+                // onChange={handleChange}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setFormData({
+                    ...formData,
+                    avatar: file,
+                  });
+                }}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" 
                 accept="image/*" 
               />

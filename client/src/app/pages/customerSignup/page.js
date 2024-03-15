@@ -37,7 +37,7 @@ export default function CustomerSignup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log("This is the form:", formData);
 
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
     const phoneRegex = /^(78|77|79)\d{7}$/;
@@ -188,7 +188,8 @@ export default function CustomerSignup() {
                 type="file" 
                 id="avatar" 
                 name="avatar"
-                value={formData.avatar}
+                accept="image/*"
+                // value={formData.avatar}
                 // onChange={handleChange}
                 onChange={(e) => {
                   const file = e.target.files[0];
@@ -198,7 +199,6 @@ export default function CustomerSignup() {
                   });
                 }}
                 className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" 
-                accept="image/*" 
               />
               <button type="submit" className="mt-4 bg-[#FFC245] hover:bg-[#101B0B] hover:text-[#FFC245] text-black font-medium w-full rounded-md px-4 py-2">
                 Open Account

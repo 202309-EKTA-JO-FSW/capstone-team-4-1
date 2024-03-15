@@ -53,12 +53,14 @@ body {
 
 .firstPiece {
   display: flex;
-  align-items: end;
-  height: 67px;
+  align-items: flex-end;
+  height: 65px;
+  position: absolute;
+  width: 100%;
 }
 
 .secondPiece {
-  margin-top: -25px;
+  margin-top: 50px;
 }
 
 @layer utilities {
@@ -90,4 +92,33 @@ body {
   padding: 12px;
   font-weight: 700;
   border-radius: 9px;
+}
+
+.bgWhite {
+  background-color: white;
+}
+
+.bg101B0B {
+  background-color: #101B0B;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.addModal {
+  overflow-y: scroll;
+  z-index: 51;
 }

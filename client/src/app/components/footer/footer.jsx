@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
+import Link from 'next/link';
 
 const Footer = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const Footer = () => {
       router.push(`/pages/customer/restaurantList`);
     } 
     else if (userRoleState == 'restaurant') {
-      router.push(`/pages/restaurant/restaurantList/page`);
+      router.push(`/pages/restaurant/[restaurantId]/page`);
     }
     else {
 
@@ -99,12 +100,12 @@ const Footer = () => {
                 <p className=" text-white xl:font-medium md:text-sm 2xs:text-[8px]">Company</p>
                 <ul className="mt-6 space-y-4 xl:text-sm md:text-xs 2xs:text-[6px]">
                   <li>
-                    <a
+                    <Link
                       href="/pages/aboutPage"
                       className="text-white transition hover:opacity-75"
                     >
                       About us
-                    </a>
+                    </Link>
                   </li>
 
                   <li>
@@ -117,12 +118,12 @@ const Footer = () => {
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <Link
+                      href="/pages/contactPage"
                       className="text-white transition hover:opacity-75"
                     >
                       Contact
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

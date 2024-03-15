@@ -4,9 +4,10 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import Lottie from 'react-lottie';
 import Stars from "./components/stars";
-import animationData from '../../../lotties/loadingAnimation';
 import Form from "./dishform/page";
 import { FaSearch } from 'react-icons/fa'
+import Footer from "@/app/components/footer/footer";
+import LoadingAnimation from "../../../components/loadingAnimation"; 
 
 const RestaurantProfile = () => {
   const params = useParams();
@@ -15,14 +16,7 @@ const RestaurantProfile = () => {
   const [menu, setMenu] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
+
 
   // const token = localStorage.getItem('token');
   // const headers = {
@@ -69,9 +63,7 @@ const RestaurantProfile = () => {
 
   if (!restaurant || !menu) {
     return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        <Lottie options={defaultOptions} height={200} width={200} />
-      </div>
+      <LoadingAnimation/>
     );    
   }
 
@@ -111,12 +103,12 @@ const RestaurantProfile = () => {
         </div>
 
 
-        <div className="flex items-center bg-gray-200 p-2 rounded-md">
+        <div className="mr-[1.5rem] ml-[1.5rem] flex items-center border border-gray-700 hover:border-[#FFC245] p-2 pl-4 pr-2 rounded-3xl">
         <FaSearch className="text-gray-600" />
         <input
           type="text"
           placeholder="Search for dishes..."
-          className="w-full pl-2 py-1 rounded-md focus:outline-none"
+          className="w-full pl-2 py-1 mx-4 focus:outline-none"
           value={searchInput}
           onChange={handleInputChange}
         />
@@ -142,6 +134,7 @@ const RestaurantProfile = () => {
         </div>
       </div>
       {showForm && <Form restaurantId={restaurantId} closeForm={() => setShowForm(false)} />}
+      <Footer />
     </div>
   );
 };

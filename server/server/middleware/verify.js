@@ -24,7 +24,6 @@ const verifyCustomer = (req, res, next) => {
 };
 
 const verifyRestauarant = (req, res, next) => {
-  console.log("This is what we have now:", req.user)
   if (req.user && req.user.role === 'restaurant') {
     next();
   } else {

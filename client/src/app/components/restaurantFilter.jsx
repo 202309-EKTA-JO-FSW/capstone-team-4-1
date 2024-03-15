@@ -95,7 +95,7 @@ const RestaurantFilter = ({
             width="22"
             height="22"
             loading="lazy"
-            class="filter-option__icon"
+            className="filter-option__icon"
           />
           <button
             onClick={() => onFilterChange("")}
@@ -111,7 +111,7 @@ const RestaurantFilter = ({
               width="22"
               height="22"
               loading="lazy"
-              class="filter-option__icon"
+              className="filter-option__icon"
             />
             <button
               key={cuisine}

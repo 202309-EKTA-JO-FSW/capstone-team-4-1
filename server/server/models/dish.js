@@ -22,7 +22,9 @@ const dishSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Price required']
   },
-  category: String
+  category: {
+    type: String,
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model("Dish", dishSchema);

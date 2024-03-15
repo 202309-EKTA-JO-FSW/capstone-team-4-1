@@ -2,6 +2,25 @@ const RestaurantModel = require('../models/restaurant');
 const Order = require('../models/order');
 const Item = require('../models/item');
 const Dish = require('../models/dish');
+const Customer = require('../models/customer');
+const bcrypt = require('bcrypt');
+
+// get customer profile
+
+const getProfile = async (req, res) => {
+  const { customerId } = req.params;
+  try {
+    const profile = await Customer.findById(customerId);
+
+    if (!profile) {
+      res.status(422).json({ message: "No profile found" });
+    }
+
+    res.status(200).json(profile);
+  } catch (err) {
+    res.status(422).json({ message: err.message });
+  }
+};
 
 // Get All Restaurants:
 
@@ -18,7 +37,7 @@ const getAllRestaurants = async (req, res) => {
     const restaurants = await RestaurantModel.find(query);
     res.status(200).json(restaurants);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(402).json({ message: error.message });
   }
 }
 
@@ -34,7 +53,7 @@ const getRestaurantById = async (req, res) => {
     }
     res.status(200).json(restaurant)
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -45,7 +64,7 @@ const getAllDishes = async (req, res) => {
     const dishes = await Dish.find()
     res.status(200).json({ dishes })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -58,14 +77,10 @@ const getDishById = async (req, res) => {
     if (!dish) {
       return res.status(404).json({ message: 'Dish not found' })
     }
-    const restaurant = await RestaurantModel.findById(dish.restaurant)
-    if (!restaurant) {
-      return res.status(404).json({ message: 'Restaurant not found for the dish' })
-    }
-    const restaurantName = restaurant.name
-    res.status(200).json({ dish, restaurantName })
+    
+    res.status(200).json(dish)
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -79,7 +94,7 @@ const getAllDishesOfRestaurant = async (req, res) => {
     res.status(200).json({ dishes })
   } catch (error) {
     console.error('Error fetching dishes:', error)
-    res.status(500).json({ error: 'Internal server error' })
+    res.status(402).json({ error: 'Internal server error' })
   }
 }
 
@@ -91,24 +106,106 @@ const getAllOrdersByCustomerId = async (req, res) => {
     const orders = await Order.find({ customer: customerId })
     res.status(200).json({ orders })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
+  }
+}
+
+// Add An Item To Cart
+
+const getCart = async (req, res) => {
+  const { customerId } = req.body
+  try {
+    const cartItems = await Item.find({ customer: customerId, state: 'cart'});
+    if (!cartItems) {
+      return res.status(404).json({ message: 'Cart empty' })
+    }
+    
+    res.status(201).json(cartItems)
+  } catch (error) {
+    res.status(402).json({ message: error.message })
   }
 }
 
 // Add An Item To Cart
 
 const addItem = async (req, res) => {
-  const { dishId, quantity, note } = req.body
+  const { customerId, dishId, quantity, note } = req.body
   try {
-    const item = await Item.findOne(({ 'dish._id': dishId }))
-    if (!item) {
+    const dish = await Dish.findById(dishId)
+    if (!dish) {
       return res.status(404).json({ message: 'Dish not found' })
     }
-    const totalPrice = item.dish.price * quantity
-    const cartItem = await Item.create({ 'dish._id': dishId, quantity, price: totalPrice, note },
-    { new: true, upsert: true })
+    const totalPrice = dish.price * quantity
+    const cartItem = await Item.create({ 
+      restaurant: dish.restaurant,
+      customer: customerId,
+      dish: dishId,
+      quantity: quantity,
+      price: totalPrice,
+      note: note,
+      state: 'cart'
+    })
     await cartItem.save()
     res.status(201).json({ message: 'Item added to cart successfully', cartItem })
+  } catch (error) {
+    res.status(402).json({ message: error.message })
+  }
+}
+
+// Edit Customer Profile
+
+const editProfile = async (req, res) => {
+  const { customerId } = req.params;
+  const { firstName, lastName, email, password, newpassword, confirmpassword, phone, street, buildingNo } = req.body
+  try {
+    const infoUpdate = {};
+
+    const customer = await Customer.findById(customerId);
+    
+    if (customer) {
+
+      // change password
+
+      if (password !== '' && newpassword !== '' && confirmpassword !== '') {
+        const passwordMatch = await customer.comparePassword(password);
+
+        if (!passwordMatch || newpassword !== confirmpassword) {
+          return res.status(401).json({ message: 'Incorrect input' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newpassword, 10);
+        infoUpdate.password = hashedPassword;
+      }
+        
+      // change the rest of the customer information 
+
+      if (firstName !== '') {
+        infoUpdate.firstName = firstName;
+      }
+      if (lastName !== '') {
+        infoUpdate.lastName = lastName;
+      }
+      if (email !== '') {
+        infoUpdate.email = email;
+      }
+      if (phone !== '') {
+        infoUpdate.phone = phone;
+      }
+      if (street !== '') {
+        infoUpdate.street = street;
+      }
+      if (buildingNo !== '') {
+        infoUpdate.buildingNo = buildingNo;
+      }
+
+    }
+
+    const customerUpdate = await Customer.findByIdAndUpdate(customerId, infoUpdate, { new: true } )
+    if (!customerUpdate) {
+      return res.status(404).json({ message: 'Failed to update cusotmer information' })
+    }
+    
+    res.status(201).json(customerUpdate)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -134,7 +231,7 @@ const removeItemFromCart = async (req, res) => {
     await order.save()
     res.status(200).json({ message: 'Item removed from cart successfully', order })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
@@ -147,8 +244,22 @@ const getPendingOrders = async (req, res) => {
       .populate('items')
     res.status(200).json({ orders: pendingOrders })
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(402).json({ message: error.message })
   }
 }
 
-module.exports = { getAllRestaurants, getRestaurantById, getAllDishes, getDishById, getAllDishesOfRestaurant, getAllOrdersByCustomerId, getPendingOrders, addItem, removeItemFromCart };
+module.exports = { 
+  getProfile,
+  getAllRestaurants,
+  getRestaurantById,
+  getAllDishes,
+  getDishById,
+  getAllDishesOfRestaurant,
+  getAllOrdersByCustomerId,
+  getPendingOrders,
+  getCart,
+  addItem,
+  editProfile,
+  removeItemFromCart
+};
+

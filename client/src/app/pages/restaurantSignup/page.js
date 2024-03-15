@@ -1,8 +1,8 @@
 "use client"
-import Location from "../customerSignup/components/location";
-import React, { useState } from 'react';
-import { Edit, SimpleForm } from 'react-admin';
+import Footer from "@/app/components/footer/footer";
+import { useState } from 'react';
 import CuisineInput from "./components/cuisine";
+
 export default function RestaurantSignup() {
     const [cuisines, setCuisines] = useState([]);
     const handleSubmit = (event) => {
@@ -11,8 +11,8 @@ export default function RestaurantSignup() {
         console.log("Form data", { cuisines });
       };
   return (
+    
     <div className="relative bg-[#101B0B] overflow-hidden text-black">
-
         <div className="relative w-full overflow-hidden bg-black xl:h-[600px] 
             lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]">
 
@@ -174,7 +174,7 @@ export default function RestaurantSignup() {
             </div>
 
       <div className="mt-[10rem] pt-[10rem] mb-[5rem] bg-[#101B0B]">
-
+      <Footer />
       </div>
     </div>
   );

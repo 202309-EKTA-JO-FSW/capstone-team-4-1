@@ -18,10 +18,17 @@ export default function Form({ restaurantId, closeForm }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
+
     try {
       const response = await fetch(`http://localhost:3001/restaurant/dish/${restaurantId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify(formData),
       });
       if (response.ok) {
@@ -37,11 +44,11 @@ export default function Form({ restaurantId, closeForm }) {
   };
 
   return (
-    <div className="z-50 fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div className="z-50 fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full addModal">
       <main className="relative mx-auto my-0 top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 border w-[650px] shadow-lg rounded-3xl bg-white
        xl:p-5 xl:w-[650px] xl:h-auto xl:rounded-3xl xl:shadow-lg
        md:p-3 md:w-[400px] md:h-auto md:rounded-2xl md:shadow-sm
-      2xs:p-1 2xs:w-[250px] 2xs:h-auto 2xs:rounded-xl 2xs:shadow-xs">
+      2xs:p-1 2xs:w-[250px] 2xs:h-auto 2xs:rounded-xl 2xs:shadow-xs addModal">
         <button onClick={closeForm} className="absolute top-5 right-5 p-1 rounded-full transition-all duration-200 ease-in-out hover:bg-gray-200
         xl:top-5 xl:right-5 xl:p-1
         md:top-5 md:right-4 md:p-1
@@ -59,31 +66,31 @@ export default function Form({ restaurantId, closeForm }) {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
               Title
             </label>
-            <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
               Description
             </label>
-            <input type="text" name="description" id="description" value={formData.description} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="text" name="description" id="description" value={formData.description} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
               Image URL
             </label>
-            <input type="url" name="image" id="image" value={formData.image} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="url" name="image" id="image" value={formData.image} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
               Price
             </label>
-            <input type="number" name="price" id="price" value={formData.price} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="number" name="price" id="price" value={formData.price} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
               Category
             </label>
-            <input type="text" name="category" id="category" value={formData.category} onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <input type="text" name="category" id="category" value={formData.category} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
           </div>
           <div className="flex justify-center">
             <button type="submit"

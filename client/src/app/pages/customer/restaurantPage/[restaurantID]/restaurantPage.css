@@ -5,19 +5,18 @@
 
 .restaurantCard {
     padding: 20px;
-    margin: 0px auto 20px;
-    max-width: 1000px;
     background: rgb(255, 255, 255);
     height: 100%;
     box-shadow: rgb(171, 169, 171) 0px 0px 5px 0px;
     overflow: auto;
-    min-height: calc(-250px + 100vh);
 }
-
+.cartItem{
+    box-shadow: rgb(171, 169, 171) 0px 0px 5px 0px;
+}
 .restaurantCardHeader {
     display: flex;
-    justify-content: start;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .restaurantCardHeaderContent {
@@ -114,7 +113,7 @@
 
 .dishContentLeftSection {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .dishImage {
@@ -146,7 +145,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .dishPrice {
@@ -163,7 +162,6 @@
     color: white;
 }
 
-.infoContainer {}
 
 .infoContainerRestaurantName {
     font-weight: 500;
@@ -174,7 +172,7 @@
 
 .infoContainerDetail {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     border-top: 1px solid rgb(224, 224, 224);
     padding-top: 10px;

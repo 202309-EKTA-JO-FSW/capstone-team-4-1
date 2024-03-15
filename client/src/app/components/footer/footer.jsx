@@ -1,7 +1,31 @@
-import React from "react"
-import Link from "next/link"
+"use client";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
+import Link from 'next/link';
 
 const Footer = () => {
+  const router = useRouter();
+  const [userRoleState, setUserRoleState] = useState("");
+
+  useEffect(() => {
+    let userRole = localStorage.getItem("userRole");
+    setUserRoleState(userRole);
+  }, []);
+
+  const handleImageClick = () => {
+    if (userRoleState == 'customer') {
+     
+      router.push(`/pages/customer/restaurantList`);
+    } 
+    else if (userRoleState == 'restaurant') {
+      router.push(`/pages/restaurant/[restaurantId]/page`);
+    }
+    else {
+
+      router.push('/');
+    }
+  };
+
   const teamMembers = [
     {
       name: "Dana Omar",
@@ -47,13 +71,13 @@ const Footer = () => {
       <div className="bg-[#101B0B] top-0 left-0 w-full px-4 py-5 sm:px-6 lg:px-10">
         
         <div className="absolute logo flex -mt-10 2xs:justify-center">
-          <Link href={`/`}>
-            <img src="/logo.png" alt="logo" className="
+          <a style={{ cursor: 'pointer' }}>
+            <img src="/logo.png" alt="logo" onClick={handleImageClick}  className="
             xl:w-[300px] xl:h-auto xl:pt-5 xl:-mt-10 xl:ml-10 xl:pl-10
             md:w-[200px] md:h-auto md:pt-3 md:mt-6 md:ml-6 md:pl-6
             2xs:w-[150px] 2xs:h-auto 2xs:pt-6 2xs:mt-4 2xs:ml-4 2xs:pl-4
             "></img>
-          </Link>
+          </a>
         </div>
 
         <div className="xl:flex xl:justify-center xl:gap-8">
@@ -76,12 +100,12 @@ const Footer = () => {
                 <p className=" text-white xl:font-medium md:text-sm 2xs:text-[8px]">Company</p>
                 <ul className="mt-6 space-y-4 xl:text-sm md:text-xs 2xs:text-[6px]">
                   <li>
-                    <a
-                      href="#"
+                    <Link
+                      href="/pages/aboutPage"
                       className="text-white transition hover:opacity-75"
                     >
                       About us
-                    </a>
+                    </Link>
                   </li>
 
                   <li>
@@ -94,12 +118,12 @@ const Footer = () => {
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <Link
+                      href="/pages/contactPage"
                       className="text-white transition hover:opacity-75"
                     >
                       Contact
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

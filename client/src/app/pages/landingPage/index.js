@@ -1,4 +1,9 @@
+"use client"
 import Link from "next/link";
+import Footer from "@/app/components/footer/footer";
+import LoginStep from "@/app/components/loginStep";
+import FindDishStep from "@/app/components/findDishSetp";
+import OrderStep from "@/app/components/orderStep";
 export default function LandingPage() {
   return (
     <div className="relative bg-[#fff] overflow-hidden text-black">
@@ -8,7 +13,7 @@ export default function LandingPage() {
       >
         <img
           className="absolute top-0 left-0 z-0 bg-black opacity-50 w-full
-          xl:mt-10 xl:pt-10 md:mt-8 md:pt-4 mt-4 pt-5
+          xl:mt-6 xl:pt-6 md:mt-8 md:pt-4 mt-4 pt-5
             xl:h-[600px] lg:h-[400px] md:h-[300px] sm:h-[250px] h-[200px]"
           src="/backgroundwelcome.png"
           alt="gifwelcome"
@@ -39,6 +44,32 @@ export default function LandingPage() {
           d="M0,40L60,43.3C120,47,240,53,360,53.3C480,53,600,43,720,36.7C840,31,960,29,1080,36.7C1200,43,1320,57,1380,62.7L1440,64L1440,80L1380,80C1320,80,1200,80,1080,80C960,80,840,80,720,80C600,80,480,80,360,80C240,80,120,80,60,80L0,80Z"
         ></path>
       </svg>
+
+      <div className="felx justif-center items-center"><h1 className="font-bold text-black text-center
+              xl:text-4xl xl:pt-10
+              md:text-2xl md:pt-8
+              sm:text-xl sm:pt-6
+              2xs:text-lg 2xs:pt-4
+              ">How it works</h1>
+      </div>
+
+      <div className="flex flex-row space-between space-x-[10rem] mx-[8rem] my-[4rem]">
+        <div className="">
+            <LoginStep />
+            <h1 className="font-bold text-xl text-left pt-3">Step 1</h1>
+            <h4 className="font-md text-left text-sm">Create your account and fill your information simply by the button above</h4>
+        </div>
+        <div>
+            <FindDishStep />
+            <h1 className="font-bold text-xl text-left pt-3">Step 2</h1>
+            <h4 className="font-md text-left text-sm">Post-login, instantly find and add dishes from your chosen restaurant with just one click.</h4>
+        </div>
+        <div>
+            <OrderStep />
+            <h1 className="font-bold text-xl text-left pt-3">Step 3</h1>
+            <h4 className="font-md text-left text-sm">After selecting your dishes, finalize your order with a single click to confirm.</h4>
+        </div>
+      </div>
 
       <div className="flex items-center justify-center">
         <h1
@@ -114,7 +145,7 @@ export default function LandingPage() {
             and highly competitive earnings <br />
             by delivering through FoodDrop today.
           </p>
-          <button
+          <Link href="/pages/riderSignup"><button
             className="bg-[#FFC245] hover:bg-[#B92719] text-black text-center mx-auto rounded-xl font-bold border-transparent hover:border-black
               xl:mt-5 xl:py-2 xl:px-8 xl:border-2 xl:text-md
               md:mt-5 md:py-2 md:px-4 md:border-1 md:text-sm
@@ -122,7 +153,7 @@ export default function LandingPage() {
               "
           >
             Register here
-          </button>
+          </button></Link>
         </div>
 
         <div
@@ -165,7 +196,7 @@ export default function LandingPage() {
             and explore new opportunities now!
           </p>
 
-          <button
+          <Link href="/pages/restaurantSignup"><button
             className="bg-[#FFC245] hover:bg-[#B92719] text-black text-center mx-auto rounded-xl font-bold border-transparent hover:border-black
               xl:mt-5 xl:py-2 xl:px-8 xl:border-2 xl:text-md
               md:mt-5 md:py-2 md:px-4 md:border-1 md:text-sm
@@ -173,9 +204,10 @@ export default function LandingPage() {
               "
           >
             Register here
-          </button>
+          </button></Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

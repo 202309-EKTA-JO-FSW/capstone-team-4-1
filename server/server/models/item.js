@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-    order: {
+    restaurant: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order',
+      ref: 'Restaurant',
+      required: true
+    },
+    customer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Customer',
       required: true
     },
     dish: {
@@ -21,7 +26,15 @@ const itemSchema = new mongoose.Schema({
       default: 0,
       required: true
     },
-    note: String
+    note: {
+      type: String,
+    },
+    state: {
+      type: String,
+        enum: ['cart', 'order', 'done'],
+        default: 'customer',
+        required: true
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Item', itemSchema);

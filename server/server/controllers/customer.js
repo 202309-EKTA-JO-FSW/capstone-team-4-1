@@ -148,7 +148,7 @@ const addItem = async (req, res) => {
       price: price,
       totalPrice: totalPrice,
       note: note,
-      state: 'cart'
+      state: 'order'
     })
     await cartItem.save()
     res.status(201).json({ message: 'Item added to cart successfully', cartItem })

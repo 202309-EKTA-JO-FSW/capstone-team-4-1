@@ -20,8 +20,10 @@ router.get('/dishes/restaurant/:restaurantId', authenticate, verifyUser(['custom
 router.get('/orders/:customerId', authenticate, verifyCustomer, customerController.getAllOrdersByCustomerId);
 router.get('/orders/pending/:customerId/:restaurantId', authenticate, verifyCustomer, customerController.getPendingOrders);
 router.get('/cart', authenticate, verifyCustomer, customerController.getCart);
+router.post('/order',authenticate, verifyCustomer, customerController.createOrder)
 router.post('/cart', authenticate, verifyCustomer, customerController.addItem);
 router.put('/profile/:customerId', authenticate, verifyCustomer, customerController.editProfile);
+
 router.delete('/cart', authenticate, verifyCustomer, customerController.removeItemFromCart);
 
 module.exports = router;

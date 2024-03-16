@@ -4,6 +4,7 @@ const Item = require('../models/item');
 const Dish = require('../models/dish');
 const Customer = require('../models/customer');
 const bcrypt = require('bcrypt');
+const Rider = require('../models/rider')
 
 // get customer profile
 
@@ -130,6 +131,7 @@ const getCart = async (req, res) => {
 
 const addItem = async (req, res) => {
   const { customerId, dishId, quantity, note } = req.body
+  console.log("this the body",req.body)
   try {
     const dish = await Dish.findById(dishId)
     if (!dish) {
@@ -248,6 +250,60 @@ const getPendingOrders = async (req, res) => {
   }
 }
 
+
+const createOrder = async (req, res) => {
+  const { customerId, restaurantId, items, note, riderId } = req.body;
+
+  try {
+    
+    const customerExists = await Customer.findById(customerId);
+    if (!customerExists) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    
+    const restaurantExists = await RestaurantModel.findById(restaurantId);
+    if (!restaurantExists) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    const riderExists = await Rider.findById(riderId);
+    if (!riderExists) {
+      return res.status(404).json({ message: "Rider not found" });
+    }
+    
+    for (let itemId of items) {
+      const itemExists = await Item.findById(itemId);
+      if (!itemExists) {
+        return res.status(404).json({ message: `Item with ID ${itemId} not found` });
+      }
+    }
+
+    const total_price = items.reduce(async (acc, itemId) => {
+      const item = await Item.findById(itemId);
+      return acc + (item.price * item.quantity);
+    }, 0);
+
+    const newOrder = new Order({
+      customer: customerId,
+      restaurant: restaurantId,
+      items: items,
+      total_price: await total_price,
+      note: note,
+      rider: riderId,
+      status: 'Pending',
+    });
+
+    await newOrder.save();
+
+    res.status(201).json({ message: "Order created successfully", order: newOrder });
+  } catch (error) {
+    res.status(402).json({ message: error.message });
+  }
+};
+
+
+
 module.exports = { 
   getProfile,
   getAllRestaurants,
@@ -260,6 +316,7 @@ module.exports = {
   getCart,
   addItem,
   editProfile,
-  removeItemFromCart
+  removeItemFromCart,
+  createOrder
 };
 

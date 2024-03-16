@@ -32,7 +32,7 @@ const itemSchema = new mongoose.Schema({
     state: {
       type: String,
         enum: ['cart', 'order', 'done'],
-        default: 'customer',
+        default: 'cart',
         required: true
     }
 }, { timestamps: true });

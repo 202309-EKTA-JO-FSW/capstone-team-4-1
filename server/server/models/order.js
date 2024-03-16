@@ -32,6 +32,23 @@ const orderSchema = new mongoose.Schema({
     default: 'Pending',
     required: true
   },
+  phone: {
+    type: String,
+    required: [true, 'Phone number is required'],
+    unique: true,
+    validate: {
+        validator: function(phone) {
+            const regex = /^(78|77|79)\d{7}$/;
+            return regex.test(phone);
+        },
+        message: 'Invalid phone number.'
+    }
+  },
+  location: {
+      type: [Number],
+      required: true,
+      default: 0
+  },
   estimatedTime:{
         type: Number,
         required: true

@@ -61,7 +61,7 @@ const customerSchema = new mongoose.Schema({
         type: String,
     },
     img: {
-        type: String,
+        type: Buffer,
     },
     buildingNo: {
         type: Number,

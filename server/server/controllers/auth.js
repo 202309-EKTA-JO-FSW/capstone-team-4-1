@@ -10,7 +10,7 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    const users = [ Admin, Customer, Restaurant, Rider ];
+    const users = [Admin, Customer, Restaurant, Rider];
 
     let user;
     let token;
@@ -24,7 +24,7 @@ const login = async (req, res, next) => {
         }
         token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
           expiresIn: '1d' // expires in 365 days
-     });
+        });
         res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 }); // maxAge is in milliseconds (24 hours)
         return res.status(200).json({ user, token });
       }
@@ -51,13 +51,13 @@ const registerAdmin = async (req, res, next) => {
 
 // Register a new customer
 const registerCustomer = async (req, res, next) => {
-  const { firstName, lastName, email, password, phone, role } = req.body;
+  const { firstName, lastName, email, password, location, street, img, buildingNo, phone, role } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new Customer({ firstName, lastName, email, password: hashedPassword, phone, role });
+    const user = new Customer({ firstName, lastName, email, password: hashedPassword, location, street, img, buildingNo, phone, role });
     await user.save();
-    res.json({ message: 'Registration successful' });
+    res.json({ message: 'Registration successful', addedData: { firstName, lastName, email, password, location, street, img, buildingNo, phone, role } });
   } catch (error) {
     next(error);
   }
@@ -65,17 +65,17 @@ const registerCustomer = async (req, res, next) => {
 
 // Register a new restaurant
 const registerRestaurant = async (req, res, next) => {
-    const { title, email, password, phone, image, role, license, street, buildingNo, area, cuisine, rate, deliveryTime, deliveryFee } = req.body;
-  
-    try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = new Restaurant({ title, email, password: hashedPassword, phone, image, role, license, street, buildingNo, area, cuisine, rate, deliveryTime, deliveryFee });
-      await user.save();
-      res.json({ message: 'Registration successful' });
-    } catch (error) {
-      next(error);
-    }
-  };
+  const { title, email, password, phone, image, role, license, street, buildingNo, area, cuisine, rate, deliveryTime, deliveryFee } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new Restaurant({ title, email, password: hashedPassword, phone, image, role, license, street, buildingNo, area, cuisine, rate, deliveryTime, deliveryFee });
+    await user.save();
+    res.json({ message: 'Registration successful' });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Register a new rider
 const registerRider = async (req, res, next) => {

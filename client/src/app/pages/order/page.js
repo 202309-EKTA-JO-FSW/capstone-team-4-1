@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import Footer from '@/app/components/footer/footer';
-import GoogleMapComponent from './cart/googleMap';
+// import GoogleMapComponent from './cart/googleMap';
 import EmptyOrderAnimation from '@/app/components/emptyOrderAnim';
 import './orderPage.css';
 
@@ -19,6 +19,16 @@ const Order = () => {
   const [userID, setUserID] = useState(null);
   const [restaurantID, setRestaurantID] = useState(null);
 
+  const [itemData, setItemData] = useState({
+    restaurant: '',
+    customer: '',
+    dish: '',
+    quantity: '',
+    price: '',
+    note: '',
+    state:'',
+  });
+
 
   useEffect(() => {
     const localUserID = localStorage.getItem('userID');
@@ -31,8 +41,8 @@ const Order = () => {
     if (parsedCartData.length > 0) {
       const restaurantId = parsedCartData[0].restaurantId;
       setRestaurantID(restaurantId)
-      fetchRestaurant(restaurantId);
-      fetchCustomer(localUserID);
+      fetchRestaurant(restaurantId);  // what are we doing here?
+      fetchCustomer(localUserID);     // same here what is going on?
     }
   }, []);
 
@@ -51,15 +61,15 @@ const Order = () => {
   //   state:'order',
   // });
 
-  const [itemData, setItemData] = useState({
-    restaurant: '',
-    customer: '',
-    dish: '',
-    quantity: '',
-    price: '',
-    note: '',
-    state:'',
-  });
+  // const [itemData, setItemData] = useState({
+  //   restaurant: '',
+  //   customer: '',
+  //   dish: '',
+  //   quantity: '',
+  //   price: '',
+  //   note: '',
+  //   state:'',
+  // });
 
 
   // const [itemArray, setItemArray] = useState([]);
@@ -87,67 +97,109 @@ console.log("cartItems set:", cartItems)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    console.log("Submit button clicked");
-  
-    const token = localStorage.getItem('token');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    };
-  
-    console.log("Attempting to add items to cart");
 
-    const itemIds = await Promise.all(cartItems.map(async (item, index) => {
-      console.log(`Adding item ${index + 1} to cart`);
-      const response = await fetch('http://localhost:3001/customer/cart', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({cartItems
-        }),
-      });
-      if (!response.ok) {
-        console.log(`Failed to add item ${index + 1} to cart`);
+    if(cartItems && cartItems.length > 0) {
+      const token = localStorage.getItem('token');
+      const headers = {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+      };
+
+      try {
+        await Promise.all(cartItems.map(async (item) => {
+            const response = await fetch(`http://localhost:3001/customer/cart`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                  restaurant: restaurantID,
+                  customer: userID,
+                  dish: item.dishId,
+                  dishName: item.title,
+                  quantity: item.count,
+                  price: item.price,
+                  totalPrice: item.totalPrice,
+                  note: item.note,
+                }),
+            });
+            const data = await response.json();
+            console.log(data); // do something with the response data
+        }))
+    } catch (error) {
+        console.error('Error:', error);
+    }
       
-      }
-      const data = await response.json();
-      console.log("Server response:", data);
-      const itemId = data._id || (data.cartItem && data.cartItem._id);
-      if (!itemId) {
-      }
-      console.log(`Item ${index + 1} added, ID: ${itemId}`);
-      return itemId;
-    }));
+      // try {
+      //   const response = await fetch(`http://localhost:3001/customer/cart`, {
+      //     method: 'POST',
+      //     headers: headers,
+      //     body: JSON.stringify(formData),
+      //   });
+      // }  catch (error) {
+      //   console.error('Error:', error);
+      // }
+  
+    }
+  
+    // console.log("Submit button clicked");
+  
+    // const token = localStorage.getItem('token');
+    // const headers = {
+    //   Authorization: `Bearer ${token}`,
+    //   'Content-Type': 'application/json',
+    // };
+  
+    // console.log("Attempting to add items to cart");
+
+    // const itemIds = await Promise.all(cartItems.map(async (item, index) => {
+    //   console.log(`Adding item ${index + 1} to cart`);
+    //   const response = await fetch('http://localhost:3001/customer/cart', {
+    //     method: 'POST',
+    //     headers: headers,
+    //     body: JSON.stringify({cartItems
+    //     }),
+    //   });
+    //   if (!response.ok) {
+    //     console.log(`Failed to add item ${index + 1} to cart`);
+      
+    //   }
+    //   const data = await response.json();
+    //   console.log("Server response:", data);
+    //   const itemId = data._id || (data.cartItem && data.cartItem._id);
+    //   if (!itemId) {
+    //   }
+    //   console.log(`Item ${index + 1} added, ID: ${itemId}`);
+    //   return itemId;
+    // }));
     
   
-    console.log("All items added, creating order with item IDs:", itemIds);
+    // console.log("All items added, creating order with item IDs:", itemIds);
   
-    try {
-      console.log("Attempting to create order");
-      const orderResponse = await fetch('http://localhost:3001/customer/order', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({
-          customer: userID,
-          restaurant: restaurantID,
-          items: itemIds,
-          totalPrice: totalPriceWithDelivery,
-          status: 'Pending',
-          note: '',
-          phone: '',
-          loaction: '',
-        }),
-      });
-      if (orderResponse.ok) {
-        setFormSubmitted(true);
-        console.log('Order submitted successfully!');
-        // Consider clearing the cart here or redirecting the user
-      } else {
-        console.error('Failed to submit order');
-      }
-    } catch (error) {
-      console.error('Error submitting order:', error);
-    }
+    // try {
+    //   console.log("Attempting to create order");
+    //   const orderResponse = await fetch('http://localhost:3001/customer/order', {
+    //     method: 'POST',
+    //     headers: headers,
+    //     body: JSON.stringify({
+    //       customer: userID,
+    //       restaurant: restaurantID,
+    //       items: itemIds,
+    //       totalPrice: totalPriceWithDelivery,
+    //       status: 'Pending',
+    //       note: '',
+    //       phone: '',
+    //       loaction: '',
+    //     }),
+    //   });
+    //   if (orderResponse.ok) {
+    //     setFormSubmitted(true);
+    //     console.log('Order submitted successfully!');
+    //     // Consider clearing the cart here or redirecting the user
+    //   } else {
+    //     console.error('Failed to submit order');
+    //   }
+    // } catch (error) {
+    //   console.error('Error submitting order:', error);
+    // }
   };
   
 
@@ -327,7 +379,7 @@ console.log(cartItems)
         <div className="flex items-start flex-col">
             <div className="mb-4 mt-2 w-full">
                 <span className="text-lg font-bold py-1 bg-[#FDF3DC] pr-5 rounded-md">Delivery details</span>
-                <GoogleMapComponent onLocationSet={handleLocationSet} />
+                {/* <GoogleMapComponent onLocationSet={handleLocationSet} /> */}
 
                 <div className="pr-8 flex space-between flex-row pt-4">
                     <div className="pt-2 pr-2">

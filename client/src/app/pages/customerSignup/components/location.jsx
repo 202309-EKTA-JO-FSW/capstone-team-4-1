@@ -9,12 +9,12 @@ import {
 } from "react-geocode";
 
 setDefaults({
-  key: "AIzaSyAjR5oXoYmbBPJgAbX4NcoGilgDGPi731U",
+  key: "AIzaSyDEGmmofoNnuXXtkx6CxIIMgzk1Tkq5kKk",
   language: "en",
   region: "es",
 });
 
-setKey("AIzaSyAjR5oXoYmbBPJgAbX4NcoGilgDGPi731U");
+setKey("AIzaSyDEGmmofoNnuXXtkx6CxIIMgzk1Tkq5kKk");
 setLanguage("en");
 setRegion("es");
 

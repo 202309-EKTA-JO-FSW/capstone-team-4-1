@@ -16,12 +16,21 @@ const itemSchema = new mongoose.Schema({
         ref: 'Dish',
         required: true
     },
+    dishName: {
+        type: String,
+        required: true
+    },
     quantity: {
       type: Number,
       default: 1,
       required: true
     },
     price: {
+      type: Number,
+      default: 0,
+      required: true
+    },
+    totalPrice: {
       type: Number,
       default: 0,
       required: true

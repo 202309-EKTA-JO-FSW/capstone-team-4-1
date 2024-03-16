@@ -16,47 +16,140 @@ const Order = () => {
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [customer, setCustomer] = useState([]);
+  const [userID, setUserID] = useState(null);
+  const [restaurantID, setRestaurantID] = useState(null);
 
-  const [formData, setFormData] = useState({customer: [],
-    restaurant:[],
-    rider: [],
-    items: [],
-    totalPrice: 0,
-    status:'Pending',
+
+  useEffect(() => {
+    const localUserID = localStorage.getItem('userID');
+    setUserID(localUserID);
+
+    const cartData = localStorage.getItem(`cart_${localUserID}`) || '[]';
+    const parsedCartData = JSON.parse(cartData);
+    setCartItems(parsedCartData);
+
+    if (parsedCartData.length > 0) {
+      const restaurantId = parsedCartData[0].restaurantId;
+      setRestaurantID(restaurantId)
+      fetchRestaurant(restaurantId);
+      fetchCustomer(localUserID);
+    }
+  }, []);
+
+
+  const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);
+  const totalPriceWithDelivery = (parseFloat(totalPrice) + deliveryFee).toFixed(2);
+
+  // const [itemData, setItemData] = useState({
+  //   restaurant:restaurantID,
+  //   customer: userID,
+  //   dish: cartItems.dishId,
+  //   quantity: cartItems.count,
+  //   price: cartItems.totalPrice,
+  //   note: cartItems.note,
+  //   state:'order',
+  // });
+
+  const [itemData, setItemData] = useState({
+    restaurant: '',
+    customer: '',
+    dish: '',
+    quantity: '',
+    price: '',
     note: '',
+    state:'',
   });
 
+
+  // const [itemArray, setItemArray] = useState([]);
+  // const test = cartItems.map(async (item, index) => {
+  //   setItemArray(item)
+  // })
+  // console.log(test)
+
+console.log("cartItems set:", cartItems)
+//   const [orderData, setOrderData] = useState({customer: userID,
+//     restaurant:restaurantID,
+//     rider: [],
+//     items: itemData,
+//     totalPrice: totalPriceWithDelivery,
+//     status:'Pending',
+//     note: cartItems.note,
+//     phone: '',
+//     location: '',
+//   });
+
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setOrderData({ ...orderData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-
+  
+    console.log("Submit button clicked");
+  
     const token = localStorage.getItem('token');
     const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     };
+  
+    console.log("Attempting to add items to cart");
 
-    try {
-      const response = await fetch(`http://localhost:3001/restaurant/dish/${restaurantId}`, {
+    const itemIds = await Promise.all(cartItems.map(async (item, index) => {
+      console.log(`Adding item ${index + 1} to cart`);
+      const response = await fetch('http://localhost:3001/customer/cart', {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify(formData),
+        body: JSON.stringify({cartItems
+        }),
       });
-      if (response.ok) {
+      if (!response.ok) {
+        console.log(`Failed to add item ${index + 1} to cart`);
+      
+      }
+      const data = await response.json();
+      console.log("Server response:", data);
+      const itemId = data._id || (data.cartItem && data.cartItem._id);
+      if (!itemId) {
+      }
+      console.log(`Item ${index + 1} added, ID: ${itemId}`);
+      return itemId;
+    }));
+    
+  
+    console.log("All items added, creating order with item IDs:", itemIds);
+  
+    try {
+      console.log("Attempting to create order");
+      const orderResponse = await fetch('http://localhost:3001/customer/order', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+          customer: userID,
+          restaurant: restaurantID,
+          items: itemIds,
+          totalPrice: totalPriceWithDelivery,
+          status: 'Pending',
+          note: '',
+          phone: '',
+          loaction: '',
+        }),
+      });
+      if (orderResponse.ok) {
         setFormSubmitted(true);
-        console.log('Form submitted successfully!');
-        setFormData({ restaurant: restaurantId, title: '', description: '', image: '', price: 0, category: '', });
+        console.log('Order submitted successfully!');
+        // Consider clearing the cart here or redirecting the user
       } else {
-        console.error('Failed to submit form');
+        console.error('Failed to submit order');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error submitting order:', error);
     }
   };
+  
 
 
 
@@ -66,25 +159,17 @@ const Order = () => {
   };
 
   useEffect(() => {
-    const userID = localStorage.getItem('userID');
-    console.log('User ID:', userID);
-    const storedCart = JSON.parse(localStorage.getItem(`cart_${userID}`) || '[]');
+   
     const fee = localStorage.getItem('deliveryFee');
 
     if (fee) {
       setDeliveryFee(parseFloat(fee));
     }
-
-    if (storedCart && storedCart.length > 0) {
-      fetchRestaurant(storedCart[0].restaurantId);
-      setCartItems(storedCart);
-      fetchCustomer(userID)
-    }
   }, []);
 
-  const fetchRestaurant = async (restaurantId) => {
+  const fetchRestaurant = async (restaurant_id) => {
     try {
-      const response = await axios.get(`http://localhost:3001/customer/restaurant/${restaurantId}`, {
+      const response = await axios.get(`http://localhost:3001/customer/restaurant/${restaurant_id}`, {
         headers: {
           'authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -123,7 +208,6 @@ const Order = () => {
     });
 
     setCartItems(updatedCartItems);
-    const userID = localStorage.getItem('userID');
     localStorage.setItem(`cart_${userID}`, JSON.stringify(updatedCartItems));
   };
 
@@ -132,6 +216,7 @@ const Order = () => {
       return (
         <input
           type="text"
+          value={itemData.note}
           defaultValue={item.note}
           onChange={(event) => handleNoteChange(event, item.dishId)}
           placeholder="Add note here"
@@ -157,9 +242,7 @@ const Order = () => {
     return <EmptyOrderAnimation />;
   }
 
-  const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
-  const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);
-  const totalPriceWithDelivery = (parseFloat(totalPrice) + deliveryFee).toFixed(2);
+
 console.log(cartItems)
   return (
 
@@ -197,7 +280,9 @@ console.log(cartItems)
                         <h1 className="text-2xl font-bold text-gray-700">Order Summary</h1>
                     </div>
                     <div>
+                    <Link key={restaurantState._id}  href={`/pages/customer/restaurantPage/${restaurantState._id}`} passHref>
                         <button className="text-sm hover:text-[#FFC245] py-1 mr-[4rem]">Modify Order</button>
+                    </Link>
                     </div>
                     </div>
               </div>
@@ -221,13 +306,10 @@ console.log(cartItems)
                     alt={item.title}
                     />
                     <div className="text-left flex-grow pl-3">
-                    <h2 className="text-lg font-md">{item.title}</h2>
-                    <div className="justify-left">
-                    {/* <input type="text" defaultValue={item.note} placeholder="Add note here" className="mr-3 text-xs text-gray-600 my-2 text-left font-md 
-                    mr-[3rem] w-full border border-black rounded-xl py-2 px-4 mb-2 focus:border-[#FFC245]"></input> */}
-
-                    {renderNoteField(item)}
-                    </div>
+                        <h2 className="text-lg font-md">{item.title}</h2>
+                        <div className="justify-left">
+                            {renderNoteField(item)}
+                        </div>
                         <div className="mr-3 text-md font-bold pr-10">{parseFloat(item.totalPrice).toFixed(2)}<span className="text-xs">JOD</span></div>
                     </div>
                 </div>
@@ -253,7 +335,9 @@ console.log(cartItems)
                     </div>
                     <div className="flex w-full">
                         <span className="bg-gray-50 border-b border-gray-300 px-3 py-2">+962</span>
-                        <input type="tel" id="phone" name="phone" defaultValue={customer.phone} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+                        <input type="tel" id="phone" name="phone" 
+                        // value={orderData.phone}
+                         defaultValue={customer.phone} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
                     </div>
                 </div>
             </div>
@@ -269,6 +353,7 @@ console.log(cartItems)
                     </div>
                     {showSpecialRequestInput && (
                         <textarea
+                            // value={orderData.note}
                             rows="2"
                             placeholder="eg. if you have a food allergy or a request for the driver"
                             className="mr-3 text-xs text-gray-600 my-2 text-left font-md w-[930px] border border-black rounded-xl py-2 px-4 mb-2 focus:outline-none focus:border-[#FFC245]"
@@ -288,7 +373,7 @@ console.log(cartItems)
             </div>
             <div className="flex items-center justify-center">
                 <Link href="/pages/order">
-                <button className="w-full text-md mt-4 mb-5 px-[4rem] py-1 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Confirm Order</button>
+                <button onClick={handleSubmit} className="w-full text-md mt-4 mb-5 px-[4rem] py-1 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Confirm Order</button>
                 </Link>
             </div>
             </div>

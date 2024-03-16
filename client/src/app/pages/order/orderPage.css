@@ -4,12 +4,10 @@
 }
 
 .restaurantCard {
-    background: rgb(255, 255, 255);
     height: 100%;
     overflow: auto;
 }
 .header{
-    background: rgb(255, 255, 255);
     height: 100%;
     overflow: auto;
 }

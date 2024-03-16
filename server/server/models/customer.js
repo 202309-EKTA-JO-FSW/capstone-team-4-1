@@ -60,6 +60,9 @@ const customerSchema = new mongoose.Schema({
     street: {
         type: String,
     },
+    img: {
+        type: String,
+    },
     buildingNo: {
         type: Number,
     },

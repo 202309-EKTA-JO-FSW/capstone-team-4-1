@@ -40,8 +40,8 @@ const itemSchema = new mongoose.Schema({
     },
     state: {
       type: String,
-        enum: ['cart', 'order', 'done'],
-        default: 'cart',
+        enum: ['order', 'delivered'],
+        default: 'order',
         required: true
     }
 }, { timestamps: true });

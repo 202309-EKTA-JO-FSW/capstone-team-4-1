@@ -273,7 +273,8 @@ const createOrder = async (req, res) => {
       time = findRestaurant.deliveryTime;
     }
 
-    const orderItems = await Item.find({ customer: customer, state: 'order'});
+    const orderItems = await Item.find({ customer: customer, restaurant: restaurant, state: 'order'});
+    console.log("This is the order:", orderItems);
 
     if (!orderItems) {
       return res.status(404).json({ message: "Order items not found" });

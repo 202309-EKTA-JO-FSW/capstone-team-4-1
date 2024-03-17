@@ -255,46 +255,55 @@ const getPendingOrders = async (req, res) => {
 
 
 const createOrder = async (req, res) => {
-  const { customerId, restaurantId, items, note, riderId } = req.body;
+  const { customer, restaurant, totalPrice, phone, location, note } = req.body;
 
   try {
+    let orderLocation = location;
+    let phoneNo = phone;
     
-    const customerExists = await Customer.findById(customerId);
-    if (!customerExists) {
+    const findCustomer = await Customer.findById(customer);
+    if (!findCustomer) {
       return res.status(404).json({ message: "Customer not found" });
     }
 
-    
-    const restaurantExists = await RestaurantModel.findById(restaurantId);
-    if (!restaurantExists) {
-      return res.status(404).json({ message: "Restaurant not found" });
+    const orderItems = await Item.find({ customer: customer, state: 'order'});
+
+    if (!orderItems) {
+      return res.status(404).json({ message: "Order items not found" });
     }
 
-    const riderExists = await Rider.findById(riderId);
-    if (!riderExists) {
-      return res.status(404).json({ message: "Rider not found" });
-    }
-    
-    for (let itemId of items) {
-      const itemExists = await Item.findById(itemId);
-      if (!itemExists) {
-        return res.status(404).json({ message: `Item with ID ${itemId} not found` });
-      }
+    if(!orderLocation) {
+      orderLocation = findCustomer.location;
+      return orderLocation;
     }
 
-    const total_price = items.reduce(async (acc, itemId) => {
-      const item = await Item.findById(itemId);
-      return acc + (item.price * item.quantity);
-    }, 0);
+    if(!phoneNo) {
+      phoneNo = findCustomer.phone;
+      return phoneNo;
+    }
+    
+    // for (let itemId of items) {
+    //   const itemExists = await Item.findById(itemId);
+    //   if (!itemExists) {
+    //     return res.status(404).json({ message: `Item with ID ${itemId} not found` });
+    //   }
+    // }
+
+    // const total_price = items.reduce(async (acc, itemId) => {
+    //   const item = await Item.findById(itemId);
+    //   return acc + (item.price * item.quantity);
+    // }, 0);
 
     const newOrder = new Order({
-      customer: customerId,
-      restaurant: restaurantId,
-      items: items,
-      total_price: await total_price,
+      customer: customer,
+      restaurant: restaurant,
+      items: orderItems,
+      total_price: totalPrice,
+      phone: phoneNo,
+      location: orderLocation,
       note: note,
-      rider: riderId,
-      status: 'Pending',
+      // rider: riderId,
+      status: 'Preparing',
     });
 
     await newOrder.save();

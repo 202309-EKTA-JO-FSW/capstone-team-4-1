@@ -21,7 +21,8 @@ const Order = () => {
   const [restaurantID, setRestaurantID] = useState(null);
   const [userAddress, setUserAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('cash')
-  const [showTrackingPopup, setShowTrackingPopup] = useState (false);  const [orderData, setOrderData] = useState({});
+  const [showTrackingPopup, setShowTrackingPopup] = useState (false);  
+  const [orderData, setOrderData] = useState({});
 
 
   useEffect(() => {
@@ -102,6 +103,7 @@ const Order = () => {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({
+            ...orderData,
             customer: userID,
             restaurant: restaurantID,
             location: userLocation,
@@ -351,7 +353,9 @@ const Order = () => {
               </div>
               {showSpecialRequestInput && (
                 <textarea
+                  name="note"
                   value={orderData.note}
+                  onChange={handleChange}
                   rows="2"
                   placeholder="eg. if you have a food allergy or a request for the driver"
                   className="mr-3 text-xs text-gray-600 my-2 text-left font-md w-[930px] border border-black rounded-xl py-2 px-4 mb-2 focus:outline-none focus:border-[#FFC245]"

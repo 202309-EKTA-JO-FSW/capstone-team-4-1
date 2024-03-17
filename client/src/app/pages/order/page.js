@@ -11,7 +11,7 @@ const Order = () => {
   const [restaurantState, setRestaurantState] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [editNoteId, setEditNoteId] = useState(null);
-  const [order, setOrder] = useEffect(false);
+  const [order, setOrder] = useState(false);
   const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
   const [showSpecialRequestInput, setShowSpecialRequestInput] = useState(true);
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -92,13 +92,14 @@ console.log("cartItems set:", cartItems)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(cartItems && cartItems.length > 0) {
-      const token = localStorage.getItem('token');
-      const headers = {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-      };
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
 
+    if(cartItems && cartItems.length > 0) {
+      
       try {
         await Promise.all(cartItems.map(async (item) => {
             const response = await fetch(`http://localhost:3001/customer/cart`, {
@@ -129,6 +130,27 @@ console.log("cartItems set:", cartItems)
           console.error('Error:', error);
       }
   
+    }
+
+    if(order) {
+
+      try {
+        const response = await fetch(`http://localhost:3001/customer/order`, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(formData),
+        });
+        // if (response.ok) {
+        //   setFormSubmitted(true);
+        //   console.log('Form submitted successfully!');
+        //   setFormData({ restaurant: restaurantId, title: '', description: '', image: '', price: 0, category: '', });
+        // } else {
+        //   console.error('Failed to submit form');
+        // }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+
     }
   
     // console.log("Submit button clicked");

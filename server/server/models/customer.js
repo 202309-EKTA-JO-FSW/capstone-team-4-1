@@ -59,7 +59,7 @@ const customerSchema = new mongoose.Schema({
         },
         required: true,
         default: { lat: 0, lng: 0 }
-      },
+    },
     street: {
         type: String,
     },

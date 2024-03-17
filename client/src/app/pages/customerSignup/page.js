@@ -1,6 +1,93 @@
+"use client";
+import React, { useState, useEffect } from "react";
 import Footer from "@/app/components/footer/footer";
 import Location from "./components/location";
+
 export default function CustomerSignup() {
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    repeatPassword: '',
+    phone: '',
+    location: '',
+    street: '',
+    buildingNo: '',
+    avatar: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  useEffect(() => {
+    const inputFields = document.querySelectorAll("input");
+    inputFields.forEach((input) => {
+      input.addEventListener("input", () => {
+        setFormSubmitted(false);
+      });
+    });
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("This is the form:", formData);
+
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+    const phoneRegex = /^(78|77|79)\d{7}$/;
+
+    if (!passwordRegex.test(formData.password)) {
+      setErrors({ password: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character." });
+      return;
+    } else if (formData.password !== formData.repeatPassword) {
+      setErrors({ repeatPassword: "Passwords must match." });
+    }
+
+    if (!phoneRegex.test(formData.phone)) {
+      setErrors({ phone: "Please enter a valid phone number."})
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3001/user/customer/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    });
+  
+        
+    if (response.ok) {
+      setFormSubmitted(true);
+      console.log('Form submitted successfully!');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        repeatPassword: '',
+        phone: '',
+        location: '',
+        street: '',
+        buildingNo: '',
+        avatar: ''
+      });
+    } else {
+      setErrors(response.errors.reduce((acc, error) => ({ ...acc, [error.param]: error.msg }), {}));
+      console.error('Failed to submit form');
+    }
+  
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div className="relative bg-[#101B0B] overflow-hidden text-black">
       <div className="relative w-full overflow-hidden bg-black xl:h-[600px] 
@@ -45,7 +132,7 @@ export default function CustomerSignup() {
         md:mr-[2rem] md:pr-[2rem]
         2xs:mr-[1.5rem] 2xs:pr-[1.5rem]
         ">
-          <form className="relative mx-auto border shadow-lg rounded-3xl bg-white p-8
+          <form onSubmit={handleSubmit} className="relative mx-auto border shadow-lg rounded-3xl bg-white p-8
             xl:w-[550px] xl:h-auto xl:rounded-3xl xl:shadow-lg
             lg:w-[400px] lg:h-auto lg:rounded-3xl lg:shadow-lg
             md:w-[300px] md:h-auto md:rounded-2xl md:shadow-sm
@@ -58,42 +145,60 @@ export default function CustomerSignup() {
               md:text-xl md:mb-8
               2xs:text-md 2xs:mb-5
               ">Create Account</h2>
+              <div className="flex justify-center">{formSubmitted && <p className="text-[#FFC245] text-lg">Account created successfully!</p>}</div>
               <label htmlFor="firstName" className="block text-left">First Name<span className="text-red-900"> *</span>:</label>
-              <input type="text" id="firstName" name="firstName" placeholder="John" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} required placeholder="John" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              {errors.firstName && <span className="text-red-500">{errors.firstName}</span>}
 
               <label htmlFor="lastName" className="block text-left mt-4">Last Name<span className="text-red-900"> *</span>:</label>
-              <input type="text" id="lastName" name="lastName" placeholder="Doe" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              <input type="text" id="lastName" name="lastName" placeholder="Doe" value={formData.lastName} onChange={handleChange} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              {errors.lastName && <span className="text-red-500">{errors.lastName}</span>}
 
               <label htmlFor="email" className="block text-left mt-4">Email<span className="text-red-900"> *</span>:</label>
-              <input type="email" id="email" name="email" placeholder="example@example.com" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required placeholder="example@example.com" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              {errors.email && <span className="text-red-500">{errors.email}</span>}
 
               <label htmlFor="password" className="block text-left mt-4">Password<span className="text-red-900"> *</span>:</label>
-              <input type="password" id="password" name="password" placeholder="Password123" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required placeholder="Password123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              {errors.password && <span className="text-red-500">{errors.password}</span>}
 
-              <label htmlFor="password2" className="block text-left mt-4">Repeat Password<span className="text-red-900"> *</span>:</label>
-              <input type="password" id="password2" name="repeatPassword" placeholder="Password123" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              <label htmlFor="repeatPassword" className="block text-left mt-4">Repeat Password<span className="text-red-900"> *</span>:</label>
+              <input type="password" id="repeatPassword" name="repeatPassword" value={formData.repeatPassword} onChange={handleChange} required placeholder="Password123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+              {errors.repeatPassword && <span className="text-red-500">{errors.repeatPassword}</span>}
 
               <label htmlFor="phone" className="block text-left mt-4">Phone<span className="text-red-900"> *</span>:</label>
               <div className="flex w-full">
                 <span className="bg-gray-50 border-b border-gray-300 px-3 py-2">+962</span>
-                <input type="tel" id="phone" name="phone" placeholder="770000000" required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+                <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required placeholder="770000000" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
               </div>
+              {errors.phone && <span className="text-red-500">{errors.phone}</span>}
 
               <Location />
-
-              <label htmlFor="streetName" className="block text-left mt-4">Street Name:</label>
-              <input type="text" id="streetName" name="streetName" placeholder="123 Main St" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
-
-              <label htmlFor="buildingNumber" className="block text-left mt-4">Building Number:</label>
-              <input type="text" id="buildingNumber" name="buildingNumber" placeholder="123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
-
-              <label htmlFor="profilePicture" className="block text-left mt-4">Profile Picture:</label>
-              <input
-                type="file"
-                id="profilePicture"
-                name="profilePicture"
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                accept="image/ *"
+              
+              <label htmlFor="street" className="block text-left mt-4">Street Name:</label>
+              <input type="text" id="street" name="street" value={formData.street} onChange={handleChange} required placeholder="123 Main St" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.street && <span className="text-red-500">{errors.street}</span>}
+              
+              <label htmlFor="buildingNo" className="block text-left mt-4">Building Number:</label>
+              <input type="text" id="buildingNo" name="buildingNo" value={formData.buildingNo} onChange={handleChange} required placeholder="123" className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"/>
+              {errors.buildingNo && <span className="text-red-500">{errors.buildingNo}</span>}
+              
+              <label htmlFor="avatar" className="block text-left mt-4">Profile Picture:</label>
+              <input 
+                type="file" 
+                id="avatar" 
+                name="avatar"
+                accept="image/*"
+                // value={formData.avatar}
+                // onChange={handleChange}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setFormData({
+                    ...formData,
+                    avatar: file,
+                  });
+                }}
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" 
               />
               <button type="submit" className="mt-4 bg-[#FFC245] hover:bg-[#101B0B] hover:text-[#FFC245] text-black font-medium w-full rounded-md px-4 py-2">
                 Open Account

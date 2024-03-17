@@ -51,13 +51,17 @@ const registerAdmin = async (req, res, next) => {
 
 // Register a new customer
 const registerCustomer = async (req, res, next) => {
-  const { firstName, lastName, email, password, location, street, img, buildingNo, phone, role } = req.body;
-
+  const { firstName, lastName, email, password, location, street, buildingNo, phone, role } = req.body;
+  const img = req.file;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new Customer({ firstName, lastName, email, password: hashedPassword, location, street, img, buildingNo, phone, role });
-    await user.save();
-    res.json({ message: 'Registration successful', addedData: { firstName, lastName, email, password, location, street, img, buildingNo, phone, role } });
+    const user = new Customer({ firstName, lastName, email, password: hashedPassword, location: location.split(','), street, img: img ? img.filename : "", buildingNo, phone, role });
+    try {
+      await user.save();
+      res.status(201).json({ message: 'Registration successful', addedData: { firstName, lastName, email, password, location, street, img, buildingNo, phone, role } });
+    } catch (error) {
+      res.status(200).json({ message: 'Error: Duplicate key error. The email or phone number already exists.' });
+    }
   } catch (error) {
     next(error);
   }

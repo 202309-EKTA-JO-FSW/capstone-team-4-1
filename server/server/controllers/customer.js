@@ -254,7 +254,9 @@ const getPendingOrders = async (req, res) => {
 
 
 const createOrder = async (req, res) => {
-  const { customer, restaurant, phone, location, note } = req.body;
+  const { customer, restaurant, phone, location, address, note } = req.body;
+
+  console.log("This is the req.body", req.body);
 
   try {
     let orderLocation = location;
@@ -296,7 +298,7 @@ const createOrder = async (req, res) => {
     // console.log("Product Sum:", productSum)
     // console.log("Sum Sum:", sum)
 
-    if(!orderLocation || !orderLocation.lat || !orderLocation.lng) {
+    if(!orderLocation.lat || !orderLocation.lng) {
       orderLocation = findCustomer.location;
       // console.log("This is orderLocation", orderLocation)
     }
@@ -319,6 +321,7 @@ const createOrder = async (req, res) => {
       totalPrice: sum,
       phone: phoneNo,
       location: orderLocation,
+      address: address,
       estimatedTime: time,
       note: orderNote,
       status: 'Preparing',
@@ -335,6 +338,7 @@ const createOrder = async (req, res) => {
       totalPrice: sum,
       phone: phoneNo,
       location: orderLocation,
+      address: address,
       estimatedTime: time,
       note: orderNote,
       status: 'Preparing',

@@ -105,7 +105,7 @@ console.log("cartItems set:", cartItems)
             ...orderData,
             customer: userID,
             restaurant: restaurantID,
-            location: userLocation
+            // location: userLocation
           }),
         });
         if (response.ok) {

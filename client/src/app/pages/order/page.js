@@ -15,20 +15,19 @@ const Order = () => {
   const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
   const [showSpecialRequestInput, setShowSpecialRequestInput] = useState(true);
   const [deliveryFee, setDeliveryFee] = useState(0);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [orderSubmitted, setOrderSubmitted] = useState(false);
   const [customer, setCustomer] = useState([]);
   const [userID, setUserID] = useState(null);
   const [restaurantID, setRestaurantID] = useState(null);
 
-  // const [itemData, setItemData] = useState({
-  //   restaurant: '',
-  //   customer: '',
-  //   dish: '',
-  //   quantity: '',
-  //   price: '',
-  //   note: '',
-  //   state:'',
-  // });
+  const [orderData, setOrderData] = useState({
+    customer: '',
+    restaurant: '',
+    totalPrice: '',
+    phone: '',
+    location: '', // need to work on location
+    note: ''
+  });
 
 
   useEffect(() => {
@@ -52,37 +51,8 @@ const Order = () => {
   const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);
   const totalPriceWithDelivery = (parseFloat(totalPrice) + deliveryFee).toFixed(2);
 
-  // const [itemData, setItemData] = useState({
-  //   restaurant:restaurantID,
-  //   customer: userID,
-  //   dish: cartItems.dishId,
-  //   quantity: cartItems.count,
-  //   price: cartItems.totalPrice,
-  //   note: cartItems.note,
-  //   state:'order',
-  // });
-
-  // const [itemData, setItemData] = useState({
-  //   restaurant: '',
-  //   customer: '',
-  //   dish: '',
-  //   quantity: '',
-  //   price: '',
-  //   note: '',
-  //   state:'',
-  // });
 
 console.log("cartItems set:", cartItems)
-//   const [orderData, setOrderData] = useState({customer: userID,
-//     restaurant:restaurantID,
-//     rider: [],
-//     items: itemData,
-//     totalPrice: totalPriceWithDelivery,
-//     status:'Pending',
-//     note: cartItems.note,
-//     phone: '',
-//     location: '',
-//   });
 
 
   const handleChange = (e) => {
@@ -138,81 +108,30 @@ console.log("cartItems set:", cartItems)
         const response = await fetch(`http://localhost:3001/customer/order`, {
           method: 'POST',
           headers: headers,
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            ...orderData,
+            customer: userID,
+            restaurant: restaurantID,
+          }),
         });
-        // if (response.ok) {
-        //   setFormSubmitted(true);
-        //   console.log('Form submitted successfully!');
-        //   setFormData({ restaurant: restaurantId, title: '', description: '', image: '', price: 0, category: '', });
-        // } else {
-        //   console.error('Failed to submit form');
-        // }
+        if (response.ok) {
+          setOrderSubmitted(true);
+          console.log('Order created successfully!');
+          setOrderData({ customer: '',
+          restaurant: '',
+          totalPrice: '',
+          phone: '',
+          location: '',
+          note: '' });
+        } else {
+          console.error('Failed to create order');
+        }
       } catch (error) {
         console.error('Error:', error);
       }
 
     }
   
-    // console.log("Submit button clicked");
-  
-    // const token = localStorage.getItem('token');
-    // const headers = {
-    //   Authorization: `Bearer ${token}`,
-    //   'Content-Type': 'application/json',
-    // };
-  
-    // console.log("Attempting to add items to cart");
-
-    // const itemIds = await Promise.all(cartItems.map(async (item, index) => {
-    //   console.log(`Adding item ${index + 1} to cart`);
-    //   const response = await fetch('http://localhost:3001/customer/cart', {
-    //     method: 'POST',
-    //     headers: headers,
-    //     body: JSON.stringify({cartItems
-    //     }),
-    //   });
-    //   if (!response.ok) {
-    //     console.log(`Failed to add item ${index + 1} to cart`);
-      
-    //   }
-    //   const data = await response.json();
-    //   console.log("Server response:", data);
-    //   const itemId = data._id || (data.cartItem && data.cartItem._id);
-    //   if (!itemId) {
-    //   }
-    //   console.log(`Item ${index + 1} added, ID: ${itemId}`);
-    //   return itemId;
-    // }));
-    
-  
-    // console.log("All items added, creating order with item IDs:", itemIds);
-  
-    // try {
-    //   console.log("Attempting to create order");
-    //   const orderResponse = await fetch('http://localhost:3001/customer/order', {
-    //     method: 'POST',
-    //     headers: headers,
-    //     body: JSON.stringify({
-    //       customer: userID,
-    //       restaurant: restaurantID,
-    //       items: itemIds,
-    //       totalPrice: totalPriceWithDelivery,
-    //       status: 'Pending',
-    //       note: '',
-    //       phone: '',
-    //       loaction: '',
-    //     }),
-    //   });
-    //   if (orderResponse.ok) {
-    //     setFormSubmitted(true);
-    //     console.log('Order submitted successfully!');
-    //     // Consider clearing the cart here or redirecting the user
-    //   } else {
-    //     console.error('Failed to submit order');
-    //   }
-    // } catch (error) {
-    //   console.error('Error submitting order:', error);
-    // }
   };
   
 
@@ -401,7 +320,7 @@ console.log(cartItems)
                     <div className="flex w-full">
                         <span className="bg-gray-50 border-b border-gray-300 px-3 py-2">+962</span>
                         <input type="tel" id="phone" name="phone" 
-                        // value={orderData.phone}
+                        value={orderData.phone} onChange={handleChange}
                          defaultValue={customer.phone} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
                     </div>
                 </div>
@@ -418,7 +337,8 @@ console.log(cartItems)
                     </div>
                     {showSpecialRequestInput && (
                         <textarea
-                            // value={orderData.note}
+                            value={orderData.note}
+                            onChange={handleChange}
                             rows="2"
                             placeholder="eg. if you have a food allergy or a request for the driver"
                             className="mr-3 text-xs text-gray-600 my-2 text-left font-md w-[930px] border border-black rounded-xl py-2 px-4 mb-2 focus:outline-none focus:border-[#FFC245]"

@@ -1,4 +1,4 @@
-const RestaurantModel = require('../models/restaurant');
+const Restaurant = require('../models/restaurant');
 const Order = require('../models/order');
 const Item = require('../models/item');
 const Dish = require('../models/dish');
@@ -35,7 +35,7 @@ const getAllRestaurants = async (req, res) => {
   if (deliveryTime) query.deliveryTime = { $lte: deliveryTime };
 
   try {
-    const restaurants = await RestaurantModel.find(query);
+    const restaurants = await Restaurant.find(query);
     res.status(200).json(restaurants);
   } catch (error) {
     res.status(402).json({ message: error.message });
@@ -255,15 +255,23 @@ const getPendingOrders = async (req, res) => {
 
 
 const createOrder = async (req, res) => {
-  const { customer, restaurant, totalPrice, phone, location, note } = req.body;
+  const { customer, restaurant, totalProductPrice, deliveryFee, totalPrice, phone, location, note } = req.body;
 
   try {
     let orderLocation = location;
     let phoneNo = phone;
+    let time = 0;
     
     const findCustomer = await Customer.findById(customer);
     if (!findCustomer) {
       return res.status(404).json({ message: "Customer not found" });
+    }
+
+    const findRestaurant = await Restaurant.findById(restaurant);
+    if (!findRestaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    } else {
+      time = findRestaurant.deliveryTime;
     }
 
     const orderItems = await Item.find({ customer: customer, state: 'order'});
@@ -274,40 +282,31 @@ const createOrder = async (req, res) => {
 
     if(!orderLocation) {
       orderLocation = findCustomer.location;
-      return orderLocation;
+      console.log("This is orderLocation", orderLocation)
     }
 
     if(!phoneNo) {
       phoneNo = findCustomer.phone;
-      return phoneNo;
+      console.log("This is phoneNo", phoneNo)
     }
-    
-    // for (let itemId of items) {
-    //   const itemExists = await Item.findById(itemId);
-    //   if (!itemExists) {
-    //     return res.status(404).json({ message: `Item with ID ${itemId} not found` });
-    //   }
-    // }
 
-    // const total_price = items.reduce(async (acc, itemId) => {
-    //   const item = await Item.findById(itemId);
-    //   return acc + (item.price * item.quantity);
-    // }, 0);
-
-    const newOrder = new Order({
+    const newOrder = await Order.create({
       customer: customer,
       restaurant: restaurant,
       items: orderItems,
-      total_price: totalPrice,
+      totalProductPrice: totalProductPrice,
+      deliveryFee: deliveryFee,
+      totalPrice: totalPrice,
       phone: phoneNo,
       location: orderLocation,
+      estimatedTime: time,
       note: note,
       // rider: riderId,
       status: 'Preparing',
     });
 
     await newOrder.save();
-
+    console.log("This is the new order", newOrder);
     res.status(201).json({ message: "Order created successfully", order: newOrder });
   } catch (error) {
     res.status(402).json({ message: error.message });

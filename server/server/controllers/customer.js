@@ -259,7 +259,8 @@ const createOrder = async (req, res) => {
   console.log("This is the req.body", req.body);
 
   try {
-    let orderLocation = location;
+    // let orderLocation = location;
+    // let customerAdress = address;
     let phoneNo = phone;
     let time;
     let deliveryFee;
@@ -272,6 +273,10 @@ const createOrder = async (req, res) => {
     const findCustomer = await Customer.findById(customer);
     if (!findCustomer) {
       return res.status(404).json({ message: "Customer not found" });
+    }
+    if(!phoneNo) {
+      phoneNo = findCustomer.phone;
+      // console.log("This is phoneNo", phoneNo)
     }
 
     const findRestaurant = await Restaurant.findById(restaurant);
@@ -295,19 +300,6 @@ const createOrder = async (req, res) => {
       sum = total_sum.reduce((acc, price) => acc + price, deliveryFee);
     }
 
-    // console.log("Product Sum:", productSum)
-    // console.log("Sum Sum:", sum)
-
-    if(!orderLocation.lat || !orderLocation.lng) {
-      orderLocation = findCustomer.location;
-      // console.log("This is orderLocation", orderLocation)
-    }
-
-    if(!phoneNo) {
-      phoneNo = findCustomer.phone;
-      // console.log("This is phoneNo", phoneNo)
-    }
-
     if(!orderNote) {
       orderNote = '';
     }
@@ -320,7 +312,7 @@ const createOrder = async (req, res) => {
       deliveryFee: deliveryFee,
       totalPrice: sum,
       phone: phoneNo,
-      location: orderLocation,
+      location: location,
       address: address,
       estimatedTime: time,
       note: orderNote,
@@ -337,7 +329,7 @@ const createOrder = async (req, res) => {
       deliveryFee: deliveryFee,
       totalPrice: sum,
       phone: phoneNo,
-      location: orderLocation,
+      location: location,
       address: address,
       estimatedTime: time,
       note: orderNote,

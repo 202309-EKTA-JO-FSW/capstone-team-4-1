@@ -199,30 +199,11 @@ const Order = () => {
   };
 
   const renderNoteField = (item) => {
-    if (editNoteId === item.dishId || item.note) {
-      return (
-        <input
-          type="text"
-          value={itemData.note}
-          defaultValue={item.note}
-          onChange={(event) => handleNoteChange(event, item.dishId)}
-          placeholder="Add note here"
-          className="mr-3 text-xs text-gray-600 my-2 text-left font-md w-[830px] border border-black rounded-xl py-2 px-4 mb-2 focus:outline-none focus:border-2 focus:border-[#FFC245]"
-          onBlur={() => setEditNoteId(null)}
-        />
-      );
-    } else {
       return (
         <div className="flex justify-start items-start">
-          <button
-            className="mr-3 pr-4 my-2 w-[70px] hover:text-[#FFC254] text-left text-xs text-gray-600 cursor-pointer"
-            onClick={() => setEditNoteId(item.dishId)}
-          >
-            Add Note
-          </button>
+          <h1 className="mr-3 pr-4 my-2 w-full text-left text-xs text-gray-600">{item.note}</h1>
         </div>
       );
-    }
   };
 
   if (!restaurantState) {

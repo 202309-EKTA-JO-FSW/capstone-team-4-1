@@ -6,11 +6,6 @@ const { verifyUser } = require('../middleware/verify');
 
 const customerController = require('../controllers/customer');
 
-// router.get('/restaurants', customerController.getAllRestaurants);
-// router.get('/restaurant/:id', customerController.getRestaurantById);
-// router.get('/dishes', customerController.getAllDishes);
-// router.get('/dishes/:dishId', customerController.getDishById);
-// router.get('/dishes/restaurant/:restaurantId', customerController.getAllDishesOfRestaurant);
 router.get('/profile/:customerId', authenticate, verifyUser(['customer','admin']), customerController.getProfile);
 router.get('/restaurants', authenticate, verifyUser(['customer','admin']), customerController.getAllRestaurants);
 router.get('/restaurant/:id', authenticate, verifyUser(['customer','admin']), customerController.getRestaurantById);

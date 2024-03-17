@@ -372,10 +372,13 @@ const Order = () => {
                     className="form-radio h-5 w-5 text-gray-600" 
                   />
                 </label>
-                <label className="flex items-center justify-between mt-3 bg-white px-4 py-2 border border-[#FFC254] rounded-3xl leading-tight focus:outline-none cursor-pointer">
+                <label className="flex items-center justify-between mt-3 bg-white px-4 py-2 border border-[#FFC254] rounded-3xl leading-tight focus:outline-none cursor-not-allowed opacity-75">
                   <div className="flex items-center">
-                    <svg className="pt-1/2 pr-2 " width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3.5 10H20.5" stroke="#FFC254" strokeWidth="2" strokeLinecap="round"></path> <path d="M6 14H8" stroke="#FFC254" strokeWidth="2" strokeLinecap="round"></path> <path d="M11 14H13" stroke="#FFC254" strokeWidth="2" strokeLinecap="round"></path> <path d="M3 9C3 7.11438 3 6.17157 3.58579 5.58579C4.17157 5 5.11438 5 7 5H12H17C18.8856 5 19.8284 5 20.4142 5.58579C21 6.17157 21 7.11438 21 9V12V15C21 16.8856 21 17.8284 20.4142 18.4142C19.8284 19 18.8856 19 17 19H12H7C5.11438 19 4.17157 19 3.58579 18.4142C3 17.8284 3 16.8856 3 15V12V9Z" stroke="#FFC254" strokeWidth="2" strokeLinejoin="round"></path> </g></svg>
-                    Add a new card
+                  <svg className="pt-1/2 pr-2 " width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3.5 10H20.5" stroke="#FFC254" strokeWidth="2" strokeLinecap="round"></path> <path d="M6 14H8" stroke="#FFC254" strokeWidth="2" strokeLinecap="round"></path> <path d="M11 14H13" stroke="#FFC254" strokeWidth="2" strokeLinecap="round"></path> <path d="M3 9C3 7.11438 3 6.17157 3.58579 5.58579C4.17157 5 5.11438 5 7 5H12H17C18.8856 5 19.8284 5 20.4142 5.58579C21 6.17157 21 7.11438 21 9V12V15C21 16.8856 21 17.8284 20.4142 18.4142C19.8284 19 18.8856 19 17 19H12H7C5.11438 19 4.17157 19 3.58579 18.4142C3 17.8284 3 16.8856 3 15V12V9Z" stroke="#FFC254" strokeWidth="2" strokeLinejoin="round"></path> </g></svg>
+                    <div className="flex items-center">
+                      <span className="line-through">Add a new card</span>
+                      <span className="ml-2 text-sm text-gray-600">(soon)</span>
+                    </div>
                   </div>
                   <input 
                     type="radio" 
@@ -384,6 +387,7 @@ const Order = () => {
                     checked={paymentMethod === 'newCard'} 
                     onChange={handlePaymentMethodChange} 
                     className="form-radio h-5 w-5 text-gray-600" 
+                    disabled={true} // This makes the radio button unclickable
                   />
                 </label>
               </div>

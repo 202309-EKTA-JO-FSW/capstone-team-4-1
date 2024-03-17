@@ -4,6 +4,7 @@ const Item = require('../models/item');
 const Dish = require('../models/dish');
 const Customer = require('../models/customer');
 const bcrypt = require('bcrypt');
+const order = require('../models/order');
 
 // get customer profile
 
@@ -254,12 +255,17 @@ const getPendingOrders = async (req, res) => {
 
 
 const createOrder = async (req, res) => {
-  const { customer, restaurant, totalProductPrice, deliveryFee, totalPrice, phone, location, note } = req.body;
+  const { customer, restaurant, phone, location, note } = req.body;
 
   try {
     let orderLocation = location;
     let phoneNo = phone;
-    let time = 0;
+    let time;
+    let deliveryFee;
+    let productSum;
+    let sum;
+
+    console.log("This is the location", orderLocation);
     
     const findCustomer = await Customer.findById(customer);
     if (!findCustomer) {
@@ -271,6 +277,7 @@ const createOrder = async (req, res) => {
       return res.status(404).json({ message: "Restaurant not found" });
     } else {
       time = findRestaurant.deliveryTime;
+      deliveryFee = findRestaurant.deliveryFee;
     }
 
     const orderItems = await Item.find({ customer: customer, restaurant: restaurant, state: 'order'});
@@ -280,7 +287,16 @@ const createOrder = async (req, res) => {
       return res.status(404).json({ message: "Order items not found" });
     }
 
-    if(!orderLocation) {
+    if (orderItems) {
+      const total_sum = orderItems.map((item) => item.price * item.quantity);
+      productSum = total_sum.reduce((acc, price) => acc + price, 0);
+      sum = total_sum.reduce((acc, price) => acc + price, deliveryFee);
+    }
+
+    console.log("Product Sum:", productSum)
+    console.log("Sum Sum:", sum)
+
+    if(!orderLocation || !orderLocation.lat || !orderLocation.lng) {
       orderLocation = findCustomer.location;
       console.log("This is orderLocation", orderLocation)
     }
@@ -290,18 +306,19 @@ const createOrder = async (req, res) => {
       console.log("This is phoneNo", phoneNo)
     }
 
+    console.log("This is sum", sum)
+
     const newOrder = await Order.create({
       customer: customer,
       restaurant: restaurant,
       items: orderItems,
-      totalProductPrice: totalProductPrice,
+      totalProductPrice: productSum,
       deliveryFee: deliveryFee,
-      totalPrice: totalPrice,
+      totalPrice: sum,
       phone: phoneNo,
       location: orderLocation,
       estimatedTime: time,
       note: note,
-      // rider: riderId,
       status: 'Preparing',
     });
 

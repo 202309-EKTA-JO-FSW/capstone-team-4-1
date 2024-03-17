@@ -411,7 +411,7 @@ const Order = () => {
             <h1 className="font-bold text-2xl w-full text-center pb-2 text-gray-700 mt-5 border-b">Summary</h1>
             <div className="w-full text-left pl-7">
                 <h1 className="text-md mt-2 text-left pt-2 text-gray-700">Products: {totalPrice} <span className="text-xs">JOD</span></h1>
-                <h1 className="text-md mt-2 text-left text-gray-700">Delivery Fee: {cartItems[0].deliveryFee} <span className="text-xs">JOD</span></h1>
+                <h1 className="text-md mt-2 text-left text-gray-700">Delivery Fee: {restaurantState.deliveryFee} <span className="text-xs">JOD</span></h1>
                 <h1 className="text-xl mt-2 text-left pt-2 font-bold text-gray-700">Total amount: {totalPriceWithDelivery} <span className="text-xs">JOD</span></h1>
             </div>
             <div className="flex items-center justify-center">

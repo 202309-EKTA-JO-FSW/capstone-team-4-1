@@ -46,7 +46,7 @@ const Order = () => {
   const totalPriceWithDelivery = (parseFloat(totalPrice) + deliveryFee).toFixed(2);
 
 
-console.log("cartItems set:", cartItems)
+  console.log("cartItems set:", cartItems)
 
 
 
@@ -111,6 +111,7 @@ console.log("cartItems set:", cartItems)
           }),
         });
         if (response.ok) {
+          setShowTrackingPopup(true)
           setOrderSubmitted(true);
           console.log('Order created successfully!');
           setOrderData({});
@@ -309,7 +310,7 @@ console.log("cartItems set:", cartItems)
                 <GoogleMapComponent onLocationSet={handleLocationSet} onAddressChange={handleAddressChange} loca/>    
                 <div className="pr-8 flex space-between flex-row">
                   <div className="pt-8 pr-2">
-                    <svg width="30px" height="30px" viewBox="-0.32 -0.32 16.64 16.64" xmlns="http://www.w3.org/2000/svg" fill="#FF" stroke="#FF"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="m 8 0 c -3.3125 0 -6 2.6875 -6 6 c 0.007812 0.710938 0.136719 1.414062 0.386719 2.078125 l -0.015625 -0.003906 c 0.636718 1.988281 3.78125 5.082031 5.625 6.929687 h 0.003906 v -0.003906 c 1.507812 -1.507812 3.878906 -3.925781 5.046875 -5.753906 c 0.261719 -0.414063 0.46875 -0.808594 0.585937 -1.171875 l -0.019531 0.003906 c 0.25 -0.664063 0.382813 -1.367187 0.386719 -2.078125 c 0 -3.3125 -2.683594 -6 -6 -6 z m 0 3.691406 c 1.273438 0 2.308594 1.035156 2.308594 2.308594 s -1.035156 2.308594 -2.308594 2.308594 c -1.273438 -0.003906 -2.304688 -1.035156 -2.304688 -2.308594 c -0.003906 -1.273438 1.03125 -2.304688 2.304688 -2.308594 z m 0 0" fill="#FFC254"></path> </g></svg>
+                    <svg width="30px" height="30px" viewBox="-0.32 -0.32 16.64 16.64" xmlns="http://www.w3.org/2000/svg" fill="#FF" stroke="#FF"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="m 8 0 c -3.3125 0 -6 2.6875 -6 6 c 0.007812 0.710938 0.136719 1.414062 0.386719 2.078125 l -0.015625 -0.003906 c 0.636718 1.988281 3.78125 5.082031 5.625 6.929687 h 0.003906 v -0.003906 c 1.507812 -1.507812 3.878906 -3.925781 5.046875 -5.753906 c 0.261719 -0.414063 0.46875 -0.808594 0.585937 -1.171875 l -0.019531 0.003906 c 0.25 -0.664063 0.382813 -1.367187 0.386719 -2.078125 c 0 -3.3125 -2.683594 -6 -6 -6 z m 0 3.691406 c 1.273438 0 2.308594 1.035156 2.308594 2.308594 s -1.035156 2.308594 -2.308594 2.308594 c -1.273438 -0.003906 -2.304688 -1.035156 -2.304688 -2.308594 c -0.003906 -1.273438 1.03125 -2.304688 2.304688 -2.308594 z m 0 0" fill="#FFC254"></path> </g></svg>
                   </div>
                   <div className="w-full">
                     <label htmlFor="location" className="block text-left">Your Location<span className="text-red-900">*</span>:</label>
@@ -410,7 +411,7 @@ console.log("cartItems set:", cartItems)
             </div>
             <div className="flex items-center justify-center">
                 <Link href="/pages/order">
-                <button onClick={() => setShowTrackingPopup(true)} className="w-full text-md mt-4 mb-5 px-[4rem] py-1 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Confirm Order</button>
+                <button onClick={handleSubmit} className="w-full text-md mt-4 mb-5 px-[4rem] py-1 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Confirm Order</button>
                 </Link>
             </div>
             </div>

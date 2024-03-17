@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import Footer from '@/app/components/footer/footer';
-// import GoogleMapComponent from './cart/googleMap';
+import GoogleMapComponent from './cart/googleMap';
 import EmptyOrderAnimation from '@/app/components/emptyOrderAnim';
 import './orderPage.css';
 
@@ -107,7 +107,8 @@ console.log("cartItems set:", cartItems)
             restaurant: restaurantID,
             totalProductPrice: totalPrice,
             deliveryFee: deliveryFee,
-            totalPrice: totalPriceWithDelivery
+            totalPrice: totalPriceWithDelivery,
+            location: userLocation
           }),
         });
         if (response.ok) {
@@ -124,8 +125,6 @@ console.log("cartItems set:", cartItems)
     }
   
   };
-  
-
 
 
   const handleLocationSet = (location) => {
@@ -302,7 +301,7 @@ console.log(cartItems)
         <div className="flex items-start flex-col">
             <div className="mb-4 mt-2 w-full">
                 <span className="text-lg font-bold py-1 bg-[#FDF3DC] pr-5 rounded-md">Delivery details</span>
-                {/* <GoogleMapComponent onLocationSet={handleLocationSet} /> */}
+                <GoogleMapComponent onLocationSet={handleLocationSet} />
 
                 <div className="pr-8 flex space-between flex-row pt-4">
                     <div className="pt-2 pr-2">

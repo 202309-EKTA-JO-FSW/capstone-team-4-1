@@ -45,7 +45,6 @@ const orderSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, 'Phone number is required'],
-    unique: true,
     validate: {
         validator: function(phone) {
             const regex = /^(78|77|79)\d{7}$/;
@@ -54,10 +53,17 @@ const orderSchema = new mongoose.Schema({
         message: 'Invalid phone number.'
     }
   },
+  address: {
+    type: String,
+    required: true
+  },
   location: {
-      type: [Number],
-      required: true,
-      default: 0
+    type: {
+      lat: Number,
+      lng: Number
+    },
+    required: true,
+    default: { lat: 0, lng: 0 }
   },
   estimatedTime:{
         type: Number,

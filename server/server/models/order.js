@@ -21,6 +21,16 @@ const orderSchema = new mongoose.Schema({
     ref: 'Item',
     required: true
   }],
+  totalProductPrice: {
+    type: Number,
+    default: 0,
+    required: true
+  },
+  deliveryFee: {
+    type: Number,
+    default: 0,
+    required: true
+  },
   totalPrice: {
     type: Number,
     default: 0,

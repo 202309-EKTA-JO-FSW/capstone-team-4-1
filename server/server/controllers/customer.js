@@ -4,7 +4,6 @@ const Item = require('../models/item');
 const Dish = require('../models/dish');
 const Customer = require('../models/customer');
 const bcrypt = require('bcrypt');
-const Rider = require('../models/rider')
 
 // get customer profile
 

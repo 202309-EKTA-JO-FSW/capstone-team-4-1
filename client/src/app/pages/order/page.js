@@ -28,24 +28,28 @@ const Order = () => {
   useEffect(() => {
     const localUserID = localStorage.getItem('userID');
     setUserID(localUserID);
-
+  
     const cartData = localStorage.getItem(`cart_${localUserID}`) || '[]';
     const parsedCartData = JSON.parse(cartData);
     setCartItems(parsedCartData);
-
-    if (parsedCartData.length > 0) {
-      const restaurantId = parsedCartData[0].restaurantId;
-      setRestaurantID(restaurantId);
-      fetchRestaurant(restaurantId);
-      fetchCustomer(localUserID);
-    }
   }, []);
-
-
+  
+  useEffect(() => {
+    if (cartItems.length > 0 && userID) {
+      const restaurantId = cartItems[0].restaurantId;
+      if (restaurantId) {
+        setRestaurantID(restaurantId);
+        fetchRestaurant(restaurantId);
+        fetchCustomer(userID);
+      } else {
+        console.error('Restaurant ID not found in cart data');
+      }
+    }
+  }, [cartItems, userID]);
+  
   const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
   const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);
   const totalPriceWithDelivery = (parseFloat(totalPrice) + restaurantState.deliveryFee).toFixed(2);
-
 
   console.log("cartItems set:", cartItems)
   console.log("restaurantState:", restaurantState)
@@ -147,19 +151,22 @@ const Order = () => {
     }
   }, []);
 
-  const fetchRestaurant = async() => {
+  const fetchRestaurant = async(resId) => {
     try {
-      const response = await fetch(`http://localhost:3001/customer/restaurant/${restaurantID}`, {
+      const response = await fetch(`http://localhost:3001/customer/restaurant/${resId}`, {
         headers: {
-          'authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
-      if (response.data) {
-        setRestaurantState(response.data);
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+  
+      const data = await response.json();
+      setRestaurantState(data);
     } catch (error) {
-   //   console.error('Error fetching previous restaurant:', error);
+      console.error('Error fetching restaurant:', error);
     }
   };
 

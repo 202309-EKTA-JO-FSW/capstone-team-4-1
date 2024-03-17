@@ -107,7 +107,8 @@ const Order = () => {
             ...orderData,
             customer: userID,
             restaurant: restaurantID,
-            // location: userLocation
+            location: userLocation,
+            address: userAddress
           }),
         });
         if (response.ok) {
@@ -133,7 +134,7 @@ const Order = () => {
 
   const handleLocationSet = (location) => {
     setUserLocation(location);
-    //console.log("User location set to:", location);
+    console.log("User location set to:", location);
   };
 
   useEffect(() => {
@@ -313,7 +314,7 @@ const Order = () => {
                     <svg width="30px" height="30px" viewBox="-0.32 -0.32 16.64 16.64" xmlns="http://www.w3.org/2000/svg" fill="#FF" stroke="#FF"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="m 8 0 c -3.3125 0 -6 2.6875 -6 6 c 0.007812 0.710938 0.136719 1.414062 0.386719 2.078125 l -0.015625 -0.003906 c 0.636718 1.988281 3.78125 5.082031 5.625 6.929687 h 0.003906 v -0.003906 c 1.507812 -1.507812 3.878906 -3.925781 5.046875 -5.753906 c 0.261719 -0.414063 0.46875 -0.808594 0.585937 -1.171875 l -0.019531 0.003906 c 0.25 -0.664063 0.382813 -1.367187 0.386719 -2.078125 c 0 -3.3125 -2.683594 -6 -6 -6 z m 0 3.691406 c 1.273438 0 2.308594 1.035156 2.308594 2.308594 s -1.035156 2.308594 -2.308594 2.308594 c -1.273438 -0.003906 -2.304688 -1.035156 -2.304688 -2.308594 c -0.003906 -1.273438 1.03125 -2.304688 2.304688 -2.308594 z m 0 0" fill="#FFC254"></path> </g></svg>
                   </div>
                   <div className="w-full">
-                    <label htmlFor="location" className="block text-left">Your Location<span className="text-red-900">*</span>:</label>
+                    <label htmlFor="location" className="block text-left">Your Location:<span className="text-red-900">*</span></label>
                     <input 
                       type="text" 
                       id="location" 
@@ -324,11 +325,11 @@ const Order = () => {
                     />
                   </div>
                 </div>
-                <label htmlFor="phone" className="block pt-4 pl-10 text-left">Your Phone<span className="text-red-900">*</span>:</label>
+                <label htmlFor="phone" className="block pt-4 pl-10 text-left">Your Phone:<span className="text-red-900">*</span></label>
                 <div className="pr-8 flex space-between flex-row">
                   
                     <div className="pt-2 pr-2">
-                        <svg width="30px" height="30px" viewBox="-0.32 -0.32 16.64 16.64" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="m 14.234375 11.714844 c -0.382813 0.382812 -1 0.382812 -1.386719 0 l -1.039062 -1.039063 l -1.039063 -1.042969 c -0.386719 -0.382812 -0.386719 -1 0 -1.386718 l 0.492188 -0.492188 c -2.035157 -1.109375 -4.5 -1.109375 -6.535157 0 l 0.492188 0.492188 c 0.386719 0.386718 0.386719 1.003906 0 1.386718 l -1.039062 1.042969 l -1.039063 1.039063 c -0.386719 0.382812 -1.003906 0.382812 -1.386719 0 l -1.042968 -1.039063 c -0.957032 -0.957031 -0.957032 -2.511719 0 -3.46875 l 0.347656 -0.347656 c 3.816406 -3.816406 10.054687 -3.816406 13.871094 0 l 0.347656 0.347656 c 0.957031 0.957031 0.957031 2.511719 0 3.46875 z m 0 0" fill="#FFC254"></path> </g></svg>
+                        <svg width="30px" height="30px" viewBox="-0.32 -0.32 16.64 16.64" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="m 14.234375 11.714844 c -0.382813 0.382812 -1 0.382812 -1.386719 0 l -1.039062 -1.039063 l -1.039063 -1.042969 c -0.386719 -0.382812 -0.386719 -1 0 -1.386718 l 0.492188 -0.492188 c -2.035157 -1.109375 -4.5 -1.109375 -6.535157 0 l 0.492188 0.492188 c 0.386719 0.386718 0.386719 1.003906 0 1.386718 l -1.039062 1.042969 l -1.039063 1.039063 c -0.386719 0.382812 -1.003906 0.382812 -1.386719 0 l -1.042968 -1.039063 c -0.957032 -0.957031 -0.957032 -2.511719 0 -3.46875 l 0.347656 -0.347656 c 3.816406 -3.816406 10.054687 -3.816406 13.871094 0 l 0.347656 0.347656 c 0.957031 0.957031 0.957031 2.511719 0 3.46875 z m 0 0" fill="#FFC254"></path> </g></svg>
                     </div>
                     
                     <div className="flex w-full">
@@ -352,7 +353,7 @@ const Order = () => {
               </div>
               {showSpecialRequestInput && (
                 <textarea
-                  // value={orderData.note}
+                  value={orderData.note}
                   rows="2"
                   placeholder="eg. if you have a food allergy or a request for the driver"
                   className="mr-3 text-xs text-gray-600 my-2 text-left font-md w-[930px] border border-black rounded-xl py-2 px-4 mb-2 focus:outline-none focus:border-[#FFC245]"

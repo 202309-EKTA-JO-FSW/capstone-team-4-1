@@ -35,19 +35,20 @@ const Order = () => {
 
     if (parsedCartData.length > 0) {
       const restaurantId = parsedCartData[0].restaurantId;
-      setRestaurantID(restaurantId)
-      fetchRestaurant(restaurantId);  // what are we doing here?
-      fetchCustomer(localUserID);     // same here what is going on?
+      setRestaurantID(restaurantId);
+      fetchRestaurant(restaurantId);
+      fetchCustomer(localUserID);
     }
   }, []);
 
 
   const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
   const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);
-  const totalPriceWithDelivery = (parseFloat(totalPrice) + deliveryFee).toFixed(2);
+  const totalPriceWithDelivery = (parseFloat(totalPrice) + restaurantState.deliveryFee).toFixed(2);
 
 
   console.log("cartItems set:", cartItems)
+  console.log("restaurantState:", restaurantState)
 
 
   const handleChange = (e) => {
@@ -113,6 +114,7 @@ const Order = () => {
         if (response.ok) {
           setShowTrackingPopup(true)
           setOrderSubmitted(true);
+          setOrder(false);
           console.log('Order created successfully!');
           setOrderData({});
         } else {
@@ -145,9 +147,9 @@ const Order = () => {
     }
   }, []);
 
-  const fetchRestaurant = async (restaurant_id) => {
+  const fetchRestaurant = async() => {
     try {
-      const response = await axios.get(`http://localhost:3001/customer/restaurant/${restaurant_id}`, {
+      const response = await fetch(`http://localhost:3001/customer/restaurant/${restaurantID}`, {
         headers: {
           'authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -409,7 +411,7 @@ const Order = () => {
             <h1 className="font-bold text-2xl w-full text-center pb-2 text-gray-700 mt-5 border-b">Summary</h1>
             <div className="w-full text-left pl-7">
                 <h1 className="text-md mt-2 text-left pt-2 text-gray-700">Products: {totalPrice} <span className="text-xs">JOD</span></h1>
-                <h1 className="text-md mt-2 text-left text-gray-700">Delivery Fee: {deliveryFee} <span className="text-xs">JOD</span></h1>
+                <h1 className="text-md mt-2 text-left text-gray-700">Delivery Fee: {cartItems[0].deliveryFee} <span className="text-xs">JOD</span></h1>
                 <h1 className="text-xl mt-2 text-left pt-2 font-bold text-gray-700">Total amount: {totalPriceWithDelivery} <span className="text-xs">JOD</span></h1>
             </div>
             <div className="flex items-center justify-center">

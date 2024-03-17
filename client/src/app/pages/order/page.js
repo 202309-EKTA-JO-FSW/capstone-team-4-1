@@ -20,14 +20,7 @@ const Order = () => {
   const [userID, setUserID] = useState(null);
   const [restaurantID, setRestaurantID] = useState(null);
 
-  const [orderData, setOrderData] = useState({
-    customer: '',
-    restaurant: '',
-    totalPrice: '',
-    phone: '',
-    location: '', // need to work on location
-    note: ''
-  });
+  const [orderData, setOrderData] = useState({});
 
 
   useEffect(() => {
@@ -112,17 +105,15 @@ console.log("cartItems set:", cartItems)
             ...orderData,
             customer: userID,
             restaurant: restaurantID,
+            totalProductPrice: totalPrice,
+            deliveryFee: deliveryFee,
+            totalPrice: totalPriceWithDelivery
           }),
         });
         if (response.ok) {
           setOrderSubmitted(true);
           console.log('Order created successfully!');
-          setOrderData({ customer: '',
-          restaurant: '',
-          totalPrice: '',
-          phone: '',
-          location: '',
-          note: '' });
+          setOrderData({});
         } else {
           console.error('Failed to create order');
         }

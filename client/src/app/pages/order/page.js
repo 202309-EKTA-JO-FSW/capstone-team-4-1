@@ -69,6 +69,7 @@ const Order = () => {
     };
 
     if(cartItems && cartItems.length > 0) {
+
       try {
         await Promise.all(cartItems.map(async (item) => {
             const response = await fetch(`http://localhost:3001/customer/cart`, {
@@ -87,7 +88,33 @@ const Order = () => {
             });
 
             if (response.ok) {
-              setOrder(true);
+              // setOrder(true);
+
+              try {
+                const response = await fetch(`http://localhost:3001/customer/order`, {
+                  method: 'POST',
+                  headers: headers,
+                  body: JSON.stringify({
+                    ...orderData,
+                    customer: userID,
+                    restaurant: restaurantID,
+                    location: userLocation,
+                    address: userAddress
+                  }),
+                });
+                if (response.ok) {
+                  setShowTrackingPopup(true)
+                  setOrderSubmitted(true);
+                  // setOrder(false);
+                  setOrderData({});
+                  console.log('Order created successfully!');
+                } else {
+                  console.error('Failed to create order');
+                }
+              } catch (error) {
+                console.error('Error:', error);
+              }
+
             } else {
               setOrder(false);
               console.error('Failed to create item');
@@ -101,34 +128,34 @@ const Order = () => {
   
     }
 
-    if(order) {
+    // if(order) {
 
-      try {
-        const response = await fetch(`http://localhost:3001/customer/order`, {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify({
-            ...orderData,
-            customer: userID,
-            restaurant: restaurantID,
-            location: userLocation,
-            address: userAddress
-          }),
-        });
-        if (response.ok) {
-          setShowTrackingPopup(true)
-          setOrderSubmitted(true);
-          setOrder(false);
-          console.log('Order created successfully!');
-          setOrderData({});
-        } else {
-          console.error('Failed to create order');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
+    //   try {
+    //     const response = await fetch(`http://localhost:3001/customer/order`, {
+    //       method: 'POST',
+    //       headers: headers,
+    //       body: JSON.stringify({
+    //         ...orderData,
+    //         customer: userID,
+    //         restaurant: restaurantID,
+    //         location: userLocation,
+    //         address: userAddress
+    //       }),
+    //     });
+    //     if (response.ok) {
+    //       setShowTrackingPopup(true)
+    //       setOrderSubmitted(true);
+    //       setOrder(false);
+    //       setOrderData({});
+    //       console.log('Order created successfully!');
+    //     } else {
+    //       console.error('Failed to create order');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //   }
 
-    }
+    // }
   
   };
   

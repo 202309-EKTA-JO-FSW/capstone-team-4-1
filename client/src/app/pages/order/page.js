@@ -28,24 +28,28 @@ const Order = () => {
   useEffect(() => {
     const localUserID = localStorage.getItem('userID');
     setUserID(localUserID);
-
+  
     const cartData = localStorage.getItem(`cart_${localUserID}`) || '[]';
     const parsedCartData = JSON.parse(cartData);
     setCartItems(parsedCartData);
-
-    if (parsedCartData.length > 0) {
-      const restaurantId = parsedCartData[0].restaurantId;
-      setRestaurantID(restaurantId);
-      fetchRestaurant(restaurantId);
-      fetchCustomer(localUserID);
-    }
   }, []);
-
-
+  
+  useEffect(() => {
+    if (cartItems.length > 0 && userID) {
+      const restaurantId = cartItems[0].restaurantId;
+      if (restaurantId) {
+        setRestaurantID(restaurantId);
+        fetchRestaurant(restaurantId);
+        fetchCustomer(userID);
+      } else {
+        console.error('Restaurant ID not found in cart data');
+      }
+    }
+  }, [cartItems, userID]);
+  
   const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
   const totalPrice = cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0).toFixed(2);
   const totalPriceWithDelivery = (parseFloat(totalPrice) + restaurantState.deliveryFee).toFixed(2);
-
 
   console.log("cartItems set:", cartItems)
   console.log("restaurantState:", restaurantState)
@@ -147,19 +151,22 @@ const Order = () => {
     }
   }, []);
 
-  const fetchRestaurant = async() => {
+  const fetchRestaurant = async(resId) => {
     try {
-      const response = await fetch(`http://localhost:3001/customer/restaurant/${restaurantID}`, {
+      const response = await fetch(`http://localhost:3001/customer/restaurant/${resId}`, {
         headers: {
-          'authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
-      if (response.data) {
-        setRestaurantState(response.data);
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+  
+      const data = await response.json();
+      setRestaurantState(data);
     } catch (error) {
-   //   console.error('Error fetching previous restaurant:', error);
+      console.error('Error fetching restaurant:', error);
     }
   };
 
@@ -411,7 +418,7 @@ const Order = () => {
             <h1 className="font-bold text-2xl w-full text-center pb-2 text-gray-700 mt-5 border-b">Summary</h1>
             <div className="w-full text-left pl-7">
                 <h1 className="text-md mt-2 text-left pt-2 text-gray-700">Products: {totalPrice} <span className="text-xs">JOD</span></h1>
-                <h1 className="text-md mt-2 text-left text-gray-700">Delivery Fee: {cartItems[0].deliveryFee} <span className="text-xs">JOD</span></h1>
+                <h1 className="text-md mt-2 text-left text-gray-700">Delivery Fee: {restaurantState.deliveryFee} <span className="text-xs">JOD</span></h1>
                 <h1 className="text-xl mt-2 text-left pt-2 font-bold text-gray-700">Total amount: {totalPriceWithDelivery} <span className="text-xs">JOD</span></h1>
             </div>
             <div className="flex items-center justify-center">

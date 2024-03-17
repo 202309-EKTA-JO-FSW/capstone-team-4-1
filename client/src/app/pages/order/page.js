@@ -11,6 +11,7 @@ const Order = () => {
   const [restaurantState, setRestaurantState] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [editNoteId, setEditNoteId] = useState(null);
+  const [order, setOrder] = useEffect(false);
   const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
   const [showSpecialRequestInput, setShowSpecialRequestInput] = useState(true);
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -19,15 +20,15 @@ const Order = () => {
   const [userID, setUserID] = useState(null);
   const [restaurantID, setRestaurantID] = useState(null);
 
-  const [itemData, setItemData] = useState({
-    restaurant: '',
-    customer: '',
-    dish: '',
-    quantity: '',
-    price: '',
-    note: '',
-    state:'',
-  });
+  // const [itemData, setItemData] = useState({
+  //   restaurant: '',
+  //   customer: '',
+  //   dish: '',
+  //   quantity: '',
+  //   price: '',
+  //   note: '',
+  //   state:'',
+  // });
 
 
   useEffect(() => {
@@ -70,13 +71,6 @@ const Order = () => {
   //   note: '',
   //   state:'',
   // });
-
-
-  // const [itemArray, setItemArray] = useState([]);
-  // const test = cartItems.map(async (item, index) => {
-  //   setItemArray(item)
-  // })
-  // console.log(test)
 
 console.log("cartItems set:", cartItems)
 //   const [orderData, setOrderData] = useState({customer: userID,
@@ -121,22 +115,19 @@ console.log("cartItems set:", cartItems)
                   note: item.note,
                 }),
             });
-            const data = await response.json();
-            console.log(data); // do something with the response data
+
+            if (response.ok) {
+              setOrder(true);
+            } else {
+              setOrder(false);
+              console.error('Failed to create item');
+            }
+
         }))
-    } catch (error) {
-        console.error('Error:', error);
-    }
-      
-      // try {
-      //   const response = await fetch(`http://localhost:3001/customer/cart`, {
-      //     method: 'POST',
-      //     headers: headers,
-      //     body: JSON.stringify(formData),
-      //   });
-      // }  catch (error) {
-      //   console.error('Error:', error);
-      // }
+
+      } catch (error) {
+          console.error('Error:', error);
+      }
   
     }
   

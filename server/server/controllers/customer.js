@@ -261,7 +261,7 @@ const createOrder = async (req, res) => {
   try {
     // let orderLocation = location;
     // let customerAdress = address;
-    let phoneNo = phone;
+    // let phoneNo = phone;
     let time;
     let deliveryFee;
     let productSum;
@@ -274,10 +274,11 @@ const createOrder = async (req, res) => {
     if (!findCustomer) {
       return res.status(404).json({ message: "Customer not found" });
     }
-    if(!phoneNo) {
-      phoneNo = findCustomer.phone;
-      // console.log("This is phoneNo", phoneNo)
-    }
+
+    const phoneNo = phone || findCustomer.phone;
+    // if(!phoneNo) {
+    //   phoneNo = findCustomer.phone;
+    // }
 
     const findRestaurant = await Restaurant.findById(restaurant);
     if (!findRestaurant) {

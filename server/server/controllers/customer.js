@@ -131,7 +131,7 @@ const getCart = async (req, res) => {
 
 const addItem = async (req, res) => {
   const { restaurant, customer, dish, dishName, quantity, price, totalPrice, note } = req.body
-  console.log("this the body",req.body)
+
   try {
     const findDish = await Dish.findById(dish)
 

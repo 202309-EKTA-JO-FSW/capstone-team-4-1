@@ -49,7 +49,6 @@ const Order = () => {
   console.log("cartItems set:", cartItems)
 
 
-
   const handleChange = (e) => {
     setOrderData({ ...orderData, [e.target.name]: e.target.value });
   };
@@ -64,7 +63,6 @@ const Order = () => {
     };
 
     if(cartItems && cartItems.length > 0) {
-      console.log("Data:", orderData);
       try {
         await Promise.all(cartItems.map(async (item) => {
             const response = await fetch(`http://localhost:3001/customer/cart`, {
@@ -104,7 +102,6 @@ const Order = () => {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({
-            ...orderData,
             customer: userID,
             restaurant: restaurantID,
             location: userLocation,
@@ -223,8 +220,8 @@ const Order = () => {
 
   const handleAddressChange = (newAddress) => {
     setUserAddress(newAddress);
-};
-//console.log(cartItems)
+  };
+  
   return (
 
         <div className="flex flex-col realtive w-full">
@@ -320,6 +317,7 @@ const Order = () => {
                       id="location" 
                       name="location" 
                       value={userAddress}
+                      required
                       readOnly 
                       className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
                     />

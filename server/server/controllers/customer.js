@@ -1,4 +1,4 @@
-const RestaurantModel = require('../models/restaurant');
+const Restaurant = require('../models/restaurant');
 const Order = require('../models/order');
 const Item = require('../models/item');
 const Dish = require('../models/dish');
@@ -34,7 +34,7 @@ const getAllRestaurants = async (req, res) => {
   if (deliveryTime) query.deliveryTime = { $lte: deliveryTime };
 
   try {
-    const restaurants = await RestaurantModel.find(query);
+    const restaurants = await Restaurant.find(query);
     res.status(200).json(restaurants);
   } catch (error) {
     res.status(402).json({ message: error.message });
@@ -46,7 +46,7 @@ const getAllRestaurants = async (req, res) => {
 const getRestaurantById = async (req, res) => {
   const { id } = req.params
   try {
-    const restaurant = await RestaurantModel.findById(id)
+    const restaurant = await Restaurant.findById(id)
 
     if (!restaurant) {
       return res.status(404).json({ message: 'Restaurant not found' })
@@ -129,21 +129,25 @@ const getCart = async (req, res) => {
 // Add An Item To Cart
 
 const addItem = async (req, res) => {
-  const { customerId, dishId, quantity, note } = req.body
+  const { restaurant, customer, dish, dishName, quantity, price, totalPrice, note } = req.body
+
   try {
-    const dish = await Dish.findById(dishId)
-    if (!dish) {
+    const findDish = await Dish.findById(dish)
+
+    if (!findDish) {
       return res.status(404).json({ message: 'Dish not found' })
     }
-    const totalPrice = dish.price * quantity
-    const cartItem = await Item.create({
-      restaurant: dish.restaurant,
-      customer: customerId,
-      dish: dishId,
+    // const totalPrice = findDish.price * quantity
+    const cartItem = await Item.create({ 
+      restaurant: restaurant,
+      customer: customer,
+      dish: dish,
+      dishName: dishName,
       quantity: quantity,
-      price: totalPrice,
+      price: price,
+      totalPrice: totalPrice,
       note: note,
-      state: 'cart'
+      state: 'order'
     })
     await cartItem.save()
     res.status(201).json({ message: 'Item added to cart successfully', cartItem })
@@ -252,6 +256,99 @@ const getPendingOrders = async (req, res) => {
   }
 }
 
+
+const createOrder = async (req, res) => {
+  const { customer, restaurant, phone, location, address, note } = req.body;
+
+  console.log("This is the req.body", req.body);
+
+  try {
+    let productSum;
+    let sum;
+    
+    const findCustomer = await Customer.findById(customer);
+    if (!findCustomer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    let phoneNo = phone || findCustomer.phone;
+    let orderNote = note || '';
+
+    const findRestaurant = await Restaurant.findById(restaurant);
+    if (!findRestaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    const time = findRestaurant.deliveryTime;
+    const deliveryFee = findRestaurant.deliveryFee;
+
+    const orderItems = await Item.find({ customer: customer, restaurant: restaurant, state: 'order'});
+
+    if (orderItems.length === 0) {
+      return res.status(404).json({ message: "Order items not found" });
+    }
+
+    if (orderItems.length > 0) {
+      const total_sum = orderItems.map((item) => item.price * item.quantity);
+      productSum = total_sum.reduce((acc, price) => acc + price, 0);
+      sum = total_sum.reduce((acc, price) => acc + price, deliveryFee);
+    }
+
+    const populatedItems = orderItems.map(item => ({
+      dish: item.dish,
+      dishName: item.dishName,
+      quantity: item.quantity,
+      price: item.price,
+      totalPrice: item.totalPrice,
+      note: item.note
+    }));
+
+    if(!orderNote) {
+      orderNote = '';
+    }
+
+    const thisOrder = {
+      customer: customer,
+      restaurant: restaurant,
+      items: populatedItems,
+      totalProductPrice: productSum,
+      deliveryFee: deliveryFee,
+      totalPrice: sum,
+      phone: phoneNo,
+      location: location,
+      address: address,
+      estimatedTime: time,
+      note: orderNote,
+      status: 'Preparing',
+    }
+
+    console.log("This is the order we are working with", thisOrder);
+
+    const newOrder = await Order.create({
+      customer: customer,
+      restaurant: restaurant,
+      items: orderItems,
+      totalProductPrice: productSum,
+      deliveryFee: deliveryFee,
+      totalPrice: sum,
+      phone: phoneNo,
+      location: location,
+      address: address,
+      estimatedTime: time,
+      note: orderNote,
+      status: 'Preparing',
+    });
+
+    await newOrder.save();
+    console.log("This is the new order", newOrder);
+    res.status(201).json({ message: "Order created successfully", order: newOrder });
+  } catch (error) {
+      res.status(400).json({ message: error.message });
+  }
+};
+
+
+
 module.exports = {
   getProfile,
   getAllRestaurants,
@@ -264,6 +361,7 @@ module.exports = {
   getCart,
   addItem,
   editProfile,
-  removeItemFromCart
+  removeItemFromCart,
+  createOrder
 };
 

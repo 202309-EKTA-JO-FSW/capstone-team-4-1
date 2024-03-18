@@ -16,6 +16,10 @@ const itemSchema = new mongoose.Schema({
         ref: 'Dish',
         required: true
     },
+    dishName: {
+        type: String,
+        required: true
+    },
     quantity: {
       type: Number,
       default: 1,
@@ -26,13 +30,18 @@ const itemSchema = new mongoose.Schema({
       default: 0,
       required: true
     },
+    totalPrice: {
+      type: Number,
+      default: 0,
+      required: true
+    },
     note: {
       type: String,
     },
     state: {
       type: String,
-        enum: ['cart', 'order', 'done'],
-        default: 'customer',
+        enum: ['order', 'delivered'],
+        default: 'order',
         required: true
     }
 }, { timestamps: true });

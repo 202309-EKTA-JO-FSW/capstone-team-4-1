@@ -53,9 +53,12 @@ const customerSchema = new mongoose.Schema({
         }
     },
     location: {
-        type: [Number],
+        type: {
+          lat: Number,
+          lng: Number
+        },
         required: true,
-        default: 0
+        default: { lat: 0, lng: 0 }
     },
     street: {
         type: String,

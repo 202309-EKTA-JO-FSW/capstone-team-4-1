@@ -41,7 +41,7 @@ const getAllDishes = async (req, res) => {
 // get specific dish
 
 const getSingleDish = async (req, res) => {
-  const { dishId } = req.params.id;
+  const { dishId } = req.params;
   try {
     const dish = await Dish.findById(dishId);
     if (!dish) {
@@ -77,7 +77,7 @@ const searchDish = async (req, res) => {
 // get all orders for specific restaurant
 
 const getOrders = async (req, res) => {
-  const { restaurantId } = req.params.id;
+  const { restaurantId } = req.params;
   try {
     const orders = await OrderModel.find({
       restaurant: restaurantId
@@ -95,7 +95,7 @@ const getOrders = async (req, res) => {
 // get specific order
 
 const getOrder = async (req, res) => {
-  const { orderId } = req.params.id;
+  const { orderId } = req.params;
   try {
   const order = await OrderModel.findById(orderId);
   if (!order) {
@@ -149,7 +149,7 @@ const addDish = async (req, res) => {
 // update specific dish
 
 const updateDish = async (req, res) => {
-  const { dishId } = req.params.id;
+  const { dishId } = req.params;
   try {
     const updatedDish = await Dish.findByIdAndUpdate(
       dishId,
@@ -172,7 +172,7 @@ const updateDish = async (req, res) => {
 // delete specific dish
 
 const removeDish = async (req, res) => {
-  const { dishId } = req.params.id;
+  const { dishId } = req.params;
   try {
     const deletedDish = await Dish.findByIdAndDelete(dishId);
 

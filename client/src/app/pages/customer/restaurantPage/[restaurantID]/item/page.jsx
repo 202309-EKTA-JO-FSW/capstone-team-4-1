@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import EmptyOrderAnimation from "@/app/components/emptyOrderAnim";
-
+import Link from "next/link";
 export default function Item() {
   const [cartItems, setCartItems] = useState([]);
   const [deliveryFee, setDeliveryFee] = useState(0);
+  
   const updateCart = () => {
     const userID = localStorage.getItem('userID');
     const cartData = localStorage.getItem(`cart_${userID}`);
@@ -41,7 +42,7 @@ export default function Item() {
     setCartItems(updatedCartItems);
     localStorage.setItem(`cart_${userID}`, JSON.stringify(updatedCartItems));
   };
-  const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
+  // const totalQuantity = cartItems.reduce((total, item) => total + item.count, 0);
   const totalPrice = (cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0)).toFixed(2);
   const totalPriceWithDelivery = (cartItems.reduce((total, item) => total + parseFloat(item.totalPrice), 0) + deliveryFee).toFixed(2);
 
@@ -107,7 +108,7 @@ export default function Item() {
           <h1 className="text-sm mt-2 text-left pt-2 font-bold text-gray-700">Total amount: {totalPriceWithDelivery} <span className="text-xs">JOD</span></h1>
       </div>
       <div className="flex items-center justify-center">
-          <button className="w-full text-md mt-4 mb-5 px-[4rem] py-1 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Proceed To Checkout</button>
+          <Link href="/pages/order"><button className="w-full text-md mt-4 mb-5 px-[4rem] py-1 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Proceed To Checkout</button></Link>
       </div>
     </div>
   );

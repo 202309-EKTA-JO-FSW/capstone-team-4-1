@@ -19,76 +19,132 @@ const RestaurantProfile = () => {
   const [searchInput, setSearchInput] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [dishID, setDishID] = useState(null);
+  const [orderSearchTerm, setOrderSearchTerm] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const headers = {
-      Authorization: `Bearer ${token}`
-    };
+    const headers = { Authorization: `Bearer ${token}` };
 
-    const fetchData = async () => {
+    // Fetch Restaurant and Menu
+    const fetchRestaurantAndMenu = async () => {
       try {
         const profileResponse = await fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`, { headers });
-        const profileData = await profileResponse.json();
-        setRestaurant(profileData);
+        if (profileResponse.ok) {
+          const profileData = await profileResponse.json();
+          setRestaurant(profileData);
+        }
 
         const menuResponse = await fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`, { headers });
-        const menuData = await menuResponse.json();
-        setMenu(menuData);
-
-        const ordersResponse = await fetch(`http://localhost:3001/restaurant/orders/${restaurantId}`, { headers });
-        const ordersData = await ordersResponse.json();
-        const currentOrders = ordersData.filter(order => order.status === 'Preparing');
-        const pastOrders = ordersData.filter(order => order.status === 'Delivered');
-        setOrders({ current: currentOrders, past: pastOrders });
+        if (menuResponse.ok) {
+          const menuData = await menuResponse.json();
+          setMenu(menuData);
+        }
       } catch (error) {
-        console.error("Error loading restaurant data:", error);
+        console.error("Error loading restaurant or menu data:", error);
       }
     };
 
-    fetchData();
-  }, [restaurantId, searchInput]);
+    fetchRestaurantAndMenu();
+  }, [restaurantId]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    const fetchOrders = async () => {
+      try {
+        const ordersResponse = await fetch(`http://localhost:3001/restaurant/orders/${restaurantId}`, { headers });
+        if (ordersResponse.ok) {
+          const ordersData = await ordersResponse.json();
+          const currentOrders = ordersData.filter(order => order.status === 'Preparing');
+          const pastOrders = ordersData.filter(order => order.status === 'Delivered');
+          setOrders({ current: currentOrders, past: pastOrders });
+        }
+      } catch (error) {
+        console.error("Error loading orders data:", error);
+      }
+    };
+
+    if (!orderSearchTerm) {
+      fetchOrders();
+    }
+  }, [restaurantId, orderSearchTerm]);
+
+  useEffect(() => {
+    if (orderSearchTerm) {
+      const token = localStorage.getItem('token');
+      const headers = { Authorization: `Bearer ${token}` };
+
+      const fetchOrderById = async () => {
+        try {
+          const response = await fetch(`http://localhost:3001/restaurant/order/${orderSearchTerm}`, { headers });
+          if (response.ok) {
+            const order = await response.json();
+            if (order.status === 'Preparing') {
+              setOrders(prev => ({ ...prev, current: [order] }));
+            } else if (order.status === 'Delivered') {
+              setOrders(prev => ({ ...prev, past: [order] }));
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching order:", error);
+        }
+      };
+
+      fetchOrderById();
+    }
+  }, [orderSearchTerm]);
 
   const handleInputChange = (e) => {
     setSearchInput(e.target.value);
   };
 
-  if (!restaurant || !menu) {
-    return <LoadingAnimation />;
-  }
+  const handleOrderSearchChange = (e) => {
+    setOrderSearchTerm(e.target.value);
+    if (!e.target.value) {
+      // Reset orders before fetching to avoid showing old data
+      setOrders({ current: [], past: [] });
+    }
+  };
+
 
   const OrderDetail = ({ order }) => (
     <div className="border p-4 rounded-3xl mb-4">
       <p className="py-2"><strong>Order ID:</strong> {order._id}</p>
-      <p className="py-2"><strong>Total Price:</strong> {order.totalPrice} JOD</p>
-      {/* <p className="py-2"><strong>Status:</strong> {order.status}</p> */}
+      <p className="py-2"><strong>Total Price:</strong> {order.totalPrice.toFixed(2)} JOD</p>
       <p className="py-2"><strong>Phone:</strong> {order.phone}</p>
       <p className="py-2"><strong>Address:</strong> {order.address}</p>
-      {/* <p className="py-2"><strong>Delivery Fee:</strong> {order.deliveryFee} JOD</p> */}
-      {/* <p className="py-2"><strong>Estimated Delivery Time:</strong> {order.estimatedTime} minutes</p> */}
-      <p className="py-2"><strong>Order Note:</strong> {order.note}</p>
-      <p className="py-2"><strong>Items:</strong> {order.items.length}</p>
+      <p className="py-2">{order.note}</p>
+      <p className="my-2 pl-1 font-bold bg-[#FDF3DC] rounded-md w-[60px]">Items</p>
+      <div className="overflow-y-auto max-h-[270px]">
       {order.items.length > 0 ?
         order.items.map((item, index) => (
-          <div key={index}>
-            <p className="py-2"><strong>Dish Name:</strong> {item.dishName}</p> 
-            <p className="py-2"><strong>Quantity:</strong> {item.quantity}</p> 
-            <p className="py-2"><strong>Dish Price:</strong> {item.price}</p> 
-            <p className="py-2"><strong>Product Price:</strong> {item.totalPrice}</p> 
-            <p className="py-2"><strong>Note:</strong> {item.note}</p> 
+          <div key={index} className="border border-gray-500 rounded-3xl shadow-lg mb-4 cursor-pointer overflow-hidden">
+            <div className="ml-4 py-1 pl-1 font-bold text-left">{item.dishName}</div> 
+            <p className="ml-4 pl-1 pr-5 text-xs">{item.note}</p> 
+            <div className="flex flex-row justify-between ml-4 pr-[24rem]">
+            <p className="py-1 pl-1 text-sm">Price: {item.price.toFixed(2)}JOD</p> 
+            <p className="py-1 pl-1 text-sm">Qty: {item.quantity}</p> 
+            <p className="py-1 pl-1 text-sm">Total Price: {item.totalPrice.toFixed(2)}JOD</p> 
+            </div>
           </div>
         )) 
-      : null} 
+      : null}
+      </div>
     </div>
   );
-
+  if (!restaurant || !menu) {
+    return <LoadingAnimation />;
+  }
   return (
     <div>
       <div className="relative w-full h-[380px] overflow-hidden bg-black">
       <img className="absolute w-full h-[500px] top-0 left-0 z-0 mt-18 pt-10 bg-black opacity-50" src="/blur-restaurant.jpg" alt="restaurant background" />
-        <div className=" absolute w-full h-[600px] flex items-center justify-center z-10">
-          <h1 className="font-bold text-6xl text-white text-center pt-5 mt-3">{restaurant.title}</h1>
-        </div>
+      {restaurant && (
+          <div className="absolute w-full h-[600px] flex items-center justify-center z-10">
+            <h1 className="font-bold text-6xl text-white text-center pt-5 mt-3">{restaurant.title}</h1>
+          </div>
+        )}
       </div>
       <div className='mt-6 lg:px-50 md:px-40 sm:px-20 xs:px-5'>
       <div className="flex flex-row items-center justify-left text-white py-5 pl-10 bg-[#101B0B] rounded-2xl shadow-lg">
@@ -133,12 +189,12 @@ const RestaurantProfile = () => {
 
         
 
-        <div className="mb-10 p-4 overflow-y-auto" style={{ maxHeight: '400px' }}>
+        <div className="mb-10 p-4 overflow-y-auto max-h-[400px]">
 
           <div className="flex flex-col">
             {menu && menu.length > 0 ? (
               menu.map((dish) => (
-                <button className="addToCartBTN" color="primary" onClick={() => {
+                <button onClick={() => {
                   setDishID(dish._id);
                   setShowPopup(true);
                 }}>
@@ -155,22 +211,25 @@ const RestaurantProfile = () => {
           </div>
         </div>
       </div>
-      <div className="ml-[10rem] mr-[10rem] mt-[5rem] mb-[1.5rem] pb-8 border-t flex flex-col justify-left items-left">
+      <div className={`ml-[10rem] mr-[10rem] mt-[5rem] mb-[1.5rem] pb-8 border-t flex flex-col justify-left items-left ${orders.current.length > 2 || orders.past.length > 2 ? 'max-h-[400px] overflow-y-auto' : ''}`}>
         <div className="mr-[1.5rem] w-[100px] mt-4 text-xl font-bold py-1 pl-1 bg-[#FDF3DC] rounded-md">Orders</div> 
+        <div className='mr-[1.5rem] my-[1.5rem] ml-[1.5rem] flex items-center border border-gray-700 hover:border-[#FFC245] p-2 pl-4 pr-2 rounded-3xl'>
+        <FaSearch className="text-gray-600" />
+        <input
+          type="text"
+          placeholder="Search for an order by ID..."
+          value={orderSearchTerm}
+          onChange={handleOrderSearchChange}
+          className="w-full pl-2 py-1 mx-4 focus:outline-none"
+        />
+      </div>
         <div className="flex flex-row tabs space-between space-x-[2rem] font-md mb-5">
           <button onClick={() => setActiveTab('current')} className={activeTab === 'current' ? 'shown' : 'unShown'}>Current</button>
           <button onClick={() => setActiveTab('past')} className={activeTab === 'past' ? 'shown' : 'unShown'}>Past</button>
         </div>
         <div className="order-content">
-          {activeTab === 'current' ? (
-            orders.current.map(order => (
-              <OrderDetail key={order._id} order={order} />
-            ))
-          ) : (
-            orders.past.map(order => (
-              <OrderDetail key={order._id} order={order} />
-            ))
-          )}
+        {activeTab === 'current' ? orders.current.map(order => <OrderDetail key={order._id} order={order} />) : null}
+          {activeTab === 'past' ? orders.past.map(order => <OrderDetail key={order._id} order={order} />) : null}
         </div>
       </div>
 

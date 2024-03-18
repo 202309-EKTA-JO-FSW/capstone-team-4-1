@@ -68,6 +68,17 @@ const RestaurantProfile = () => {
       {/* <p className="py-2"><strong>Estimated Delivery Time:</strong> {order.estimatedTime} minutes</p> */}
       <p className="py-2"><strong>Order Note:</strong> {order.note}</p>
       <p className="py-2"><strong>Items:</strong> {order.items.length}</p>
+      {order.items.length > 0 ?
+        order.items.map((item, index) => (
+          <div key={index}>
+            <p className="py-2"><strong>Dish Name:</strong> {item.dishName}</p> 
+            <p className="py-2"><strong>Quantity:</strong> {item.quantity}</p> 
+            <p className="py-2"><strong>Dish Price:</strong> {item.price}</p> 
+            <p className="py-2"><strong>Product Price:</strong> {item.totalPrice}</p> 
+            <p className="py-2"><strong>Note:</strong> {item.note}</p> 
+          </div>
+        )) 
+      : null} 
     </div>
   );
 

@@ -38,7 +38,6 @@ const login = async (req, res, next) => {
 // Register a new admin
 const registerAdmin = async (req, res, next) => {
   const { firstName, lastName, email, password, phone, role } = req.body;
-
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new Admin({ firstName, lastName, email, password: hashedPassword, phone, role });
@@ -55,7 +54,7 @@ const registerCustomer = async (req, res, next) => {
   const img = req.file;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new Customer({ firstName, lastName, email, password: hashedPassword, location: location.split(','), street, img: img ? img.filename : "", buildingNo, phone, role });
+    const user = new Customer({ firstName, lastName, email, password: hashedPassword, location: { lat: location.split(',')[0], lng: location.split(',')[1] }, street, img: img ? img.filename : "", buildingNo, phone, role });
     try {
       await user.save();
       res.status(201).json({ message: 'Registration successful', addedData: { firstName, lastName, email, password, location, street, img, buildingNo, phone, role } });

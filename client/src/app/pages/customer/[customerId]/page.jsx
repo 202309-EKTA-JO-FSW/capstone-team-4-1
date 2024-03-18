@@ -40,8 +40,8 @@ const CusotmerProfile = () => {
       .then((res) => res.json())
       .then((data) => {
         let location = data.location;
-        let locationLat = location[0];
-        let locationLong = location[1];
+        let locationLat = location.lat;
+        let locationLong = location.lng;
         setUpdatedCustomer({
           ...data,
           password: "",

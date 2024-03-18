@@ -138,7 +138,7 @@ const addItem = async (req, res) => {
       return res.status(404).json({ message: 'Dish not found' })
     }
     // const totalPrice = findDish.price * quantity
-    const cartItem = await Item.create({ 
+    const cartItem = await Item.create({
       restaurant: restaurant,
       customer: customer,
       dish: dish,
@@ -204,7 +204,7 @@ const editProfile = async (req, res) => {
         infoUpdate.img = img?.filename;
       }
       if (location) {
-        infoUpdate.location = location.split(',');
+        infoUpdate.location = { lat: location.split(',')[0], lng: location.split(',')[1] };
       }
     }
 
@@ -265,7 +265,7 @@ const createOrder = async (req, res) => {
   try {
     let productSum;
     let sum;
-    
+
     const findCustomer = await Customer.findById(customer);
     if (!findCustomer) {
       return res.status(404).json({ message: "Customer not found" });
@@ -282,7 +282,7 @@ const createOrder = async (req, res) => {
     const time = findRestaurant.deliveryTime;
     const deliveryFee = findRestaurant.deliveryFee;
 
-    const orderItems = await Item.find({ customer: customer, restaurant: restaurant, state: 'order'});
+    const orderItems = await Item.find({ customer: customer, restaurant: restaurant, state: 'order' });
 
     if (orderItems.length === 0) {
       return res.status(404).json({ message: "Order items not found" });
@@ -303,7 +303,7 @@ const createOrder = async (req, res) => {
       note: item.note
     }));
 
-    if(!orderNote) {
+    if (!orderNote) {
       orderNote = '';
     }
 
@@ -343,11 +343,9 @@ const createOrder = async (req, res) => {
     console.log("This is the new order", newOrder);
     res.status(201).json({ message: "Order created successfully", order: newOrder });
   } catch (error) {
-      res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
-
-
 
 module.exports = {
   getProfile,
@@ -364,4 +362,3 @@ module.exports = {
   removeItemFromCart,
   createOrder
 };
-

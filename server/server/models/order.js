@@ -16,10 +16,34 @@ const orderSchema = new mongoose.Schema({
   //   ref: 'Rider',
   //   required: true
   // },
+  // items: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Item',
+  //   required: true
+  // }],
   items: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item',
-    required: true
+    dish: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Item',
+      required: true
+    },
+    dishName: {
+      type: String,
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    totalPrice: {
+      type: Number,
+      required: true
+    },
+    note: String,
   }],
   totalProductPrice: {
     type: Number,

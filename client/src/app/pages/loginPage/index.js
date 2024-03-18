@@ -10,7 +10,7 @@ export default function LoginPage({ onClose }) {
   const [showLoginSuccess, setShowLoginSuccess] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [captchaValue, setCaptchaValue] = useState(null);
+  const [captchaValue, setCaptchaValue] = useState(true);
   const [submitFail, setSubmitFail] = useState(null);
 
   const handleCaptchaChange = (value) => {
@@ -180,7 +180,7 @@ export default function LoginPage({ onClose }) {
                   Forgot password?
                 </a>
               </div>
-              <Captcha onChange={handleCaptchaChange} />
+              {/* <Captcha onChange={handleCaptchaChange} /> */}
               <div
                 className="flex justify-between items-center
             xl:mt-4 md:mt-2 2xs:mt-1

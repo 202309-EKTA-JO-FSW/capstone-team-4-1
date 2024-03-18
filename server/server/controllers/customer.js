@@ -261,14 +261,14 @@ const createOrder = async (req, res) => {
   try {
     let productSum;
     let sum;
-    let orderNote = note;
     
     const findCustomer = await Customer.findById(customer);
     if (!findCustomer) {
       return res.status(404).json({ message: "Customer not found" });
     }
 
-    const phoneNo = phone || findCustomer.phone;
+    let phoneNo = phone || findCustomer.phone;
+    let orderNote = note || '';
 
     const findRestaurant = await Restaurant.findById(restaurant);
     if (!findRestaurant) {
@@ -330,7 +330,7 @@ const createOrder = async (req, res) => {
     console.log("This is the new order", newOrder);
     res.status(201).json({ message: "Order created successfully", order: newOrder });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
   }
 };
 

@@ -46,9 +46,9 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Phone number is required'],
     validate: {
-        validator: function(phone) {
+        validator: function(phoneNo) {
             const regex = /^(78|77|79)\d{7}$/;
-            return regex.test(phone);
+            return regex.test(phoneNo);
         },
         message: 'Invalid phone number.'
     }

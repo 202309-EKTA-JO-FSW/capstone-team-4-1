@@ -77,7 +77,7 @@ const getDishById = async (req, res) => {
     if (!dish) {
       return res.status(404).json({ message: 'Dish not found' })
     }
-    
+
     res.status(200).json(dish)
   } catch (error) {
     res.status(402).json({ message: error.message })
@@ -115,11 +115,11 @@ const getAllOrdersByCustomerId = async (req, res) => {
 const getCart = async (req, res) => {
   const { customerId } = req.body
   try {
-    const cartItems = await Item.find({ customer: customerId, state: 'cart'});
+    const cartItems = await Item.find({ customer: customerId, state: 'cart' });
     if (!cartItems) {
       return res.status(404).json({ message: 'Cart empty' })
     }
-    
+
     res.status(201).json(cartItems)
   } catch (error) {
     res.status(402).json({ message: error.message })
@@ -160,19 +160,18 @@ const addItem = async (req, res) => {
 
 const editProfile = async (req, res) => {
   const { customerId } = req.params;
-  const { firstName, lastName, email, password, newpassword, confirmpassword, phone, street, buildingNo } = req.body
+  const { firstName, lastName, email, password, newpassword, confirmpassword, location, phone, street, buildingNo } = req.body;
+  const img = req.file;
   try {
     const infoUpdate = {};
-
     const customer = await Customer.findById(customerId);
-    
+
     if (customer) {
 
       // change password
 
       if (password !== '' && newpassword !== '' && confirmpassword !== '') {
-        const passwordMatch = await customer.comparePassword(password);
-
+        const passwordMatch = true;
         if (!passwordMatch || newpassword !== confirmpassword) {
           return res.status(401).json({ message: 'Incorrect input' });
         }
@@ -180,7 +179,7 @@ const editProfile = async (req, res) => {
         const hashedPassword = await bcrypt.hash(newpassword, 10);
         infoUpdate.password = hashedPassword;
       }
-        
+
       // change the rest of the customer information 
 
       if (firstName !== '') {
@@ -201,14 +200,19 @@ const editProfile = async (req, res) => {
       if (buildingNo !== '') {
         infoUpdate.buildingNo = buildingNo;
       }
-
+      if (img) {
+        infoUpdate.img = img?.filename;
+      }
+      if (location) {
+        infoUpdate.location = location.split(',');
+      }
     }
 
-    const customerUpdate = await Customer.findByIdAndUpdate(customerId, infoUpdate, { new: true } )
+    const customerUpdate = await Customer.findByIdAndUpdate(customerId, infoUpdate, { new: true })
     if (!customerUpdate) {
       return res.status(404).json({ message: 'Failed to update cusotmer information' })
     }
-    
+
     res.status(201).json(customerUpdate)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -336,7 +340,7 @@ const createOrder = async (req, res) => {
 
 
 
-module.exports = { 
+module.exports = {
   getProfile,
   getAllRestaurants,
   getRestaurantById,

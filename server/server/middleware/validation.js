@@ -1,9 +1,9 @@
 const Customer = require('../models/customer');
 
 const validateCustomerData = (req, res, next) => {
-    const { firstName, lastName, email, password, phone, location, street, buildingNo, avatar, role } = req.body;
+    const { firstName, lastName, email, password, phone, location, street, buildingNo, img, role } = req.body;
   
-    const user = new Customer({ firstName, lastName, email, password, phone, location, street, buildingNo, avatar, role });
+    const user = new Customer({ firstName, lastName, email, password, phone, location, street, buildingNo, img, role });
   
     const validationError = user.validateSync(); // Validate the user object synchronously
     

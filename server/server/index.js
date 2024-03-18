@@ -1,10 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const path = require('path');
+
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin');
 const customerRoutes = require('./routes/customer');
 const restaurantRoutes = require('./routes/restaurant');
 const riderRoutes = require('./routes/rider');
+
 
 require("dotenv").config();
 
@@ -19,7 +22,7 @@ const port =
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
+app.use('/images', express.static("uploads"));
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/customer', customerRoutes);

@@ -19,7 +19,11 @@ const port =
     ? process.env.NODE_LOCAL_TEST_PORT
     : process.env.NODE_LOCAL_PORT;
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://fooddrop.vercel.app/"],
+  methods: ["POST", "GET"],
+  credentials: true
+}));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use('/images', express.static("uploads"));

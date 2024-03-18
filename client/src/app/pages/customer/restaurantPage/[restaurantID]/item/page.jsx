@@ -60,7 +60,7 @@ export default function Item() {
   return (
     <div className="flex flex-col bg-white justify-center rounded-2xl items-center border px-2">
       <h1 className="font-bold text-2xl w-full text-center pb-2 text-gray-700 mt-5 border-b">Your Order</h1>
-      <div style={{ maxHeight: cartItems.length > 3 ? '264px' : 'auto', overflowY: cartItems.length > 3 ? 'scroll' : 'visible' }} className="w-full border-b pb-4">
+      <div style={{ maxHeight: cartItems.length >= 3 ? '274px' : 'auto', overflowY: cartItems.length > 3 ? 'scroll' : 'visible' }} className="w-full border-b pb-4">
       {cartItems.map((item) => (
         <div key={item.dishId} className="flex flex-col w-full py-3">
           <div className="flex flex-row justify-left items-top ml-5">
@@ -70,29 +70,29 @@ export default function Item() {
               alt={item.title}
             />
             <div className="text-left flex-grow pl-3">
-              <h2 className="text-lg font-md">{item.title}</h2>
+              <h2 className="text-md font-md">{item.title}</h2>
               <span className="mr-3 text-md font-bold pr-10 pt-10">{parseFloat(item.totalPrice).toFixed(2)}<span className="text-xs">JOD</span></span>
             </div>
           </div>
           
-          <div className="flex flex-row justify-end items-right -mt-[2rem]">
+          <div className="flex flex-row justify-end items-right -mt-[1.5rem]">
             <div className="justify-right ml-4">
               <button 
                 onClick={() => item.count > 1 ? handleCountChange(item.dishId, item.count - 1) : handleRemoveItem(item.dishId)}
-                className="px-2 py-1 text-sm font-bold text-[#FFC245] bg-gray-600 rounded-full hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
+                className="px-1 py-1/2 text-xs font-bold text-[#FFC245] bg-gray-600 rounded-full hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed focus:outline-none"
               >
                 -
               </button>
               
             </div>
             <div className="justify-right">
-              <span className="mx-3 text-md text-center font-md">{item.count}</span>
+              <span className="mx-1 text-md text-center font-sm">{item.count}</span>
             </div>
             <div className="justify-right mr-4">
             
               <button 
                 onClick={() => handleCountChange(item.dishId, item.count + 1)}
-                className="px-2 py-1 text-sm font-bold text-[#101B0B] bg-[#FFC245] rounded-full hover:bg-[#101B0B] hover:text-[#FFC245] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
+                className="px-1 py-1/2 text-xs font-bold text-[#101B0B] bg-[#FFC245] rounded-full hover:bg-[#101B0B] hover:text-[#FFC245] focus:outline-none"
               >
                 +
               </button>

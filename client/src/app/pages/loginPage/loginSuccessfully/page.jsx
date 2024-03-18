@@ -1,4 +1,4 @@
-// import LoginSuccessAnimation from "@/app/components/loginSuccessAnimation"
+import LoginSuccessAnimation from "@/app/components/loginSuccessAnimation"
 
 const LoginSucessfully = () => {
     return(
@@ -10,7 +10,7 @@ const LoginSucessfully = () => {
       2xs:top-20 2xs:p-1 2xs:w-[250px] 2xs:h-[340px] 2xs:rounded-xl 2xs:shadow-xs
       "
         >
-            {/* <LoginSuccessAnimation /> */}
+            <LoginSuccessAnimation />
         </div>
         </div>
         

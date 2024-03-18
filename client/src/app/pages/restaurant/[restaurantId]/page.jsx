@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Lottie from 'react-lottie';
 import Stars from "./components/stars";
 import Form from "./dishform/page";
 import { FaSearch } from 'react-icons/fa'

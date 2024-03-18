@@ -1,5 +1,5 @@
 import React from "react";
-import Lottie from "react-lottie";
+// import Lottie from "react-lottie";
 import animationData from "../lotties/loginSuccessfullyAnim"; // Adjust the path as necessary
 
 const LoginSuccessAnimation = () => {
@@ -15,7 +15,7 @@ const LoginSuccessAnimation = () => {
   return (
     <div className="flex justify-center items-center">
       <div style={{ pointerEvents: "none" }}>
-        <Lottie options={defaultOptions} height={200} width={200} />
+        {/* <Lottie options={defaultOptions} height={200} width={200} /> */}
       </div>
     </div>
   );

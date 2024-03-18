@@ -14,7 +14,7 @@ const Captcha = ({ onChange }) => {
     2xs:scale-50 2xs:-my-3
     ">
       <ReCAPTCHA
-        sitekey="6LfG1YspAAAAAOqk5dBqT4T7x42tIxBwLKnu56xn"
+        sitekey="6LeTP5wpAAAAAIeWp3xY_LD9GE4C8BlCq3mHvUmi"
         onChange={onCaptchaChange}
         theme="light"
         size="normal"

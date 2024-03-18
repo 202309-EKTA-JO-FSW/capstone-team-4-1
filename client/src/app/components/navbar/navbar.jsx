@@ -30,7 +30,7 @@ function Navbar() {
     if (userRoleState == "customer") {
       router.push(`/pages/customer/restaurantList`);
     } else if (userRoleState == "restaurant") {
-      router.push(`/pages/restaurant/restaurantList/page`);
+      router.push(`/pages/restaurant/${userId}`);
     } else {
       router.push("/");
     }
@@ -101,13 +101,13 @@ function Navbar() {
               />
             </div>
           )}
-          <Link
+          {/* <Link
             className={isActive == "home" ? " active" : " inActive"}
             onClick={() => changeActivePage("home")}
             href="/"
           >
             Home
-          </Link>
+          </Link> */}
           {isValidTokenState && userRoleState == "customer" && (
             <Link
               className={isActive == "restaurantList" ? " active" : " inActive"}

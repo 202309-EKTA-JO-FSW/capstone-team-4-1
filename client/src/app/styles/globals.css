@@ -70,28 +70,63 @@ body {
 }
 
 .active {
-  color: var(--textColor);
-  background-color: var(--mainColor);
+  color: #916204;
   display: flex;
   justify-content: center;
-  padding: 12px;
+  margin-top: 12px;
+  margin-left: 12px;
+  margin-right: 12px;
+  padding: 0;
   font-weight: 700;
-  border-radius: 9px;
+  border-bottom: solid #916204;
 }
 
 .active:hover {
   color: var(--mainColor);
-  background-color: #B92719;
-  border: 1px var(--textColor) solid;
 }
+
 
 .inActive {
   color: var(--mainColor);
   display: flex;
   justify-content: center;
-  padding: 12px;
+  margin-top: 12px;
+  margin-left: 12px;
+  margin-right: 12px;
+  padding: 0;
   font-weight: 700;
-  border-radius: 9px;
+}
+.inActive:hover{
+  color: #916204;
+}
+
+
+.shown {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: normal;
+  border-bottom: 2px solid #FFC245;
+}
+.shown:hover{
+  color: #FFC245;
+}
+
+
+.unShown {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: normal;
+}
+.unShown:hover{
+  color: #FFC245;
 }
 
 .bgWhite {

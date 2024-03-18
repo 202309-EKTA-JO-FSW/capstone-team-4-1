@@ -408,9 +408,7 @@ const Order = () => {
                 <h1 className="text-xl mt-2 text-left pt-2 font-bold text-gray-700">Total amount: {totalPriceWithDelivery} <span className="text-xs">JOD</span></h1>
             </div>
             <div className="flex items-center justify-center">
-                <Link href="/pages/order">
                 <button onClick={handleSubmit} className="w-full text-md mt-4 mb-5 px-[4rem] py-1 rounded-2xl bg-[#FFC245] text-black hover:bg-[#101B0B] hover:text-[#FFC245]">Confirm Order</button>
-                </Link>
             </div>
             </div>
         </div>

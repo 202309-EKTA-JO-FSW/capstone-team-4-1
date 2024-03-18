@@ -19,7 +19,7 @@ setLanguage("en");
 setRegion("es");
 
 const LocationDisplay = () => {
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState([0,0]);
 
   useEffect(() => {
     if (navigator.geolocation) {

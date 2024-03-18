@@ -91,3 +91,6 @@ fastlane/screenshots
 package-lock.json
 
 yarn.lock
+
+#To hide the uplouded images from the server
+uploads

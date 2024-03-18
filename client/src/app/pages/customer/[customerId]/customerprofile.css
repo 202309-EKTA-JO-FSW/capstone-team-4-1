@@ -30,3 +30,17 @@
   margin-top: calc(.5rem* calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.9rem* var(--tw-space-y-reverse));
 }
+
+.userImage{
+  margin-top: -5px;
+  cursor: pointer;
+}
+
+.imageUploader{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: none;
+}

@@ -8,7 +8,10 @@
     "build": "docker-compose up --build",
     "prune": "docker-compose down -v",
     "stop": "docker-compose down",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:vercel": "next build",
+    "start:vercel": "next start",
+    "export": "next export"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

@@ -4,8 +4,7 @@ import { useParams } from "next/navigation";
 import Footer from "@/app/components/footer/footer";
 import LoadingAnimation from "../../../components/loadingAnimation";
 import axios from "axios";
-
-import "./loginForm.css";
+import "./customerprofile.css";
 
 const CusotmerProfile = () => {
   const params = useParams();
@@ -354,6 +353,20 @@ const CusotmerProfile = () => {
                     value={updatedCustomer.password}
                     placeholder="Current Password"
                     className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput hidden"
+                    onChange={handleChange}
+                  />
+                  <label
+                    htmlFor="password"
+                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
+                  >
+                    Current Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={updatedCustomer.password}
+                    placeholder="Current Password"
+                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
                     onChange={handleChange}
                   />
                   <label

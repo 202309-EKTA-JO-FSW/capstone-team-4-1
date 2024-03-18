@@ -294,6 +294,15 @@ const createOrder = async (req, res) => {
       sum = total_sum.reduce((acc, price) => acc + price, deliveryFee);
     }
 
+    const populatedItems = orderItems.map(item => ({
+      dish: item.dish,
+      dishName: item.dishName,
+      quantity: item.quantity,
+      price: item.price,
+      totalPrice: item.totalPrice,
+      note: item.note
+    }));
+
     if(!orderNote) {
       orderNote = '';
     }
@@ -301,7 +310,7 @@ const createOrder = async (req, res) => {
     const thisOrder = {
       customer: customer,
       restaurant: restaurant,
-      items: orderItems,
+      items: populatedItems,
       totalProductPrice: productSum,
       deliveryFee: deliveryFee,
       totalPrice: sum,

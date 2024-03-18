@@ -1,6 +1,6 @@
-import LoginSuccessAnimation from "@/app/components/loginSuccessAnimation"
+// import LoginSuccessAnimation from "@/app/components/loginSuccessAnimation"
 
-export default function LoginSucessfully({ closeLoginAnim }) {
+const LoginSucessfully = () => {
     return(
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 overflow-y-auto h-full w-full">
         <div
@@ -10,9 +10,10 @@ export default function LoginSucessfully({ closeLoginAnim }) {
       2xs:top-20 2xs:p-1 2xs:w-[250px] 2xs:h-[340px] 2xs:rounded-xl 2xs:shadow-xs
       "
         >
-            <LoginSuccessAnimation />
+            {/* <LoginSuccessAnimation /> */}
         </div>
         </div>
         
     )
 }
+export default LoginSucessfully

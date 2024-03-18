@@ -1,0 +1,141 @@
+.restaurant-list {
+    display: flex;
+    justify-content: space-around;
+}
+
+.restaurantCard {
+    height: 100%;
+    overflow: auto;
+}
+.header{
+    height: 100%;
+    overflow: auto;
+}
+.cartItem{
+    box-shadow: rgb(171, 169, 171) 0px 0px 5px 0px;
+}
+.restaurantCardHeader {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.restaurantCardHeaderContent {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.restaurantName {
+    margin: 0px;
+    padding: 0px;
+}
+
+.restaurantLocation {
+    font-size: 14px;
+    color: var(--textGreyColor);
+    margin-top: 10px;
+}
+
+.restaurantInfo {
+    font-size: 14px;
+    color: var(--textGreyColor);
+    margin-top: 10px;
+}
+
+.restaurantMinimumOrder {
+    font-size: 14px;
+    color: var(--textGreyColor);
+    margin-top: 10px;
+}
+
+.flagStyle {
+    display: flex;
+    padding: 10px;
+    margin-top: 10px;
+    align-items: center;
+    background-color: rgb(254, 249, 245);
+    color: var(--textColor);
+}
+
+
+.flagStyleText {
+    font-size: 14px;
+}
+
+
+.dishContentLeftSection {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.dishImage {
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px;
+    width: 68px;
+    height: 60px;
+    position: relative;
+    /* object-fit: contain; */
+    border: 1px solid rgb(224, 224, 224);
+}
+
+.dishTitleAndDescription {
+    margin-inline: 10px;
+}
+
+.dishTitle {
+    color: var(--textColor);
+    font-size: 15px;
+}
+
+.dishDescription {
+    color: rgb(114, 114, 114);
+    font-size: 12px;
+}
+
+.priceAndBTNContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.dishPrice {
+    font-size: 14px;
+    color: var(--textColor);
+}
+
+
+
+.infoContainerRestaurantName {
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: var(--textColor);
+}
+
+.infoContainerDetail {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-top: 1px solid rgb(224, 224, 224);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.infoContainerDetailKey {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--textColor);
+}
+
+.infoContainerDetailValue {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--textColor);
+}
+.places-container, .map-container {
+    height: 400px;
+    width: 100%;
+    border-radius: 2rem;
+  }

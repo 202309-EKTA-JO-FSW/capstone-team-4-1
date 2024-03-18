@@ -5,11 +5,11 @@ const bcrypt = require('bcrypt');
 const customerSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
+        required: [true, 'Fisrt Name is required']
     },
     lastName: {
         type: String,
-        required: true
+        required: [true, 'Last Name is required']
     },
     email: {
         type: String,
@@ -42,7 +42,7 @@ const customerSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: [true, 'Phone number is required'],
+        required: [true, 'Phone Number is required'],
         unique: true,
         validate: {
             validator: function(phone) {
@@ -62,9 +62,19 @@ const customerSchema = new mongoose.Schema({
     },
     street: {
         type: String,
+        required: [true, 'Street Address is required']
+    },
+    avatar: {
+        type: String,
+        default: 'default-image/default-avatar.png'
     },
     buildingNo: {
-        type: Number,
+        type: String,
+        required: [true, 'Building Number is required']
+    },
+    avatar: {
+        type: String,
+        default: 'default-image/default-avatar.png'
     },
     role: {
         type: String,
@@ -77,8 +87,8 @@ const customerSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
-  },{ timestamps: true });
-  
+},{ timestamps: true });
+
   
 // Compare the given password with the hashed password in the database
 customerSchema.methods.comparePassword = async function (password) {

@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Footer from "@/app/components/footer/footer";
 import LoadingAnimation from "../../../components/loadingAnimation";
+import "./customerprofile.css";
 
 const CusotmerProfile = () => {
   const params = useParams();
   const customerId = params.customerId;
   const [customer, setCustomer] = useState();
   const [edit, setEdit] = useState(false);
+  const [showPasswordState, setShowPasswordState] = useState(false);
   const [updatedCustomer, setUpdatedCustomer] = useState({
     firstName: "",
     lastName: "",
@@ -35,7 +37,7 @@ const CusotmerProfile = () => {
   }, [customerId]);
 
   const handleEdit = () => {
-    setEdit(true);
+    setEdit(!edit);
   };
 
   const handleChange = (e) => {
@@ -106,15 +108,12 @@ const CusotmerProfile = () => {
             className="object-cover object-center h-32"
           />
         </div>
-        <div className="text-center mt-2">
-          <h2 className="font-semibold">
-            {customer.firstName} {customer.lastName}
-          </h2>
+        <div className="userCardSubContainer text-center mt-2">
           {edit ? (
-            <div className="space-y-4 pt-10">
+            <div className="pt-2 flex flex-col items-center">
               <label
                 htmlFor="text"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold"
               >
                 First Name
               </label>
@@ -123,12 +122,12 @@ const CusotmerProfile = () => {
                 name="firstName"
                 value={updatedCustomer.firstName}
                 placeholder={customer.firstName}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
                 onChange={handleChange}
               />
               <label
                 htmlFor="text"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
               >
                 Last Name
               </label>
@@ -137,12 +136,12 @@ const CusotmerProfile = () => {
                 name="lastName"
                 value={updatedCustomer.lastName}
                 placeholder={customer.lastName}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
                 onChange={handleChange}
               />
               <label
                 htmlFor="email"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
               >
                 Email
               </label>
@@ -151,56 +150,12 @@ const CusotmerProfile = () => {
                 name="email"
                 value={updatedCustomer.email}
                 placeholder={customer.email}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
                 onChange={handleChange}
               />
-
-              <label
-                htmlFor="password"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={updatedCustomer.password}
-                placeholder="Current Password"
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                onChange={handleChange}
-              />
-              <label
-                htmlFor="password"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                New Password
-              </label>
-              <input
-                type="password"
-                name="newpassword"
-                value={updatedCustomer.newpassword}
-                placeholder="New Password"
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                onChange={handleChange}
-              />
-              <label
-                htmlFor="password"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="confirmpassword"
-                value={updatedCustomer.confirmpassword}
-                placeholder="Confirm Password"
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-                onChange={handleChange}
-              />
-
               <label
                 htmlFor="phone"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
               >
                 Phone
               </label>
@@ -209,12 +164,12 @@ const CusotmerProfile = () => {
                 name="phone"
                 value={updatedCustomer.phone}
                 placeholder={customer.phone}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
                 onChange={handleChange}
               />
               <label
                 htmlFor="text"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
               >
                 Street
               </label>
@@ -223,12 +178,12 @@ const CusotmerProfile = () => {
                 name="street"
                 value={updatedCustomer.street}
                 placeholder={customer.street}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
                 onChange={handleChange}
               />
               <label
                 htmlFor="text"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
               >
                 Building Number
               </label>
@@ -237,21 +192,101 @@ const CusotmerProfile = () => {
                 name="buildingNo"
                 value={updatedCustomer.buildingNo}
                 placeholder={customer.buildingNo}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
+                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
                 onChange={handleChange}
               />
-
-              <div className="flex justify-center">
+              {!showPasswordState && (
                 <button
-                  onClick={handleSave}
-                  className="block text-gray-700 text-sm font-bold p-2"
+                  onClick={() => {
+                    setShowPasswordState(true);
+                  }}
+                  className="loginFormBTN"
                 >
+                  Change password
+                </button>
+              )}
+              {showPasswordState && (
+                <div className="flex flex-col items-center">
+                  <label
+                    htmlFor="password"
+                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={updatedCustomer.password}
+                    placeholder="Current Password"
+                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput hidden"
+                    onChange={handleChange}
+                  />
+                  <label
+                    htmlFor="password"
+                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
+                  >
+                    Current Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={updatedCustomer.password}
+                    placeholder="Current Password"
+                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                    onChange={handleChange}
+                  />
+                  <label
+                    htmlFor="password"
+                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
+                  >
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    name="newpassword"
+                    value={updatedCustomer.newpassword}
+                    placeholder="New Password"
+                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                    onChange={handleChange}
+                  />
+                  <label
+                    htmlFor="password"
+                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmpassword"
+                    value={updatedCustomer.confirmpassword}
+                    placeholder="Confirm Password"
+                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                    onChange={handleChange}
+                  />{" "}
+                  <button
+                    onClick={() => {
+                      setShowPasswordState(false);
+                    }}
+                    className="loginFormBTN"
+                  >
+                    Ignore
+                  </button>
+                </div>
+              )}
+              <div className="flex w-full justify-evenly">
+                <button onClick={handleEdit} className="loginFormBTN">
+                  Cancel
+                </button>
+                <button onClick={handleSave} className="loginFormBTN">
                   Save
                 </button>
               </div>
             </div>
           ) : (
             <>
+              <h2 className="font-semibold">
+                {customer.firstName} {customer.lastName}
+              </h2>
               <p className="text-gray-500">{customer.email}</p>
               <p className="text-gray-500">0{customer.phone}</p>
               <p className="text-gray-500">Balance: {customer.balance}</p>
@@ -259,7 +294,9 @@ const CusotmerProfile = () => {
               <p className="text-gray-500">
                 Building Number: {customer.buildingNo}
               </p>
-              <button onClick={handleEdit}>Edit</button>
+              <button className="loginFormBTN" onClick={handleEdit}>
+                Edit
+              </button>
             </>
           )}
         </div>

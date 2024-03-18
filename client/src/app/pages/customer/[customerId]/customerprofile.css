@@ -1,0 +1,32 @@
+.userCardSubContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.loginFormBTN {
+  color: var(--textColor);
+  background-color: var(--mainColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 9px;
+  font-size: 16px;
+  height: 35px;
+  padding-inline: 15px;
+  margin-top: 10px;
+  width: fit-content;
+}
+
+.customMargin{
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.9rem* calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(.5rem* var(--tw-space-y-reverse));
+}
+.customMarginInput{
+  --tw-space-y-reverse: 0;
+  margin-top: calc(.5rem* calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.9rem* var(--tw-space-y-reverse));
+}

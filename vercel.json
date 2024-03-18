@@ -1,0 +1,6 @@
+{
+    "builds": [
+        { "src": "client", "use": "@vercel/static" },
+        { "src": "server", "use": "@vercel/node" }
+    ]
+}

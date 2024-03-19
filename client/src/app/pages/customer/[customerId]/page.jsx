@@ -40,11 +40,12 @@ const CusotmerProfile = () => {
       .then((res) => res.json())
       .then((data) => {
         let location = data.location;
-        let locationLat = location.lat;
-        let locationLong = location.lng;
+        let locationLat = location?.lat;
+        let locationLong = location?.lng;
         setUpdatedCustomer({
           ...data,
           password: "",
+          img: data.img || "/profilePlaceholder.png",
           locationLat: locationLat,
           locationLong: locationLong,
         });
@@ -173,269 +174,314 @@ const CusotmerProfile = () => {
   };
   return (
     <div>
-      <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto mt-32 bg-white shadow-xl rounded-lg text-gray-900">
+      <div className="flex flex-col items-start justify-center xl:mx-[4rem] sm:mx-[2rem] md:mx-[3rem] lg:mx-[4rem]">
+      <div className="flex flex-row w-full mt-[10rem] border bg-white shadow-xl rounded-3xl
+       text-gray-900">
+        
+        
         <div className="rounded-t-lg h-32 overflow-hidden">
-          <img
-            src="/blur-restaurant.jpg"
-            alt="background"
-            className="object-cover object-top w-full"
-          />
-          <input
-            type="file"
-            onChange={handleFileChange}
-            id="profilePicture"
-            name="img"
-            className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none"
-            accept="image/ *"
-          />
         </div>
-        <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
+        <div class="flex relative border-4 ml-4 border-white rounded-full overflow-hidden">
+        {edit ? (
+          <>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+              accept="image/*"
+            />
+            <img
+              src={
+                imageSrc ||
+                (updatedCustomer.img
+                  ? `http://localhost:3001/images/${updatedCustomer.img}`
+                  : "/profilePlaceholder.png")
+              }
+              alt="profile picture"
+              onClick={() => fileInputRef.current.click()}
+              className="w-[300px] h-[300px] object-cover object-center"
+            />
+          </>
+        ) : (
           <img
             src={
-              imageSrc
-                ? imageSrc
-                : updatedCustomer.img
+              updatedCustomer.img
                 ? `http://localhost:3001/images/${updatedCustomer.img}`
-                : "https://cdn0.iconfinder.com/data/icons/communication-456/24/account_profile_user_contact_person_avatar_placeholder-512.png"
+                : "/profilePlaceholder.png"
             }
             alt="profile picture"
-            onClick={() => {
-              fileInputRef.current.click();
-            }}
-            className="object-cover object-center h-32 userImage"
+            className="w-[300px] h-[300px] object-cover object-center"
           />
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            id="profilePicture"
-            name="img"
-            className="imageUploader"
-            accept="image/ *"
-          />
+        )}
         </div>
-        <div className="userCardSubContainer text-center mt-2">
+        <div className="flex flex-col w-full -pt-8 userCardSubContainer items-start text-left ml-[2rem] mt-[3rem] pr-[4rem]">
           {edit ? (
-            <div className="pt-2 flex flex-col items-center">
-              <label
-                htmlFor="text"
-                className="block text-gray-700 text-sm font-bold"
-              >
-                First Name
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={updatedCustomer.firstName}
-                placeholder={updatedCustomer.firstName}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                onChange={handleChange}
-              />
-              <label
-                htmlFor="text"
-                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={updatedCustomer.lastName}
-                placeholder={updatedCustomer.lastName}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                onChange={handleChange}
-              />
-              <label
-                htmlFor="email"
-                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={updatedCustomer.email}
-                placeholder={updatedCustomer.email}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                onChange={handleChange}
-              />
-              <label
-                htmlFor="phone"
-                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-              >
-                Phone
-              </label>
-              <input
-                type="text"
-                name="phone"
-                value={updatedCustomer.phone}
-                placeholder={updatedCustomer.phone}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                onChange={handleChange}
-              />
-              <label
-                htmlFor="locationLong"
-                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-              >
-                Current location Lon/Lat :
-              </label>
-              <input
-                type="number"
-                value={updatedCustomer.locationLat}
-                onChange={handleChange}
-                // onClick={handleUserCurrentLocation}
-                id="locationLat"
-                name="locationLat"
-                placeholder="0"
-                required
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-              />
-              <input
-                type="number"
-                value={updatedCustomer.locationLong}
-                onChange={handleChange}
-                // onClick={handleUserCurrentLocation}
-                id="locationLong"
-                name="locationLong"
-                placeholder="0"
-                required
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-              />
-              <label
-                htmlFor="text"
-                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-              >
-                Street
-              </label>
-              <input
-                type="text"
-                name="street"
-                value={updatedCustomer.street}
-                placeholder={updatedCustomer.street}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                onChange={handleChange}
-              />
-              <label
-                htmlFor="text"
-                className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-              >
-                Building Number
-              </label>
-              <input
-                type="text"
-                name="buildingNo"
-                value={updatedCustomer.buildingNo}
-                placeholder={updatedCustomer.buildingNo}
-                className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                onChange={handleChange}
-              />
-              {!showPasswordState && (
-                <button
-                  onClick={() => {
-                    setShowPasswordState(true);
-                  }}
-                  className="loginFormBTN"
+            <div className="pt-2 flex flex-col items-start w-full">
+              <div className="flex items-center space-x-2 py-2 w-full">
+                <label
+                  htmlFor="text"
+                  className="block text-gray-700 text-sm font-bold w-[150px]"
                 >
-                  Change password
-                </button>
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={updatedCustomer.firstName}
+                  placeholder={updatedCustomer.firstName}
+                  className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-center space-x-2 py-2 w-full">
+                  <label
+                    htmlFor="text"
+                    className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                  >
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={updatedCustomer.lastName}
+                    placeholder={updatedCustomer.lastName}
+                    className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                    onChange={handleChange}
+                  />
+              </div>
+
+              <div className="flex items-center space-x-2 py-2 w-full">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={updatedCustomer.email}
+                  placeholder={updatedCustomer.email}
+                  className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-center space-x-2 py-2 w-full">
+                <label
+                  htmlFor="phone"
+                  className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                >
+                  Phone
+                </label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={updatedCustomer.phone}
+                  placeholder={updatedCustomer.phone}
+                  className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-center space-x-2 py-2 w-full">
+                <label
+                  htmlFor="locationLong"
+                  className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                >
+                  Current location Lon/Lat :
+                </label>
+                <input
+                  type="number"
+                  value={updatedCustomer.locationLat}
+                  onChange={handleChange}
+                  onClick={handleUserCurrentLocation}
+                  id="locationLat"
+                  name="locationLat"
+                  placeholder="0"
+                  required
+                  className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                />
+              </div>
+              <div className="flex items-center space-x-2 py-2 w-full">
+                <label
+                  htmlFor="locationLong"
+                  className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                >
+                
+                </label>
+                <input
+                  type="number"
+                  value={updatedCustomer.locationLong}
+                  onChange={handleChange}
+                  onClick={handleUserCurrentLocation}
+                  id="locationLong"
+                  name="locationLong"
+                  placeholder="0"
+                  required
+                  className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                />
+              </div>
+
+              <div className="flex items-center space-x-2 py-2 w-full">
+                <label
+                  htmlFor="text"
+                  className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                >
+                  Street
+                </label>
+                <input
+                  type="text"
+                  name="street"
+                  value={updatedCustomer.street}
+                  placeholder={updatedCustomer.street}
+                  className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-center space-x-2 py-2 w-full">
+                <label
+                  htmlFor="text"
+                  className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                >
+                  Building Number
+                </label>
+                <input
+                  type="text"
+                  name="buildingNo"
+                  value={updatedCustomer.buildingNo}
+                  placeholder={updatedCustomer.buildingNo}
+                  className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                  onChange={handleChange}
+                />
+              </div>
+              {!showPasswordState && (
+                <div className="flex items-center w-full">
+                  <button
+                    onClick={() => {
+                      setShowPasswordState(true);
+                    }}
+                    className="loginFormBTN text-center text-sm text-gray-700 text-sm font-bold w-full hover:text-[#FFC254]"
+                  >
+                    Change password
+                  </button>
+                </div>
               )}
               {showPasswordState && (
-                <div className="flex flex-col items-center">
-                  <label
-                    htmlFor="password"
-                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={updatedCustomer.password}
-                    placeholder="Current Password"
-                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput hidden"
-                    onChange={handleChange}
-                  />
-                  <label
-                    htmlFor="password"
-                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-                  >
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={updatedCustomer.password}
-                    placeholder="Current Password"
-                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                    onChange={handleChange}
-                  />
-                  <label
-                    htmlFor="password"
-                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-                  >
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    name="newpassword"
-                    value={updatedCustomer.newpassword}
-                    placeholder="New Password"
-                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                    onChange={handleChange}
-                  />
-                  <label
-                    htmlFor="password"
-                    className="block text-gray-700 text-sm font-bold mb-2 customMargin"
-                  >
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmpassword"
-                    value={updatedCustomer.confirmpassword}
-                    placeholder="Confirm Password"
-                    className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
-                    onChange={handleChange}
-                  />{" "}
+                <div className="flex flex-col items-start py-2 w-full">
+                  <div className="flex items-center space-x-2 py-2 w-full">
+                    <label
+                      htmlFor="password"
+                      className="block text-left text-gray-700 text-md font-bold w-[150px] mb-2 customMargin"
+                    >
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={updatedCustomer.password}
+                      placeholder="Current Password"
+                      className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput hidden"
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-2 py-2 w-full">
+                    <label
+                      htmlFor="password"
+                      className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                    >
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={updatedCustomer.password}
+                      placeholder="Current Password"
+                      className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-2 py-2 w-full">
+                    <label
+                      htmlFor="password"
+                      className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                    >
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      name="newpassword"
+                      value={updatedCustomer.newpassword}
+                      placeholder="New Password"
+                      className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-2 py-2 w-full">
+                    <label
+                      htmlFor="password"
+                      className="block text-gray-700 text-sm font-bold w-[150px] mb-2 customMargin"
+                    >
+                      Confirm Password
+                    </label>
+                    <input
+                      type="password"
+                      name="confirmpassword"
+                      value={updatedCustomer.confirmpassword}
+                      placeholder="Confirm Password"
+                      className="w-full px-3 py-1 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none customMarginInput"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  
                   <button
                     onClick={() => {
                       setShowPasswordState(false);
                     }}
-                    className="loginFormBTN"
+                    className="loginFormBTN text-left text-sm text-gray-700 font-bold w-[60px] my-2 px-2 py-1/2 bg-[#FDF3DC] rounded-md"
                   >
                     Ignore
                   </button>
                 </div>
               )}
-              <div className="flex w-full justify-evenly">
-                <button onClick={handleEdit} className="loginFormBTN">
+              <div className="flex w-full justify-center sapce-between space-x-[3rem] mb-8 mt-4">
+                <button onClick={handleEdit} className="loginFormBTN rounded-2xl px-[4rem] py-1 text-[#FFC245] bg-gray-600 hover:bg-gray-800">
                   Cancel
                 </button>
-                <button onClick={handleSave} className="loginFormBTN">
+                <button onClick={handleSave} className="loginFormBTN rounded-2xl px-[4rem] py-1 text-[#101B0B] bg-[#FFC245] hover:bg-[#e69b05]">
                   Save
                 </button>
               </div>
             </div>
           ) : (
             <>
-              <h2 className="font-semibold">
+              <h2 className="font-bold pb-4 text-2xl">
                 {updatedCustomer.firstName} {updatedCustomer.lastName}
               </h2>
-              <p className="text-gray-500">{updatedCustomer.email}</p>
-              <p className="text-gray-500">0{updatedCustomer.phone}</p>
-              <p className="text-gray-500">
-                Balance: {updatedCustomer.balance}
+              <p className="text-gray-500 py-1">Email: {updatedCustomer.email}</p>
+              <p className="text-gray-500 py-1">Phone: +962 {updatedCustomer.phone}</p>
+              <p className="text-gray-500 py-1">
+                Balance: {updatedCustomer.balance} JOD
               </p>
-              <p className="text-gray-500">Street: {updatedCustomer.street}</p>
-              <p className="text-gray-500">
+              <p className="text-gray-500 py-1">Street: {updatedCustomer.street}</p>
+              <p className="text-gray-500 py-1">
                 Building Number: {updatedCustomer.buildingNo}
               </p>
-              <button className="loginFormBTN" onClick={handleEdit}>
-                Edit
-              </button>
+              <div className="flex mt-3">
+                <button className="loginFormBTN bg-[#FFC254] rounded-2xl px-[4rem] py-1/2 hover:bg-[#916204] hover:text-white" onClick={handleEdit}>
+                  Edit
+                </button>
+              </div>
             </>
           )}
         </div>
+      </div>
       </div>
       <Footer />
     </div>

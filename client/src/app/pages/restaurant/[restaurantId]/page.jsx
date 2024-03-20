@@ -133,7 +133,7 @@ const RestaurantProfile = () => {
       </div>
     </div>
   );
-  if (!restaurant || !menu) {
+  if (!restaurant) {
     return <LoadingAnimation />;
   }
   return (

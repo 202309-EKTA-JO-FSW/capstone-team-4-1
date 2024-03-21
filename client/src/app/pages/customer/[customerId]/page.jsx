@@ -175,7 +175,7 @@ const CusotmerProfile = () => {
     <div>
       <div className="flex flex-col items-start justify-center xl:mx-[4rem] sm:mx-[2rem] md:mx-[3rem] lg:mx-[4rem]">
         <div
-          className="flex flex-row w-full mt-[10rem] border bg-white shadow-xl rounded-3xl
+          className="flex flex-row w-full pb-8 mt-[10rem] border bg-white shadow-xl rounded-3xl 
        text-gray-900"
         >
           <div className="rounded-t-lg h-32 overflow-hidden"></div>
@@ -358,12 +358,12 @@ const CusotmerProfile = () => {
                   />
                 </div>
                 {!showPasswordState && (
-                  <div className="flex items-center w-full">
+                  <div className="flex justify-center items-center w-full">
                     <button
                       onClick={() => {
                         setShowPasswordState(true);
                       }}
-                      className="loginFormBTN text-center text-gray-700 text-sm font-bold w-full hover:text-[#FFC254]"
+                      className="loginFormBTN text-center text-gray-700 text-sm font-bold hover:text-[#FFC254]"
                     >
                       Change password
                     </button>

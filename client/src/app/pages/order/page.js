@@ -11,7 +11,6 @@ const Order = () => {
   const [restaurantState, setRestaurantState] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [editNoteId, setEditNoteId] = useState(null);
-  const [order, setOrder] = useState(false);
   const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
   const [showSpecialRequestInput, setShowSpecialRequestInput] = useState(true);
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -133,8 +132,10 @@ const Order = () => {
         if (response.ok) {
           setShowTrackingPopup(true)
           setOrderSubmitted(true);
-          setOrder(false);
           setOrderData({});
+          setCartItems([]);
+          localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
+          
           console.log('Order created successfully!');
         } else {
           console.error('Failed to create order');

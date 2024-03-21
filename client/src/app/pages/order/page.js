@@ -32,12 +32,20 @@ const Order = () => {
 
 
   useEffect(() => {
-    const localUserID = localStorage.getItem('userID');
-    setUserID(localUserID);
+    if (typeof window !== 'undefined') {
+      const localUserID = localStorage.getItem('userID');
+      setUserID(localUserID);
   
-    const cartData = localStorage.getItem(`cart_${localUserID}`) || '[]';
-    const parsedCartData = JSON.parse(cartData);
-    setCartItems(parsedCartData);
+      const cartData = localStorage.getItem(`cart_${localUserID}`) || '[]';
+      const parsedCartData = JSON.parse(cartData);
+      setCartItems(parsedCartData);
+    }
+    // const localUserID = localStorage.getItem('userID');
+    // setUserID(localUserID);
+  
+    // const cartData = localStorage.getItem(`cart_${localUserID}`) || '[]';
+    // const parsedCartData = JSON.parse(cartData);
+    // setCartItems(parsedCartData);
   }, []);
   
   useEffect(() => {
@@ -135,7 +143,7 @@ const Order = () => {
           setOrderSubmitted(true);
           setOrderData({});
           setCartItems([]);
-          // localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
+          localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
 
           console.log('Order created successfully!');
         } else {
@@ -146,9 +154,9 @@ const Order = () => {
       }
   }
 
-  if (orderSubmitted) {
-    localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
-  }
+  // if (orderSubmitted) {
+  //   localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
+  // }
   
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);

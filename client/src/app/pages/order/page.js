@@ -102,7 +102,6 @@ const Order = () => {
             if (response.ok) {
               console.log('Item created');
             } else {
-              setOrder(false);
               console.error('Failed to create item');
             }
 

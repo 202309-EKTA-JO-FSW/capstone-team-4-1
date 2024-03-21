@@ -179,7 +179,7 @@ const CusotmerProfile = () => {
        text-gray-900"
         >
           <div className="rounded-t-lg h-32 overflow-hidden"></div>
-          <div class="flex relative border-4 ml-4 border-white rounded-full overflow-hidden">
+          <div className="flex relative border-4 ml-4 border-white rounded-full overflow-hidden">
             {edit ? (
               <>
                 <input
@@ -363,7 +363,7 @@ const CusotmerProfile = () => {
                       onClick={() => {
                         setShowPasswordState(true);
                       }}
-                      className="loginFormBTN text-center text-sm text-gray-700 text-sm font-bold w-full hover:text-[#FFC254]"
+                      className="loginFormBTN text-center text-gray-700 text-sm font-bold w-full hover:text-[#FFC254]"
                     >
                       Change password
                     </button>

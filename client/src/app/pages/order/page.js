@@ -25,6 +25,12 @@ const Order = () => {
   const [orderData, setOrderData] = useState({});
   const [errors, setErrors] = useState({});
 
+  const token = localStorage.getItem('token');
+  const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+  };
+
 
   useEffect(() => {
     const localUserID = localStorage.getItem('userID');
@@ -63,11 +69,11 @@ const Order = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem('token');
-    const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-    };
+    // const token = localStorage.getItem('token');
+    // const headers = {
+    //     Authorization: `Bearer ${token}`,
+    //     'Content-Type': 'application/json',
+    // };
 
     const phoneRegex = /^(78|77|79)\d{7}$/;
 
@@ -101,7 +107,8 @@ const Order = () => {
             });
 
             if (response.ok) {
-              setOrder(true);
+              // setOrder(true);
+              createOrder();
             } else {
               setOrder(false);
               console.error('Failed to create item');
@@ -115,8 +122,38 @@ const Order = () => {
   
     }
 
-    if(order) {
+    // if(order) {
 
+    //   try {
+    //     const response = await fetch(`http://localhost:3001/customer/order`, {
+    //       method: 'POST',
+    //       headers: headers,
+    //       body: JSON.stringify({
+    //         ...orderData,
+    //         customer: userID,
+    //         restaurant: restaurantID,
+    //         location: userLocation,
+    //         address: userAddress
+    //       }),
+    //     });
+    //     if (response.ok) {
+    //       setShowTrackingPopup(true)
+    //       setOrderSubmitted(true);
+    //       setOrder(false);
+    //       setOrderData({});
+    //       console.log('Order created successfully!');
+    //     } else {
+    //       console.error('Failed to create order');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //   }
+
+    // }
+  
+  };
+
+  const createOrder = async() => {
       try {
         const response = await fetch(`http://localhost:3001/customer/order`, {
           method: 'POST',
@@ -141,10 +178,7 @@ const Order = () => {
       } catch (error) {
         console.error('Error:', error);
       }
-
-    }
-  
-  };
+  }
   
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);

@@ -40,7 +40,7 @@ export default function TrakingPopup({ closePopup, restaurantName }) {
 
                         <div>
                             {/* <PreparingOrder /> */}
-                            <img 
+                            <img className="pt-5 w-[300px] h-auto"
                             src="https://cdn.dribbble.com/users/2692366/screenshots/14120206/media/034b91493d23532a066e9cb376b4bcb6.gif" alt="preparingOrder" />
                         </div>
                     </div>

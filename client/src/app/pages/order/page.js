@@ -24,12 +24,6 @@ const Order = () => {
   const [orderData, setOrderData] = useState({});
   const [errors, setErrors] = useState({});
 
-  const token = localStorage.getItem('token');
-  const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-  };
-
 
   useEffect(() => {
     const localUserID = localStorage.getItem('userID');
@@ -67,6 +61,12 @@ const Order = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
 
     const phoneRegex = /^(78|77|79)\d{7}$/;
 
@@ -118,6 +118,13 @@ const Order = () => {
   };
 
   const createOrder = async() => {
+
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
+
       try {
         const response = await fetch(`http://localhost:3001/customer/order`, {
           method: 'POST',

@@ -135,7 +135,7 @@ const Order = () => {
           setOrderSubmitted(true);
           setOrderData({});
           setCartItems([]);
-          // localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
+          localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
 
           console.log('Order created successfully!');
         } else {

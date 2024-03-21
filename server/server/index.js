@@ -1,7 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const path = require('path');
-const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin');
@@ -21,10 +19,8 @@ const port =
     : process.env.NODE_LOCAL_PORT;
 
 app.use(cors());
-// app.use(express.urlencoded({ extended: false }));
-// app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use('/images', express.static("uploads"));
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
@@ -39,7 +35,7 @@ app.listen(port, () => {
 
 app.get("/test", (req, res) => {
   res.json(
-    "Server connection to client works!!  Luck with your capstones :D"
+    "Server connection to client works!! Good Luck with your capstones :D"
   );
 });
 

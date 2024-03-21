@@ -69,12 +69,6 @@ const Order = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const token = localStorage.getItem('token');
-    // const headers = {
-    //     Authorization: `Bearer ${token}`,
-    //     'Content-Type': 'application/json',
-    // };
-
     const phoneRegex = /^(78|77|79)\d{7}$/;
 
     if (orderData.phone && !phoneRegex.test(orderData.phone)) {

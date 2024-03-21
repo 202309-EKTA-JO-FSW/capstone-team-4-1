@@ -179,7 +179,7 @@ const CusotmerProfile = () => {
        text-gray-900"
         >
           <div className="rounded-t-lg h-32 overflow-hidden"></div>
-          <div className="flex relative border-4 ml-4 border-white rounded-full overflow-hidden">
+          <div className="flex relative border-4 mt-10 ml-5 border-white rounded-full overflow-hidden">
             {edit ? (
               <>
                 <input
@@ -201,7 +201,7 @@ const CusotmerProfile = () => {
                   }
                   alt="profile picture"
                   onClick={() => fileInputRef.current.click()}
-                  className="w-[300px] h-[300px] object-cover object-center"
+                  className="w-[300px] h-[250px] object-cover object-center rounded-full"
                 />
               </>
             ) : (
@@ -212,7 +212,7 @@ const CusotmerProfile = () => {
                     : "/profilePlaceholder.png"
                 }
                 alt="profile picture"
-                className="w-[300px] h-[300px] object-cover object-center"
+                className="w-[300px] h-[250px] object-cover object-center rounded-full"
               />
             )}
           </div>

@@ -135,7 +135,7 @@ const Order = () => {
           setOrderSubmitted(true);
           setOrderData({});
           setCartItems([]);
-          localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
+          // localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
 
           console.log('Order created successfully!');
         } else {
@@ -144,6 +144,10 @@ const Order = () => {
       } catch (error) {
         console.error('Error:', error);
       }
+  }
+
+  if (orderSubmitted) {
+    localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
   }
   
   const handlePaymentMethodChange = (event) => {

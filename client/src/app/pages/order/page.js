@@ -100,7 +100,7 @@ const Order = () => {
             });
 
             if (response.ok) {
-              createOrder();
+              console.log('Item created');
             } else {
               setOrder(false);
               console.error('Failed to create item');
@@ -113,6 +113,8 @@ const Order = () => {
       }
   
     }
+
+    createOrder();
   
   };
 
@@ -135,7 +137,7 @@ const Order = () => {
           setOrderData({});
           setCartItems([]);
           localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
-          
+
           console.log('Order created successfully!');
         } else {
           console.error('Failed to create order');

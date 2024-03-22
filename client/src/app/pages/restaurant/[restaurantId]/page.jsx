@@ -109,8 +109,32 @@ const RestaurantProfile = () => {
 
 
   const OrderDetail = ({ order }) => (
-    <div className="border p-4 rounded-3xl mb-4">
-      <p className="py-2"><strong>Order ID:</strong> {order._id}</p>
+    <div className="flex flex-col border p-4 rounded-3xl mb-4">
+      <div className="flex flex-row justify-between">
+        <div>
+          <p className="py-2"><strong>Order ID:</strong> {order._id}</p>
+        </div>
+
+        <div>
+          <p className="flex items-center gap-2 py-2 text-gray-700">
+          
+          {new Date(order.createdAt).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric', 
+            timeZone: 'Asia/Amman' 
+          })}
+          <span className="inline-block h-1 w-1 bg-black rounded-full"></span>
+          
+          {new Date(order.createdAt).toLocaleTimeString('en-US', {
+            hour: 'numeric',   
+            minute: '2-digit', 
+            hour12: true,     
+            timeZone: 'Asia/Amman'
+          })}
+          </p>
+        </div>
+      </div>
+      
       <p className="py-2"><strong>Total Price:</strong> {order.totalPrice.toFixed(2)} JOD</p>
       <p className="py-2"><strong>Phone:</strong> {order.phone}</p>
       <p className="py-2"><strong>Address:</strong> {order.address}</p>
@@ -170,7 +194,7 @@ const RestaurantProfile = () => {
       </div>
       <div className='mt-6 lg:px-50 md:px-40 sm:px-20 xs:px-5'>
         <div className="flex ml-[1.5rem] mt-[3.5rem] mb-[1.5rem] mr-[1.5rem] flex-row justify-between items-center">
-          <div className="mr-[1.5rem] w-[100px] text-xl font-bold py-1 pl-1 bg-[#FDF3DC] rounded-md">Menu</div> 
+          <div className="mr-[1.5rem] w-[70px] text-xl font-bold py-1 pl-1 bg-[#FDF3DC] rounded-md">Menu</div> 
           <div><button className=" bg-[#FFC245] text-gray-700 text-center py-1 px-[2rem] rounded-xl text-md hover:bg-[#e69b05]" onClick={() => setShowForm(true)}>Add Dish</button></div>
         </div>
 
@@ -212,7 +236,7 @@ const RestaurantProfile = () => {
         </div>
       </div>
       <div className={`ml-[10rem] mr-[10rem] mt-[5rem] mb-[1.5rem] pb-8 border-t flex flex-col justify-left items-left ${orders.current.length > 2 || orders.past.length > 2 ? 'max-h-[400px] overflow-y-auto' : ''}`}>
-        <div className="mr-[1.5rem] w-[100px] mt-4 text-xl font-bold py-1 pl-1 bg-[#FDF3DC] rounded-md">Orders</div> 
+        <div className="mr-[1.5rem] w-[80px] mt-4 text-xl font-bold py-1 pl-1 bg-[#FDF3DC] rounded-md">Orders</div> 
         <div className='mr-[1.5rem] my-[1.5rem] ml-[1.5rem] flex items-center border border-gray-700 hover:border-[#FFC245] p-2 pl-4 pr-2 rounded-3xl'>
         <FaSearch className="text-gray-600" />
         <input

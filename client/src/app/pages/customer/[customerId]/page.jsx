@@ -13,6 +13,8 @@ const CusotmerProfile = () => {
   const [edit, setEdit] = useState(false);
   const [showPasswordState, setShowPasswordState] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
+  const [orders, setOrders] = useState({ current: [], past: [] });
+  const [activeTab, setActiveTab] = useState('current');
   const [updatedCustomer, setUpdatedCustomer] = useState({
     firstName: "",
     lastName: "",
@@ -34,22 +36,43 @@ const CusotmerProfile = () => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-    fetch(`http://localhost:3001/customer/profile/${customerId}`, {
-      headers: headers,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        let location = data.location;
-        let locationLat = location?.lat;
-        let locationLong = location?.lng;
-        setUpdatedCustomer({
-          ...data,
-          password: "",
-          locationLat: locationLat,
-          locationLong: locationLong,
+    const fetchProfile = async () => {
+      fetch(`http://localhost:3001/customer/profile/${customerId}`, {
+        headers: headers,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          let location = data.location;
+          let locationLat = location?.lat;
+          let locationLong = location?.lng;
+          setUpdatedCustomer({
+            ...data,
+            password: "",
+            locationLat: locationLat,
+            locationLong: locationLong,
+          });
         });
-      });
-  }, [customerId]);
+      };
+      const fetchOrders = async () => {
+        try {
+          const response = await fetch(`http://localhost:3001/customer/orders/${customerId}`, { headers });
+          if (!response.ok) throw new Error('Failed to fetch orders');
+          const data = await response.json();
+          const ordersArray = data.orders;
+
+          ordersArray.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+              setOrders({
+              current: ordersArray.filter(order => order.status === 'Preparing'),
+              past: ordersArray.filter(order => order.status === 'Delivered')
+            });
+       }catch (error) {
+          console.error("Error loading orders data:", error);
+        }
+      };
+  
+      fetchProfile();
+      fetchOrders();
+    }, [customerId]);
 
   const handleUserCurrentLocation = async (e) => {
     getLocation();
@@ -101,7 +124,9 @@ const CusotmerProfile = () => {
     formData.append("phone", updatedCustomer.phone);
     formData.append("street", updatedCustomer.street);
     formData.append("buildingNo", updatedCustomer.buildingNo);
-    formData.append("img", updatedCustomer.img);
+    if (imageSrc) {
+      formData.append("img", updatedCustomer.img);
+    }
     try {
       if (!updatedCustomer.firstName || !updatedCustomer.lastName) {
         validData = false;
@@ -155,6 +180,9 @@ const CusotmerProfile = () => {
     }
   };
 
+
+
+
   if (!updatedCustomer) {
     return <LoadingAnimation />;
   } else {
@@ -171,6 +199,123 @@ const CusotmerProfile = () => {
     };
     reader.readAsDataURL(file);
   };
+
+  const OrderDetail = ({ order }) =>{
+    const [restaurantData, setRestaurantData] = useState([]);
+    const [dishData, setDishData] = useState({}); 
+    useEffect(() => {
+      const fetchRestaurantDetails = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(`http://localhost:3001/customer/restaurant/${order.restaurant}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+  
+          if (!response.ok) throw new Error('Failed to fetch restaurant details');
+          const data = await response.json();
+          setRestaurantData(data);
+        } catch (error) {
+          console.error("Error loading restaurant details:", error);
+        }
+      };
+
+      const fecthDishDetails = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const dishPromises = order.items.map(item =>
+            fetch(`http://localhost:3001/customer/dishes/${item.dish}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+              },
+            }).then(res => res.json())
+          );
+  
+        const dishes = await Promise.all(dishPromises);
+        const dishesMap = {};
+        dishes.forEach(dish => {
+          dishesMap[dish._id] = dish;
+        });
+        setDishData(dishesMap);
+        } catch (error) {
+          console.error("Error loading restaurant details:", error);
+        }
+      };
+
+      
+  
+      fetchRestaurantDetails();
+      fecthDishDetails();
+    }, [order.restaurant], [order.items]);
+    return (
+    
+    <div className="flex flex-col border p-4 rounded-3xl mb-4 w-[1000px]">
+     <div className="ml-6 mb-2">
+      <p className="flex items-center gap-2 text-xs text-gray-700">
+        
+          {new Date(order.createdAt).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric', 
+            timeZone: 'Asia/Amman' 
+          })}
+          <span className="inline-block h-1 w-1 bg-black rounded-full"></span>
+          
+          {new Date(order.createdAt).toLocaleTimeString('en-US', {
+            hour: 'numeric',   
+            minute: '2-digit', 
+            hour12: true,     
+            timeZone: 'Asia/Amman'
+          })}
+        
+      </p>
+    </div>
+
+      <div className="flex flex-row">
+        <div className="mr-5 mt-2 ml-4">
+          <img className="w-[80px] h-[70px] rounded-3xl"
+          src={restaurantData.image} alt="Restaurant"></img>
+        </div>
+        <div>
+          <p className="pt-2 text-2xl"><strong>{restaurantData.title}</strong></p>
+          <p className="py-2">{order.totalPrice.toFixed(2)} JOD</p>
+         
+        </div>
+      </div>
+      <div className="ml-4 mt-4">
+        <p className="my-2 pl-1 font-bold bg-[#FDF3DC] rounded-md w-[60px]">Items</p>
+      </div>
+      <div className="overflow-y-auto mx-4 max-h-[270px] w-[800px]">
+      {order.items.length > 0 ?
+        order.items.map((item, index) => (
+          
+          <div key={index} className="flex py-1 flex-row border border-[#FFC254] rounded-3xl shadow-lg mb-4 cursor-pointer overflow-hidden">
+            <div className="flex items-center justify-center ml-5">
+              {dishData[item.dish] && <div><img className="w-[50px] h-[40px] rounded-lg" src={dishData[item.dish].image} alt="Dish Image" /></div>}
+            </div>
+            
+            <div>
+            <div className="ml-2 py-1 pl-1 font-bold text-left">
+              {item.quantity > 1 ? `${item.quantity}X` : 'One'} {item.dishName}
+            </div>
+              <div className="flex flex-row justify-between ml-2 pr-[24rem]">            
+                <p className="pb-1 pl-1 text-sm">{item.totalPrice.toFixed(2)} JOD</p> 
+              </div>
+            </div>
+          </div>
+        )) 
+      : null}
+      </div>
+    </div>
+    )
+    
+  }
+    
+    
   return (
     <div>
       <div className="flex flex-col items-start justify-center xl:mx-[4rem] sm:mx-[2rem] md:mx-[3rem] lg:mx-[4rem]">
@@ -202,6 +347,7 @@ const CusotmerProfile = () => {
                   alt="profile picture"
                   onClick={() => fileInputRef.current.click()}
                   className="w-[300px] h-[250px] object-cover object-center rounded-full"
+                  style={{ cursor: 'pointer' }}
                 />
               </>
             ) : (
@@ -495,6 +641,20 @@ const CusotmerProfile = () => {
               </>
             )}
           </div>
+        </div>
+      </div>
+
+      <div className={`ml-[4rem] mr-[4rem] mt-[4rem] mb-[1.5rem] pb-8 border-t flex flex-col justify-left items-left
+       ${orders.current.length > 2 || orders.past.length > 2 ? 'max-h-[2000px] overflow-y-auto' : ''}
+       `}>
+        <div className="mr-[1.5rem] w-[80px] mt-4 text-xl font-bold py-1 pl-1 bg-[#FDF3DC] rounded-md">Orders</div> 
+        <div className="flex flex-row tabs space-between space-x-[2rem] font-md mb-5">
+          <button onClick={() => setActiveTab('current')} className={activeTab === 'current' ? 'shown' : 'unShown'}>Current</button>
+          <button onClick={() => setActiveTab('past')} className={activeTab === 'past' ? 'shown' : 'unShown'}>Past</button>
+        </div>
+        <div className="order-content">
+          {activeTab === 'current' ? orders.current.map(order => <OrderDetail key={order._id} order={order} />) : null}
+          {activeTab === 'past' ? orders.past.map(order => <OrderDetail key={order._id} order={order} />) : null}
         </div>
       </div>
       <Footer />

@@ -4,9 +4,10 @@ import Captcha from "./components/captcha";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import LoginSuccessfully from "./loginSuccessfully/page";
+import urlService from "../../services/appConfig";
 
 export default function LoginPage({ onClose }) {
-  const router = useRouter(); 
+  const router = useRouter();
   const [showLoginSuccess, setShowLoginSuccess] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +36,7 @@ export default function LoginPage({ onClose }) {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/user/login`, {
+      const response = await fetch(`${urlService.serverUrl}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,26 +48,26 @@ export default function LoginPage({ onClose }) {
         setSubmitFail(false);
         const data = await response.json();
         const user = data.user;
-        document.cookie = 'token='+data.token;
-        localStorage.setItem("user",user);
-        localStorage.setItem("token",data.token);
-        localStorage.setItem("userID",user._id);
-        localStorage.setItem("userRole",user.role);
-        if(user.role!==""){
-          onClose=true;
+        document.cookie = 'token=' + data.token;
+        localStorage.setItem("user", user);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userID", user._id);
+        localStorage.setItem("userRole", user.role);
+        if (user.role !== "") {
+          onClose = true;
           setShowLoginSuccess(true);
           if (user.role === "customer") {
             localStorage.setItem("activePage", 'restaurantList');
-             window.location.href=`http://localhost:3000/pages/customer/restaurantList`;
-             //router.push(`pages/customer/restaurantList`)
+            window.location.href = `${urlService.clientUrl}/pages/customer/restaurantList`;
+            //router.push(`pages/customer/restaurantList`)
           }
           else if (user.role === "restaurant") {
             localStorage.setItem("activePage", 'myRestaurant');
-            window.location.href=`http://localhost:3000/pages/${user.role}/${user._id}`;
+            window.location.href = `${urlService.clientUrl}/pages/${user.role}/${user._id}`;
             // router.push(`/pages/${user.role}/${user._id}`)
           }
         }
-        
+
       } else {
         setSubmitFail(true);
       }
@@ -218,17 +219,17 @@ export default function LoginPage({ onClose }) {
                   Create an account
                 </a>
               </p>
-             
+
             </div>
-            
+
           </div>
-          
+
         </div>
         {showLoginSuccess && (
-        <LoginSuccessfully closeLoginAnim={() => setShowLoginSucess(false)} />)}
+          <LoginSuccessfully closeLoginAnim={() => setShowLoginSucess(false)} />)}
       </div>
-      
+
     </GoogleOAuthProvider>
-    
+
   );
 }

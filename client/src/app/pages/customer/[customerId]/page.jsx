@@ -5,6 +5,7 @@ import Footer from "@/app/components/footer/footer";
 import LoadingAnimation from "../../../components/loadingAnimation";
 import axios from "axios";
 import "./customerprofile.css";
+import urlService from "../../../services/appConfig";
 
 const CusotmerProfile = () => {
   const params = useParams();
@@ -37,7 +38,7 @@ const CusotmerProfile = () => {
       "Content-Type": "application/json",
     };
     const fetchProfile = async () => {
-      fetch(`http://localhost:3001/customer/profile/${customerId}`, {
+      fetch(`${urlService.serverUrl}/customer/profile/${customerId}`, {
         headers: headers,
       })
         .then((res) => res.json())
@@ -55,7 +56,7 @@ const CusotmerProfile = () => {
       };
       const fetchOrders = async () => {
         try {
-          const response = await fetch(`http://localhost:3001/customer/orders/${customerId}`, { headers });
+          const response = await fetch(`${urlService.serverUrl}/customer/orders/${customerId}`, { headers });
           if (!response.ok) throw new Error('Failed to fetch orders');
           const data = await response.json();
           const ordersArray = data.orders;
@@ -152,7 +153,7 @@ const CusotmerProfile = () => {
       }
       if (validData) {
         const response = await axios.put(
-          `http://localhost:3001/customer/profile/${customerId}`,
+          `${urlService.serverUrl}/customer/profile/${customerId}`,
           formData,
           { headers }
         );
@@ -207,7 +208,7 @@ const CusotmerProfile = () => {
       const fetchRestaurantDetails = async () => {
         try {
           const token = localStorage.getItem("token");
-          const response = await fetch(`http://localhost:3001/customer/restaurant/${order.restaurant}`, {
+          const response = await fetch(`${urlService.serverUrl}/customer/restaurant/${order.restaurant}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -227,7 +228,7 @@ const CusotmerProfile = () => {
         try {
           const token = localStorage.getItem("token");
           const dishPromises = order.items.map(item =>
-            fetch(`http://localhost:3001/customer/dishes/${item.dish}`, {
+            fetch(`${urlService.serverUrl}/customer/dishes/${item.dish}`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -341,7 +342,7 @@ const CusotmerProfile = () => {
                     imageSrc
                       ? imageSrc
                       : updatedCustomer.img
-                      ? `http://localhost:3001/images/${updatedCustomer.img}`
+                      ? `${urlService.serverUrl}/images/${updatedCustomer.img}`
                       : "/profilePlaceholder.png"
                   }
                   alt="profile picture"
@@ -354,7 +355,7 @@ const CusotmerProfile = () => {
               <img
                 src={
                   updatedCustomer.img != ""
-                    ? `http://localhost:3001/images/${updatedCustomer.img}`
+                    ? `${urlService.serverUrl}/images/${updatedCustomer.img}`
                     : "/profilePlaceholder.png"
                 }
                 alt="profile picture"

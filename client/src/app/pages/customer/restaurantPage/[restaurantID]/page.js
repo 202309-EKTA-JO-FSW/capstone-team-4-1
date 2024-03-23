@@ -13,6 +13,7 @@ import ReplaceItems from "../../addItem/[dishID]/confirmReplaceItems/page";
 import AddItem from "../../addItem/[dishID]/page";
 import Item from "./item/page";
 import "./restaurantPage.css";
+import urlService from "../../../services/appConfig";
 
 const SingleRestaurantPage = ({ params, replace }) => {
   const { restaurantID } = useParams();
@@ -43,7 +44,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
   const fetchRestaurant = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/customer/restaurant/${params.restaurantID}`, {
+        `${urlService.serverUrl}/customer/restaurant/${params.restaurantID}`, {
         headers: {
           "authorization": "Bearer " + localStorage.getItem("token"),
         },
@@ -58,7 +59,7 @@ const SingleRestaurantPage = ({ params, replace }) => {
   const fetchDishes = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/customer/dishes/restaurant/${params.restaurantID}`, {
+        `${urlService.serverUrl}/customer/dishes/restaurant/${params.restaurantID}`, {
         headers: {
           "authorization": "Bearer " + localStorage.getItem("token"),
         },
@@ -114,7 +115,7 @@ const fetchPreviousRestaurant = async (cart) => {
 
         try {
             const response = await axios.get(
-                `http://localhost:3001/customer/restaurant/${restaurantId}`, {
+                `${urlService.serverUrl}/customer/restaurant/${restaurantId}`, {
                 headers: {
                     "authorization": "Bearer " + localStorage.getItem("token"),
                 },

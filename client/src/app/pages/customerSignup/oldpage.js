@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Footer from "@/app/components/footer/footer";
 import Location from "./components/location";
+import urlService from "../../services/appConfig";
 
 export default function CustomerSignup() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -54,7 +55,7 @@ export default function CustomerSignup() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/user/customer/register`, {
+      const response = await fetch(`${urlService.serverUrl}/user/customer/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

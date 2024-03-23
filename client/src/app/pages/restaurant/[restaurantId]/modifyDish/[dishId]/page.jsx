@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingAnimation from '../../../../../components/loadingAnimation';
 import LoginSuccessAnimation from '@/app/components/loginSuccessAnimation';
+import urlService from "../../../services/appConfig";
 
 export default function ModifyDish({ dishId, close }) {
   const [dish, setDish] = useState(null);
@@ -18,7 +19,7 @@ export default function ModifyDish({ dishId, close }) {
     const fetchDish = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get(`http://localhost:3001/restaurant/dish/${dishId}`, {
+        const response = await axios.get(`${urlService.serverUrl}/restaurant/dish/${dishId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +40,7 @@ export default function ModifyDish({ dishId, close }) {
   const handleSave = async () => {
     const token = localStorage.getItem("token");
     try {
-      await axios.put(`http://localhost:3001/restaurant/dish/${dishId}`, updatedDish, {
+      await axios.put(`${urlService.serverUrl}/restaurant/dish/${dishId}`, updatedDish, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

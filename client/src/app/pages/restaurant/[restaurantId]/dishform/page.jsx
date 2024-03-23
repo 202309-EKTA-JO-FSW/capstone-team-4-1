@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import urlService from "../../../services/appConfig";
 
 export default function Form({ restaurantId, closeForm }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -27,7 +28,7 @@ export default function Form({ restaurantId, closeForm }) {
     };
 
     try {
-      const response = await fetch(`http://localhost:3001/restaurant/dish/${restaurantId}`, {
+      const response = await fetch(`${urlService.serverUrl}/restaurant/dish/${restaurantId}`, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(formData),

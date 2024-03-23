@@ -1,12 +1,9 @@
-{   
-    "version": 2,
-    "builds": [
-      { "src": "server/index.js", "use": "@vercel/node" }
-    ],
-    "routes": [
-        { "src": "server/.*", "dest": "/" }
-    ],
-    "regions": [
-        "sfo1"
-    ]
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/server"
+    }
+  ]
 }

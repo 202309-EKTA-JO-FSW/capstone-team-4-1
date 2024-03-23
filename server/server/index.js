@@ -33,6 +33,11 @@ app.listen(port, () => {
   connectToMongo();
 });
 
+app.get('/', function(req,res) {
+  res.write("Server started (:");
+  res.end()
+});
+
 app.get("/test", (req, res) => {
   res.json(
     "Server connection to client works!! Good Luck with your capstones :D"

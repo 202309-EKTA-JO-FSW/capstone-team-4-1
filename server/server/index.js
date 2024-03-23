@@ -13,7 +13,10 @@ require("dotenv").config();
 const connectToMongo = require("./db/connection");
 
 const app = express();
-const port =80;
+const port =
+  process.env.NODE_ENV === "test"
+    ? process.env.NODE_LOCAL_TEST_PORT
+    : process.env.NODE_LOCAL_PORT;
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));

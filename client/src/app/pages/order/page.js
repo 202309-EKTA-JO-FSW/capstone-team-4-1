@@ -11,7 +11,6 @@ const Order = () => {
   const [restaurantState, setRestaurantState] = useState({});
   const [cartItems, setCartItems] = useState([]);
   const [editNoteId, setEditNoteId] = useState(null);
-  const [order, setOrder] = useState(false);
   const [userLocation, setUserLocation] = useState({ lat: null, lng: null });
   const [showSpecialRequestInput, setShowSpecialRequestInput] = useState(true);
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -23,6 +22,7 @@ const Order = () => {
   const [paymentMethod, setPaymentMethod] = useState('cash')
   const [showTrackingPopup, setShowTrackingPopup] = useState (false);  
   const [orderData, setOrderData] = useState({});
+  const [errors, setErrors] = useState({});
 
 
   useEffect(() => {
@@ -68,6 +68,18 @@ const Order = () => {
         'Content-Type': 'application/json',
     };
 
+    const phoneRegex = /^(78|77|79)\d{7}$/;
+
+    if (orderData.phone && !phoneRegex.test(orderData.phone)) {
+      setErrors({ phone: "Please enter a valid phone number." });
+      return;
+    }
+
+    if (userAddress === "Geolocation permission denied") {
+      setErrors({ userAddress: "Location is required." });
+      return;
+    }
+
     if(cartItems && cartItems.length > 0) {
 
       try {
@@ -88,9 +100,8 @@ const Order = () => {
             });
 
             if (response.ok) {
-              setOrder(true);
+              console.log('Item created');
             } else {
-              setOrder(false);
               console.error('Failed to create item');
             }
 
@@ -102,7 +113,17 @@ const Order = () => {
   
     }
 
-    if(order) {
+    createOrder();
+  
+  };
+
+  const createOrder = async() => {
+
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
 
       try {
         const response = await fetch(`http://localhost:3001/customer/order`, {
@@ -119,8 +140,10 @@ const Order = () => {
         if (response.ok) {
           setShowTrackingPopup(true)
           setOrderSubmitted(true);
-          setOrder(false);
           setOrderData({});
+          setCartItems([]);
+          localStorage.setItem(`cart_${userID}`, JSON.stringify([]));
+
           console.log('Order created successfully!');
         } else {
           console.error('Failed to create order');
@@ -128,10 +151,7 @@ const Order = () => {
       } catch (error) {
         console.error('Error:', error);
       }
-
-    }
-  
-  };
+  }
   
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
@@ -304,7 +324,7 @@ const Order = () => {
                     <svg width="30px" height="30px" viewBox="-0.32 -0.32 16.64 16.64" xmlns="http://www.w3.org/2000/svg" fill="#FF" stroke="#FF"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="m 8 0 c -3.3125 0 -6 2.6875 -6 6 c 0.007812 0.710938 0.136719 1.414062 0.386719 2.078125 l -0.015625 -0.003906 c 0.636718 1.988281 3.78125 5.082031 5.625 6.929687 h 0.003906 v -0.003906 c 1.507812 -1.507812 3.878906 -3.925781 5.046875 -5.753906 c 0.261719 -0.414063 0.46875 -0.808594 0.585937 -1.171875 l -0.019531 0.003906 c 0.25 -0.664063 0.382813 -1.367187 0.386719 -2.078125 c 0 -3.3125 -2.683594 -6 -6 -6 z m 0 3.691406 c 1.273438 0 2.308594 1.035156 2.308594 2.308594 s -1.035156 2.308594 -2.308594 2.308594 c -1.273438 -0.003906 -2.304688 -1.035156 -2.304688 -2.308594 c -0.003906 -1.273438 1.03125 -2.304688 2.304688 -2.308594 z m 0 0" fill="#FFC254"></path> </g></svg>
                   </div>
                   <div className="w-full">
-                    <label htmlFor="location" className="block text-left">Your Location:<span className="text-red-900">*</span></label>
+                    <label htmlFor="location" className="block text-left">Your Location:<span className="text-red-900">*</span> {errors.userAddress && <span className="text-red-500">{errors.userAddress}</span>}</label>
                     <input 
                       type="text" 
                       id="location" 
@@ -316,7 +336,7 @@ const Order = () => {
                     />
                   </div>
                 </div>
-                <label htmlFor="phone" className="block pt-4 pl-10 text-left">Your Phone:<span className="text-red-900">*</span></label>
+                <label htmlFor="phone" className="block pt-4 pl-10 text-left">Your Phone:<span className="text-red-900">*</span> {errors.phone && <span className="text-red-500">{errors.phone}</span>}</label>
                 <div className="pr-8 flex space-between flex-row">
                   
                     <div className="pt-2 pr-2">
@@ -329,7 +349,9 @@ const Order = () => {
                         <input type="tel" id="phone" name="phone" 
                         value={orderData.phone} onChange={handleChange}
                          defaultValue={customer.phone} required className="w-full px-3 py-2 bg-gray-50 border-b border-gray-300 focus:border-b-2 focus:border-[#FFC245] focus:outline-none" />
+                         
                     </div>
+
                 </div>
             </div>
           </div>

@@ -1,15 +1,12 @@
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "server/index.js",
-      "use": "@now/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "index.js"
-    }
-  ]
+{   
+    "version": 2,
+    "builds": [
+      { "src": "server/index.js", "use": "@vercel/node" }
+    ],
+    "routes": [
+        { "src": "server/.*", "dest": "/" }
+    ],
+    "regions": [
+        "sfo1"
+    ]
 }

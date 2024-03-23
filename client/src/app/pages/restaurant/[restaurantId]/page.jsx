@@ -7,7 +7,7 @@ import { FaSearch } from 'react-icons/fa';
 import Footer from "@/app/components/footer/footer";
 import LoadingAnimation from "../../../components/loadingAnimation"; 
 import ModifyDish from "./modifyDish/[dishId]/page";
-import urlService from "../../services/appConfig";
+import urlService from "../../../services/appConfig";
 
 const RestaurantProfile = () => {
   const params = useParams();

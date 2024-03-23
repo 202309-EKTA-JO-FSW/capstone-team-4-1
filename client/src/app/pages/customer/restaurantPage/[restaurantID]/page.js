@@ -13,7 +13,7 @@ import ReplaceItems from "../../addItem/[dishID]/confirmReplaceItems/page";
 import AddItem from "../../addItem/[dishID]/page";
 import Item from "./item/page";
 import "./restaurantPage.css";
-import urlService from "../../../services/appConfig";
+import urlService from "../../../../services/appConfig";
 
 const SingleRestaurantPage = ({ params, replace }) => {
   const { restaurantID } = useParams();

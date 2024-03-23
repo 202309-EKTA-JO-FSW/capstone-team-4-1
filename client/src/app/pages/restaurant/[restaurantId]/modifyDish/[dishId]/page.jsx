@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadingAnimation from '../../../../../components/loadingAnimation';
 import LoginSuccessAnimation from '@/app/components/loginSuccessAnimation';
-import urlService from "../../../services/appConfig";
+import urlService from "../../../../../services/appConfig";
 
 export default function ModifyDish({ dishId, close }) {
   const [dish, setDish] = useState(null);

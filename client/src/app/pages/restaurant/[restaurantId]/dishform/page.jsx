@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import urlService from "../../../services/appConfig";
+import urlService from "../../../../services/appConfig";
 
 export default function Form({ restaurantId, closeForm }) {
   const [formSubmitted, setFormSubmitted] = useState(false);

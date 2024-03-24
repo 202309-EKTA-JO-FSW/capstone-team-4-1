@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const DB_URI = `mongodb+srv://hadeelobaid71:AZ7t0yPz0vhXECaT@cluster0.v13dwp2.mongodb.net/`;
+const DB_URI = `mongodb+srv://vercel-admin-user:AJ1RhSuxzLlMKaM8@cluster0.v13dwp2.mongodb.net/`;
 
 const url = DB_URI;
 console.log(  "mongooseURL",url)

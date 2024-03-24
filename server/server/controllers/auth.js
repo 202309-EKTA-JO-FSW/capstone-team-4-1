@@ -4,7 +4,6 @@ const Admin = require('../models/admin');
 const Customer = require('../models/customer');
 const Restaurant = require('../models/restaurant');
 const Rider = require('../models/rider');
-const customer = require('../models/customer');
 
 // Login with an existing user
 const login = async (req, res, next) => {
@@ -16,7 +15,7 @@ const login = async (req, res, next) => {
     let user;
     let token;
 
-      //user = await customer.findOne({ email });
+      user = await Customer.findOne({ email });
       // if (user) {
       //   const passwordMatch = await user.comparePassword(password);
       //   if (!user || !passwordMatch) {

@@ -6,8 +6,11 @@ const url = DB_URI;
 console.log(  "mongooseURL",url)
 
 const connectToMongo = () => {
+  console.log(  "connectToMongo")
+
   mongoose.connect(url, { useNewUrlParser: true });
   db = mongoose.connection;
+  console.log(  "db",db)
 
   db.once("open", () => {
     console.log("Database connected: ", url);

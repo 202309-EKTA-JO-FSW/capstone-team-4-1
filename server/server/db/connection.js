@@ -8,7 +8,7 @@ console.log(  "mongooseURL",url)
 const connectToMongo = () => {
   console.log(  "connectToMongo")
 
-  mongoose.connect(url, { useNewUrlParser: true });
+  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
   db = mongoose.connection;
   console.log(  "db",db)
 

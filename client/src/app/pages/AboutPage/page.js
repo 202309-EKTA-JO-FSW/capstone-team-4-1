@@ -109,41 +109,31 @@ const AboutPage = () => {
       </div>
 
       <div className="mt-[8rem]"><h1 className="font-bold text-2xl text-black text-center mb-5">Meet Our Team</h1></div>
-      <div className="flex flex-row justify-center items-center space-between space-x-[4rem] mt-[2rem]">
+      <div className="flex flex-row justify-center items-center space-between space-x-[4rem] mt-[2rem] mb-[3rem]">
         
         
         <div className="flex flex-col">
-          <img className="rounded-full w-[200px] h-[200px] mb-8"
-           src="/mahmoud.jpeg" alt="person1"/>
           <h2 className="font-bold text-center text-gray-700 text-lg">Mahmoud Rumaneh</h2>
           <h2 className="font-bold text-center text-gray-700 text-lg">Software Engineer</h2>
         </div>
 
         <div className="flex flex-col">
-          <img className="rounded-full w-[200px] h-[200px] mb-8"
-           src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="person2"/>
-          <h2 className="font-bold text-center text-gray-700 text-lg">John Malek</h2>
+          <h2 className="font-bold text-center text-gray-700 text-lg">Hadeel Obaid</h2>
           <h2 className="font-bold text-center text-gray-700 text-lg">Software Engineer</h2>
         </div>
 
         <div className="flex flex-col">
-          <img className="rounded-full w-[200px] h-[200px] mb-8"
-           src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="person3"/>
-          <h2 className="font-bold text-center text-gray-700 text-lg">Mark Salu</h2>
+          <h2 className="font-bold text-center text-gray-700 text-lg">Dana Omar</h2>
           <h2 className="font-bold text-center text-gray-700 text-lg">Software Engineer</h2>
         </div>
 
         <div className="flex flex-col">
-          <img className="rounded-full w-[200px] h-[200px] mb-8"
-           src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=2861&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="person4"/>
-          <h2 className="font-bold text-center text-gray-700 text-lg">Amanda Gomez</h2>
+          <h2 className="font-bold text-center text-gray-700 text-lg">Omar Masoud</h2>
           <h2 className="font-bold text-center text-gray-700 text-lg">Software Engineer</h2>
         </div>
 
         <div className="flex flex-col">
-          <img className="rounded-full w-[200px] h-[200px] mb-8"
-           src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="person5"/>
-          <h2 className="font-bold text-center text-gray-700 text-lg">Tom Felix</h2>
+          <h2 className="font-bold text-center text-gray-700 text-lg">Mohammad Elamaireh</h2>
           <h2 className="font-bold text-center text-gray-700 text-lg">Software Engineer</h2>
         </div>
       </div>

@@ -4,6 +4,7 @@ const Admin = require('../models/admin');
 const Customer = require('../models/customer');
 const Restaurant = require('../models/restaurant');
 const Rider = require('../models/rider');
+const customer = require('../models/customer');
 
 // Login with an existing user
 const login = async (req, res, next) => {
@@ -15,8 +16,7 @@ const login = async (req, res, next) => {
     let user;
     let token;
 
-    for (let userModel of users) {
-      user = await userModel.findOne({ email });
+      user = await customer.findOne({ email });
       if (user) {
         const passwordMatch = await user.comparePassword(password);
         if (!user || !passwordMatch) {
@@ -28,7 +28,7 @@ const login = async (req, res, next) => {
         //res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 }); // maxAge is in milliseconds (24 hours)
         return res.status(200).json({ user, token });
       }
-    }
+  
     return res.status(401).json({ message: 'Incorrect email or password' });
   } catch (error) {
     next(error);

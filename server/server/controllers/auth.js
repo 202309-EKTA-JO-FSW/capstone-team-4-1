@@ -22,7 +22,7 @@ const login = async (req, res, next) => {
         if (!user || !passwordMatch) {
           return res.status(401).json({ message: 'Incorrect email or password' });
         }
-        token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+        token = jwt.sign({ userId: user._id }, 'mysecretkey', {
           expiresIn: '1d' // expires in 365 days
         });
         //res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 }); // maxAge is in milliseconds (24 hours)

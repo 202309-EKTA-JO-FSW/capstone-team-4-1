@@ -4,5 +4,5 @@ if (typeof window !== 'undefined') {
 }
 const urlService = {};
 urlService.clientUrl = isProduction ? 'https://capstone-team-4-1-front.vercel.app' : 'http://localhost:3000';
-urlService.serverUrl = isProduction ? 'https://capstone-team-4-1-backend.vercel.app' : 'http://localhost:3001';
+urlService.serverUrl = false ? 'https://capstone-team-4-1-backend.vercel.app' : 'http://localhost:3001';
 export default urlService;

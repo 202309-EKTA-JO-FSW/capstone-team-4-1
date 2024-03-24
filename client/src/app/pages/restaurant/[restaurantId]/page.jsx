@@ -7,6 +7,7 @@ import { FaSearch } from 'react-icons/fa';
 import Footer from "@/app/components/footer/footer";
 import LoadingAnimation from "../../../components/loadingAnimation"; 
 import ModifyDish from "./modifyDish/[dishId]/page";
+import urlService from "../../../services/appConfig";
 
 const RestaurantProfile = () => {
   const params = useParams();
@@ -28,13 +29,13 @@ const RestaurantProfile = () => {
     // Fetch Restaurant and Menu
     const fetchRestaurantAndMenu = async () => {
       try {
-        const profileResponse = await fetch(`http://localhost:3001/restaurant/profile/${restaurantId}`, { headers });
+        const profileResponse = await fetch(`${urlService.serverUrl}/restaurant/profile/${restaurantId}`, { headers });
         if (profileResponse.ok) {
           const profileData = await profileResponse.json();
           setRestaurant(profileData);
         }
 
-        const menuResponse = await fetch(`http://localhost:3001/restaurant/menu/${restaurantId}`, { headers });
+        const menuResponse = await fetch(`${urlService.serverUrl}/restaurant/menu/${restaurantId}`, { headers });
         if (menuResponse.ok) {
           const menuData = await menuResponse.json();
           setMenu(menuData);
@@ -53,7 +54,7 @@ const RestaurantProfile = () => {
 
     const fetchOrders = async () => {
       try {
-        const ordersResponse = await fetch(`http://localhost:3001/restaurant/orders/${restaurantId}`, { headers });
+        const ordersResponse = await fetch(`${urlService.serverUrl}/restaurant/orders/${restaurantId}`, { headers });
         if (ordersResponse.ok) {
           const ordersData = await ordersResponse.json();
           const currentOrders = ordersData.filter(order => order.status === 'Preparing');
@@ -77,7 +78,7 @@ const RestaurantProfile = () => {
 
       const fetchOrderById = async () => {
         try {
-          const response = await fetch(`http://localhost:3001/restaurant/order/${orderSearchTerm}`, { headers });
+          const response = await fetch(`${urlService.serverUrl}/restaurant/order/${orderSearchTerm}`, { headers });
           if (response.ok) {
             const order = await response.json();
             if (order.status === 'Preparing') {

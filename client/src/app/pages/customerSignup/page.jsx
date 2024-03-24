@@ -5,6 +5,7 @@ import Footer from "@/app/components/footer/footer";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Location from "./components/location";
+import urlService from "../../services/appConfig";
 
 export default function CustomerSignup() {
   const router = useRouter();
@@ -99,7 +100,7 @@ export default function CustomerSignup() {
       }
       if (validData) {
         const response = await axios.post(
-          "http://localhost:3001/user/customer/register",
+          `${urlService.serverUrl}/user/customer/register`,
           formData,
           { headers }
         );

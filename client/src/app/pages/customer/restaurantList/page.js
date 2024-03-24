@@ -6,6 +6,7 @@ import Link from "next/link"; // Import Link from 'next/link'
 import RestaurantFilter from "../../../components/restaurantFilter"; // Import RestaurantFilter component
 import Footer from "@/app/components/footer/footer";
 import LoadingAnimation from "../../../components/loadingAnimation";
+import urlService from "../../../services/appConfig";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -22,7 +23,7 @@ const RestaurantList = () => {
     };
     try {
       const response = await axios.get(
-        `http://localhost:3001/customer/restaurants?${title ? "title=" + title : ""}${rate ? "&rate=" + rate : ""}${deliveryTime ? "&deliveryTime=" + time : ""}${area ? "&area=" + area : ""}${cuisine ? "&cuisine=" + cuisine : ""}`, {
+        `${urlService.serverUrl}/customer/restaurants?${title ? "title=" + title : ""}${rate ? "&rate=" + rate : ""}${deliveryTime ? "&deliveryTime=" + time : ""}${area ? "&area=" + area : ""}${cuisine ? "&cuisine=" + cuisine : ""}`, {
         headers: headers,
       }
       );

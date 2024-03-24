@@ -7,6 +7,8 @@ import GoogleMapComponent from './components/googleMap';
 import EmptyOrderAnimation from '@/app/components/emptyOrderAnim';
 import './orderPage.css';
 import TrakingPopup from './traking/page';
+import urlService from "../../services/appConfig";
+
 const Order = () => {
   const [restaurantState, setRestaurantState] = useState({});
   const [cartItems, setCartItems] = useState([]);
@@ -84,7 +86,7 @@ const Order = () => {
 
       try {
         await Promise.all(cartItems.map(async (item) => {
-            const response = await fetch(`http://localhost:3001/customer/cart`, {
+            const response = await fetch(`${urlService.serverUrl}/customer/cart`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify({
@@ -126,7 +128,7 @@ const Order = () => {
     };
 
       try {
-        const response = await fetch(`http://localhost:3001/customer/order`, {
+        const response = await fetch(`${urlService.serverUrl}/customer/order`, {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({
@@ -174,7 +176,7 @@ const Order = () => {
 
   const fetchRestaurant = async(resId) => {
     try {
-      const response = await fetch(`http://localhost:3001/customer/restaurant/${resId}`, {
+      const response = await fetch(`${urlService.serverUrl}/customer/restaurant/${resId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -193,7 +195,7 @@ const Order = () => {
 
   const fetchCustomer = async (customerId) => {
     try {
-      const response = await axios.get(`http://localhost:3001/customer/profile/${customerId}`, {
+      const response = await axios.get(`${urlService.serverUrl}/customer/profile/${customerId}`, {
         headers: {
           'authorization': `Bearer ${localStorage.getItem('token')}`,
         },

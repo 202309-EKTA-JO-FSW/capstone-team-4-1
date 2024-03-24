@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import urlService from "../services/appConfig";
 
 const Hello = () => {
   const [testResult, setTestResult] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3001/test")
+    fetch(`${urlService.serverUrl}/test`)
       .then((res) => res.json())
       .then((data) => {
         setTestResult(data);

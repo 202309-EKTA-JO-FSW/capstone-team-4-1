@@ -16,7 +16,7 @@ const login = async (req, res, next) => {
     let user;
     let token;
 
-      user = await customer.findOne({ email });
+      //user = await customer.findOne({ email });
       // if (user) {
       //   const passwordMatch = await user.comparePassword(password);
       //   if (!user || !passwordMatch) {

@@ -236,7 +236,7 @@ const RestaurantProfile = () => {
           </div>
         </div>
       </div>
-      <div className={`ml-[10rem] mr-[10rem] mt-[5rem] mb-[1.5rem] pb-8 border-t flex flex-col justify-left items-left ${orders.current.length > 2 || orders.past.length > 2 ? 'max-h-[400px] overflow-y-auto' : ''}`}>
+      <div className={`ml-[10rem] mr-[10rem] mt-[5rem] mb-[1.5rem] pb-8 border-t flex flex-col justify-left items-left ${orders.current.length > 2 || orders.past.length > 2 ? 'max-h-[1800px] overflow-y-auto' : ''}`}>
         <div className="mr-[1.5rem] w-[80px] mt-4 text-xl font-bold py-1 pl-1 bg-[#FDF3DC] rounded-md">Orders</div> 
         <div className='mr-[1.5rem] my-[1.5rem] ml-[1.5rem] flex items-center border border-gray-700 hover:border-[#FFC245] p-2 pl-4 pr-2 rounded-3xl'>
         <FaSearch className="text-gray-600" />
